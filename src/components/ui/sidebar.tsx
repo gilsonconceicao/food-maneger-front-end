@@ -2,8 +2,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { PanelLeftIcon } from "lucide-react"
-
+import { Menu } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -273,8 +272,7 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
+      <Menu/>
     </Button>
   )
 }
@@ -462,13 +460,13 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   )
 }
 
-function SidebarMenuItem({ className, isActive, ...props }: {isActive: boolean} & React.ComponentProps<"li">) {
+function SidebarMenuItem({ className, isActive, ...props }: { isActive: boolean } & React.ComponentProps<"li">) {
   return (
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
       style={{
-        background: isActive? "oklch(0.279 0.041 260.031)" : "transparent", 
+        background: isActive ? "oklch(0.279 0.041 260.031)" : "transparent",
         borderRadius: '8px'
       }}
       className={cn("group/menu-item relative", className)}
@@ -573,7 +571,7 @@ function SidebarMenuAction({
         "peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 md:opacity-0",
+        "peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 md:opacity-0",
         className
       )}
       {...props}

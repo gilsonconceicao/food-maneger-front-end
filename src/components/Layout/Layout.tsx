@@ -15,7 +15,7 @@ export function Layout() {
         <AppSidebar />
         <Header />
         <ShowSidebar />
-        <main className="pl-6 pr-6 pt-7">
+        <main className="pl-6 pr-6 pt-5">
           <Outlet />
         </main>
       </div>
@@ -24,18 +24,19 @@ export function Layout() {
 
   return (
     <div
+      className="w-full"
+
       style={{
         display: "grid",
         gridTemplateColumns: `${sidebarWidth} 1fr`,
-        width: "100vw",
-        transition: "grid-template-columns 0.3s ease-in-out",
+        transition: "grid-template-columns 0.1s ease-in-out",
       }}
     >
       <aside
         style={{
           backgroundColor: "#0f172a",
           overflow: "hidden",
-          transition: "width 0.3s ease-in-out",
+          transition: "width 0.1s ease-in-out",
         }}
       >
         <AppSidebar />
@@ -44,7 +45,7 @@ export function Layout() {
       <div className="flex flex-col">
         <Header />
         <ShowSidebar />
-        <main className="pl-6 pr-6 pt-7">
+        <main className="pl-6 pr-6 pt-5">
           <Outlet />
         </main>
       </div>

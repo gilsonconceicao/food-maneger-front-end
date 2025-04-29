@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -119,7 +119,32 @@
   }
 }
 
-html, body, #__next {
+html, body, #__next, #root {
   height: 100%;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Rubik", sans-serif;
+  }
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #1f2937 inset !important; /* cor desejada — aqui é gray-800 */
+  -webkit-text-fill-color: #ffffff !important; /* texto branco */
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* para ativar o estilo fino por padrão */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(214, 206, 206, 0.404);
+  border-radius: 9999px;
 }

@@ -1,21 +1,22 @@
 import { Layout } from '@/components/Layout/Layout';
 import { NotFound, HomeContainer, CartContainer, OrderContaier} from '@/pages';
+import { LoginContainer } from '@/pages/Login/LoginContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
+import { RegisterContainer } from '@/pages/Register/RegisterContainer';
 import { RouteObject } from 'react-router-dom';
 
 export const routes: RouteObject[] = [
   {
     path: '/login',
-    element: <>Login page </>,
+    element: <LoginContainer/>,
   },
   {
     path: '/cadastro',
-    element: <>Registre-se</>,
+    element: <RegisterContainer />,
   },
   {
     path: '/',
     element: <Layout />, 
-    handle: { breadcrumb: 'Início' },
     children: [
       { 
         index: true, 
