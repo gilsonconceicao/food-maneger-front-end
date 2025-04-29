@@ -1,18 +1,18 @@
-
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { NotFound } from '@/pages/NotFound/NotFound';
+import { NotFound, HomeContainer, CartContainer, OrderContaier} from '@/pages';
 import { RouteObject } from 'react-router-dom';
 
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: <>
-      <SidebarTrigger />
-    </>
+    element: <HomeContainer />
   },
   {
-    path: '/about',
-    element: <>B</>,
+    path: '/sacola-de-compras',
+    element: <CartContainer />,
+  },
+  {
+    path: '/meus-pedidos',
+    element: <OrderContaier />,
   },
   {
     path: '*',
