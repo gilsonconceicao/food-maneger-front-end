@@ -1,27 +1,62 @@
-import { AppSidebar } from "../Sidebar/app-sidebar";
+import { Outlet } from "react-router";
+import { Breadcrumbs } from "../Breadcrumb/Breadcrumb";
+import { Header } from "../Header/Header";
+import { AppSidebar } from "../Sidebar/AppSidebar";
 import { useSidebar } from "../ui/sidebar";
 
-type LayoutProps = {
-    children: React.ReactNode;
+
+export function Layout() {
+  const { isMobile, open } = useSidebar();
+  const sidebarWidth = open ? "250px" : "0px";
+
+  if (isMobile) {
+    return (
+      <div className="w-full">
+        <AppSidebar />
+        <Header />
+        <ShowSidebar />
+        <main className="pl-6 pr-6 pt-7">
+          <Outlet />
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: `${sidebarWidth} 1fr`,
+        width: "100vw",
+        transition: "grid-template-columns 0.3s ease-in-out",
+      }}
+    >
+      <aside
+        style={{
+          backgroundColor: "#0f172a",
+          overflow: "hidden",
+          transition: "width 0.3s ease-in-out",
+        }}
+      >
+        <AppSidebar />
+      </aside>
+
+      <div className="flex flex-col">
+        <Header />
+        <ShowSidebar />
+        <main className="pl-6 pr-6 pt-7">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
 }
 
-export function Layout({ children }: LayoutProps) {
-    const { open } = useSidebar();
-    return (
-        <div
-            style={{
-                display: "grid",
-                gridTemplateColumns: `${open ? '250px' : '0px'} 1fr`,
-                width: "100vw", 
-                transition: "grid-template-columns 0.3s ease-in-out",
-            }}
-        >
-            <aside style={{ backgroundColor: "#0f172a" }}>
-                <AppSidebar />
-            </aside>
-            <main style={{ padding: "1rem" }}>
-                {children}
-            </main>
-        </div>
-    );
+
+const ShowSidebar = () => {
+  return (
+    <div className="pl-5 pt-2">
+      <Breadcrumbs />
+    </div>
+  )
 }

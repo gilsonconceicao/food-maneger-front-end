@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/sidebar"
 
 // Menu items.
-const items = [
+// eslint-disable-next-line react-refresh/only-export-components
+export const optionsMenu = [
   {
     title: "Início",
     url: "/",
@@ -21,7 +22,7 @@ const items = [
   {
     title: "Sacola de compras",
     url: "/sacola-de-compras",
-    icon: ShoppingCart ,
+    icon: ShoppingCart,
   },
   {
     title: "Meus pedidos",
@@ -35,19 +36,22 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Olá, Gilson!</SidebarGroupLabel>
+          <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {optionsMenu.map((item) => {
+                const isActive = window.location.pathname === item.url
+                return (
+                  <SidebarMenuItem key={item.title} isActive={isActive}>
+                    <SidebarMenuButton asChild>
+                      <a href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

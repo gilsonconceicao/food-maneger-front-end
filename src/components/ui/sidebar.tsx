@@ -462,11 +462,15 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   )
 }
 
-function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
+function SidebarMenuItem({ className, isActive, ...props }: {isActive: boolean} & React.ComponentProps<"li">) {
   return (
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
+      style={{
+        background: isActive? "oklch(0.279 0.041 260.031)" : "transparent", 
+        borderRadius: '8px'
+      }}
       className={cn("group/menu-item relative", className)}
       {...props}
     />
