@@ -5,6 +5,7 @@ import { Food } from '@/services/Foods/Foods.type';
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { useAuthContext } from './AuthContext';
 import { Cart } from '@/services/Carts/Types/CartsType';
+import toast from 'react-hot-toast';
 
 interface CartContextData {
   items: Cart[];
@@ -56,6 +57,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }, token!);
       const cartData = await getCartsListAsyc(token!);
       setItems(cartData.data.data as Cart[]);
+      toast.success("Item adicionado com sucesso"); 
     } catch (error) {
       console.error('Error adding to cart:', error);
     } finally {
@@ -69,6 +71,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       await deleteCartsAsync(foodId, token!);
       const cartData = await getCartsListAsyc(token!);
       setItems(cartData.data.data as Cart[]);
+      toast.success("Item removido com sucesso"); 
     } catch (error) {
       console.error('Error removing from cart:', error);
     } finally {
@@ -97,6 +100,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       await Promise.all(items?.map((x) => removeFromCart(x.id)))
       setItems([]);
+      toast.success("Sucesso ao limpar carrinho de compras"); 
     } catch (error) {
       console.error('Error clearing cart:', error);
     } finally {

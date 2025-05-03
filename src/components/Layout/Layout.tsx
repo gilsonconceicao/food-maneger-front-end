@@ -4,10 +4,9 @@ import { Header } from "../Header/Header";
 import { AppSidebar } from "../Sidebar/AppSidebar";
 import { useSidebar } from "../ui/sidebar";
 
-
 export function Layout() {
-  const { isMobile, open } = useSidebar();
-  const sidebarWidth = open ? "250px" : "0px";
+  const { isMobile } = useSidebar();
+  const sidebarWidth = "250px"; // fixa no desktop
 
   if (isMobile) {
     return (
@@ -24,28 +23,29 @@ export function Layout() {
 
   return (
     <div
-      className="w-full"
-
       style={{
-        display: "grid",
-        gridTemplateColumns: `${sidebarWidth} 1fr`,
-        transition: "grid-template-columns 0.1s ease-in-out",
+        display: "flex",
+        width: "100vw",
+        height: "100vh",
+        overflow: "hidden",
       }}
     >
       <aside
         style={{
+          width: sidebarWidth,
           backgroundColor: "#0f172a",
-          overflow: "hidden",
-          transition: "width 0.1s ease-in-out",
+          height: "100vh",
+          overflowY: "auto", // permite scroll interno se necessário
+          flexShrink: 0,
         }}
       >
         <AppSidebar />
       </aside>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Header />
         <ShowSidebar />
-        <main className="pl-6 pr-6 pt-5">
+        <main className="pl-6 pr-6 pt-5 overflow-y-auto">
           <Outlet />
         </main>
       </div>
