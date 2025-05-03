@@ -23,6 +23,7 @@ import {
   failureErrorMehtodsFirebase,
   FirebaseAuthErrorType
 } from "@/helpers/Methods";
+import { useVerifyUserIsMaster } from "@/hooks/User/UserHooks";
 
 export type CreateUserFirebaseType = {
   email: string;
@@ -41,7 +42,8 @@ type AuthContextType = {
     token?: string;
     userId?: string;
     email?: string;
-  } | null;
+    isMaster?: boolean;
+  };
   isLoading: boolean;
   token?: string;
   isAuthenticated: boolean;
@@ -49,11 +51,11 @@ type AuthContextType = {
 };
 
 const Context = createContext<AuthContextType>({
-  createUserAsync: () => {},
-  signUserAsync: () => {},
-  logoutUserAsync: () => {},
-  sendPasswordResetEmailAsync: () => {},
-  user: null,
+  createUserAsync: () => { },
+  signUserAsync: () => { },
+  logoutUserAsync: () => { },
+  sendPasswordResetEmailAsync: () => { },
+  user: {},
   isLoading: false,
   token: undefined,
   isAuthenticated: false,
@@ -61,12 +63,12 @@ const Context = createContext<AuthContextType>({
 });
 
 const getUserDataOnStorage = () => {
-  const localStorageData = localStorage.getItem('userData'); 
+  const localStorageData = localStorage.getItem('userData');
   if (localStorageData !== null) {
     const user = JSON.parse(localStorageData);
     return user;
   } else {
-    return null; 
+    return null;
   }
 }
 
@@ -82,13 +84,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenStorage);
 
+  const { data: isUserMaster } = useVerifyUserIsMaster(accessToken!, currentUser?.uid);
+
   const cleanState = () => {
     setCurrentUser(null);
     setAccessToken(undefined);
     setIsAuthenticated(false);
     setIsLoading(false);
-    localStorage.removeItem('accessToken'); 
-    localStorage.removeItem('userData'); 
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userData');
   };
 
   const handleAuthError = (error: FirebaseAuthErrorType) => {
@@ -98,9 +102,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const getIdTokenAsync = async (user: User) => {
     try {
-      const token = await user.getIdToken(true);
+      const token = await user.getIdToken();
       setAccessToken(token);
-      localStorage.setItem('accessToken', token); 
+      localStorage.setItem('accessToken', token);
       return token;
     } catch (error) {
       console.error("Erro ao obter ID token:", error);
@@ -129,7 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await signInWithEmailAndPassword(auth, email, password);
       const token = await getIdTokenAsync(response.user);
       setCurrentUser(response.user);
-      localStorage.setItem('userData', JSON.stringify(response.user)); 
+      localStorage.setItem('userData', JSON.stringify(response.user));
       setIsAuthenticated(true);
       setAccessToken(token);
 
@@ -194,14 +198,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logoutUserAsync,
     sendPasswordResetEmailAsync,
     isLoading,
-    user: currentUser
-      ? {
-          name: currentUser.displayName ?? undefined,
-          email: currentUser.email ?? undefined,
-          userId: currentUser.uid,
-          token: accessToken
-        }
-      : null,
+    user: {
+      name: currentUser?.displayName ?? undefined,
+      email: currentUser?.email ?? undefined,
+      userId: currentUser?.uid,
+      token: accessToken,
+      isMaster: isUserMaster ?? false
+    },
     token: accessToken,
     isAuthenticated,
     isLoadingUserData

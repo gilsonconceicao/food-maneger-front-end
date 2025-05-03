@@ -1,3 +1,4 @@
+
 export function formatCurrencyInCents(value: number) {
     const convertFromString = value.toString();
     if (isNullOrEmpty(convertFromString))

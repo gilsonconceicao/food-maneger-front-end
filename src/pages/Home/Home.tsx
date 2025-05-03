@@ -67,9 +67,11 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Nosso Cardápio</h2>
-          <p className="text-gray-300">Descubra nossos pratos deliciosos preparados com ingredientes frescos.</p>
+        <div className='flex justify-between items-center'>
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold mb-2">Nosso Cardápio</h2>
+            <p className="text-gray-300">Descubra nossos pratos deliciosos preparados com ingredientes frescos.</p>
+          </div>
         </div>
 
         <FilterFood
