@@ -6,7 +6,7 @@ import { useSidebar } from "../ui/sidebar";
 
 export function Layout() {
   const { isMobile } = useSidebar();
-  const sidebarWidth = "250px"; // fixa no desktop
+  const sidebarWidth = "250px";
 
   if (isMobile) {
     return (

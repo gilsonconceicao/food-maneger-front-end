@@ -60,17 +60,27 @@ const Context = createContext<AuthContextType>({
   isLoadingUserData: false
 });
 
+const getUserDataOnStorage = () => {
+  const localStorageData = localStorage.getItem('userData'); 
+  if (localStorageData !== null) {
+    const user = JSON.parse(localStorageData);
+    return user;
+  } else {
+    return null; 
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = getAuth(firebaseApp);
   auth.useDeviceLanguage();
-
+  const getAccessTokenStorage = localStorage.getItem('accessToken') ?? undefined;
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingUserData, setIsLoadingUserData] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(getUserDataOnStorage());
   const [accessToken, setAccessToken] = useState<string | undefined>(
     localStorage.getItem('accessToken') ?? undefined
   );
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenStorage);
 
   const cleanState = () => {
     setCurrentUser(null);
@@ -78,6 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsAuthenticated(false);
     setIsLoading(false);
     localStorage.removeItem('accessToken'); 
+    localStorage.removeItem('userData'); 
   };
 
   const handleAuthError = (error: FirebaseAuthErrorType) => {
@@ -118,6 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await signInWithEmailAndPassword(auth, email, password);
       const token = await getIdTokenAsync(response.user);
       setCurrentUser(response.user);
+      localStorage.setItem('userData', JSON.stringify(response.user)); 
       setIsAuthenticated(true);
       setAccessToken(token);
 
@@ -163,6 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       if (user) {
         setCurrentUser(user);
+        localStorage.setItem('userData', JSON.stringify(user));
         const token = await getIdTokenAsync(user);
         setAccessToken(token);
         setIsAuthenticated(true);
