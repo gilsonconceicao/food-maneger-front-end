@@ -49,6 +49,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [token]);
 
   const addToCart = useCallback(async (food: Food) => {
+    if(!token) return;
     setIsLoading(true);
     try {
       await createCartsAsync({
@@ -66,6 +67,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const removeFromCart = useCallback(async (foodId: string) => {
+    if(!token) return;
     setIsLoading(true);
     try {
       await deleteCartsAsync(foodId, token!);
@@ -80,6 +82,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const updateQuantity = useCallback(async (foodId: string, quantity: number) => {
+    if(!token) return;
     setIsLoading(true);
     try {
       await createCartsAsync({
@@ -96,6 +99,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const clearCart = useCallback(async () => {
+    if(!token) return;
     setIsLoading(true);
     try {
       await Promise.all(items?.map((x) => removeFromCart(x.id)))
