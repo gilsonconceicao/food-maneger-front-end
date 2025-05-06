@@ -1,7 +1,8 @@
-import { Link, useLocation, matchRoutes } from 'react-router-dom';
+import { useLocation, matchRoutes } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { routes } from '@/routes/routeConfig';
+import { Link } from "react-router";
 
 export function Breadcrumbs() {
   const location = useLocation();

@@ -15,6 +15,7 @@ import { routes } from '../../routes/routeConfig';
 import { HandleRouterType } from "@/@types/generic.types";
 import { resolveEnableItem } from "@/helpers/Methods";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { Link } from "react-router";
 
 // Menu items.
 export const optionsMenu = [
@@ -51,7 +52,7 @@ export function AppSidebar() {
     
     return {
       title: handle.title, 
-      path: route.path,
+      path: handle?.pathDefault ?? route.path,
       enable: resolveEnableItem(handle, user.isMaster), 
       icon: handle.icon
     }
@@ -71,10 +72,10 @@ export function AppSidebar() {
                 return (
                   <SidebarMenuItem key={item.title} isActive={isActive}>
                     <SidebarMenuButton asChild style={{fontSize: '17px'}}>
-                      <a href={item.path}>
+                      <Link to={item?.path ?? "/pagina-nao-definida"}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )

@@ -6,4 +6,5 @@ export type HandleRouterType = {
     icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
     enable: boolean;
     isMaster?: boolean
+    pathDefault?: string
 }

@@ -3,13 +3,17 @@ import { formatCurrencyInCents } from '@/helpers/Methods';
 import { Food } from '@/services/Foods/Foods.type';
 import React from 'react';
 import { Button } from '../ui/button';
+import { useAuthContext } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router';
 
 interface FoodCardProps {
   food: Food;
 }
 
 const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
+  const navigate = useNavigate();
   const { name: title, price, url: image, description } = food;
+  const { user } = useAuthContext();
   const { addToCart } = useCart();
   
   // Default image if none provided
@@ -39,6 +43,12 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
           className="mt-4 bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 py-2 px-4 rounded-md flex items-center justify-center">
           Adicionar
         </Button>
+        {user.isMaster && <Button 
+          onClick={() => navigate('/adicionar-comida/'+food.id)}
+          variant='outline'
+          className="mt-4 py-2 px-4 rounded-md flex items-center justify-center">
+          Editar
+        </Button>}
       </div>
     </div>
   );

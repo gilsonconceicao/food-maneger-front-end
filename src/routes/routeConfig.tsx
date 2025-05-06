@@ -1,6 +1,7 @@
 import { HandleRouterType } from '@/@types/generic.types';
 import { Layout } from '@/components/Layout/Layout';
 import { NotFound, HomeContainer, CartContainer, OrderContaier } from '@/pages';
+import { CreateFoodContainer } from '@/pages/Food/CreateFood/CreateFoodContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
 import { RegisterContainer } from '@/pages/Register/RegisterContainer';
@@ -59,9 +60,11 @@ export const routes: RouteObject[] = [
         ]
       }, 
       {
-        path: '/adicionar-comida',
-        element: <>Adicionar comida</>,
+        path: '/adicionar-comida/:id',
+        
+        element: <CreateFoodContainer />,
         handle: {
+          pathDefault: '/adicionar-comida/adicionar',
           breadcrumb: 'Adicionar',
           title: "Adicionar comida",
           icon: PlusIcon,

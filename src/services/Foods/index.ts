@@ -14,6 +14,9 @@ export const getListFoodAsync = async (params?: FoodParamsQuery) =>
         }
     });
 
+export const getFoodById = async (id: string) =>
+    await axios.get<Food>(`${url}/${id}`);
+
 export const createFoodAsync = async (values: FoodCreateDTO, token: string) => {
 
     const config: AxiosRequestConfig = {
