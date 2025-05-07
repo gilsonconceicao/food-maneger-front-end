@@ -11,19 +11,19 @@ export const Providers = () => {
     const queryClient = new QueryClient();
 
     return (
-        <AuthProvider>
-            <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
-                    <SidebarProvider>
-                        <AuthenticatedLayout>
-                            <CartProvider>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <AuthProvider>
+                    <CartProvider>
+                        <SidebarProvider>
+                            <AuthenticatedLayout>
                                 <ToastCustom />
                                 <AppRoutes />
-                            </CartProvider>
-                        </AuthenticatedLayout>
-                    </SidebarProvider>
-                </BrowserRouter>
-            </QueryClientProvider>
-        </AuthProvider>
-    )
-}
+                            </AuthenticatedLayout>
+                        </SidebarProvider>
+                    </CartProvider>
+                </AuthProvider>
+            </BrowserRouter>
+        </QueryClientProvider>
+    );
+};

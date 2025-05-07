@@ -1,5 +1,5 @@
 import { ListPaginatation } from "@/services/@types/generic";
-import { createFoodAsync, getListFoodAsync, updateFoodAsync } from "@/services/Foods";
+import { createFoodAsync, getFoodById, getListFoodAsync, updateFoodAsync } from "@/services/Foods";
 import { Food, FoodCreateDTO, FoodParamsQuery } from "@/services/Foods/Foods.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -17,13 +17,26 @@ export function useFoodListQuery(params?: FoodParamsQuery) {
     })
 }
 
-export function useCreateFoodMutate(onSuccess: () => void) {
+export function useFoodByIdQuery(id?: string) {
+    return useQuery({
+        queryKey: ['food-get-by-id', id], 
+        enabled: !!id && id!== 'adicionar', 
+        refetchOnMount: false, 
+        refetchOnWindowFocus: false, 
+        queryFn: async () => {
+            const {  data } = await getFoodById(id!);
+            return data as Food; 
+        }
+    })
+}
+
+export function useUpInsertFoodMutate(onSuccess: () => void) {
     const { token } = useAuthContext();
     return useMutation({
-        mutationFn: async (values: Food) => {
+        mutationFn: async (values: FoodCreateDTO) => {
             const payload = {
                 ...values, 
-                urlImage: values?.url?.replace('https://', '')
+                url: values?.url?.replace('https://', '')
             } as FoodCreateDTO
             return await createFoodAsync(payload, token!)
         }, 
@@ -35,10 +48,10 @@ export function useUpdateFoodMutate(id: string, onSuccess: () => void) {
     const { token } = useAuthContext();
 
     return useMutation({
-        mutationFn: async (values: Food) => {
+        mutationFn: async (values: FoodCreateDTO) => {
             const payload = {
                 ...values, 
-                urlImage: values?.url?.replace('https://', '')
+                url: values?.url?.replace('https://', '')
             } as FoodCreateDTO
             return await updateFoodAsync(id, payload, token!)
         }, 

@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast'
 export const ToastCustom = () => {
     return (
         <Toaster
-            position='top-right'
+            position='top-center'
             gutter={24}
             toastOptions={{
                 success: {

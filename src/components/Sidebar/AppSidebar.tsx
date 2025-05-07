@@ -10,9 +10,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { matchRoutes, useLocation } from "react-router"
+import { routes } from '../../routes/routeConfig';
+import { HandleRouterType } from "@/@types/generic.types";
+import { resolveEnableItem } from "@/helpers/Methods";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { Link } from "react-router";
 
 // Menu items.
-// eslint-disable-next-line react-refresh/only-export-components
 export const optionsMenu = [
   {
     title: "Início",
@@ -32,6 +37,28 @@ export const optionsMenu = [
 ]
 
 export function AppSidebar() {
+  const location = useLocation();
+  const matches = matchRoutes(routes, location);
+  const { user } = useAuthContext();
+
+  if (!matches) return null;
+
+  const getChildrensRoute =matches
+    .filter(x => x.route?.path === '/')
+    .map(x => x.route.children)[0] ?? [];
+
+  const matchesMapped = getChildrensRoute.map((route) => {
+    const handle = route.handle as HandleRouterType;
+    
+    return {
+      title: handle.title, 
+      path: handle?.pathDefault ?? route.path,
+      enable: resolveEnableItem(handle, user.isMaster), 
+      icon: handle.icon
+    }
+  });
+
+  
   return (
     <Sidebar>
       <SidebarContent>
@@ -39,15 +66,16 @@ export function AppSidebar() {
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {optionsMenu.map((item) => {
-                const isActive = window.location.pathname === item.url
+              {matchesMapped.map((item) => {
+                const isActive = window.location.pathname === item.path
+                if (item.enable === false) return null; 
                 return (
                   <SidebarMenuItem key={item.title} isActive={isActive}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
+                    <SidebarMenuButton asChild style={{fontSize: '17px'}}>
+                      <Link to={item?.path ?? "/pagina-nao-definida"}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )

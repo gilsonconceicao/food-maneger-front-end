@@ -1,13 +1,13 @@
 import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { Button } from '../ui/button';
-import { Link } from 'react-router';
 import { LogOutIcon, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { useCart } from '@/contexts/CartContext';
 import { CustomDrawer } from '../Drawer/Drawer';
 import CartSidebar from '../Cart/CartSidebar';
+import { Link } from "react-router";
 
 export const Header = () => {
 
