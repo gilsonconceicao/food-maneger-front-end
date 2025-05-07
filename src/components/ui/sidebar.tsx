@@ -2,7 +2,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { Menu } from "lucide-react"
+import { Lock, Menu } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -255,8 +255,9 @@ function Sidebar({
 function SidebarTrigger({
   className,
   onClick,
+  showIconLock,
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: {showIconLock: boolean} & React.ComponentProps<typeof Button>) {
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -272,7 +273,7 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <Menu/>
+      {showIconLock ? <Lock /> : <Menu/>}
     </Button>
   )
 }
