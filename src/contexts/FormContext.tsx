@@ -15,7 +15,7 @@ type FormContextType = {
     getValues: ReturnType<typeof useForm>['getValues'];
     errors: FieldErrors<FieldValues>;
     setError: ReturnType<typeof useForm>['setError'];
-    subbmiting?: boolean;
+    submitting?: boolean;
 }
 
 const FormContext = createContext<FormContextType>({
@@ -29,7 +29,7 @@ const FormContext = createContext<FormContextType>({
     getValues: {} as ReturnType<typeof useForm>['getValues'], 
     setError: () => {}, 
     getFieldState: {} as UseFormGetFieldState<FieldValues>, 
-    subbmiting: false
+    submitting: false
 });
 
 type IChildren = {
@@ -37,10 +37,10 @@ type IChildren = {
     defaultValues: FieldValues;
     validationSchema: ObjectSchema<FieldValues>;
     onSubmit: (values: FieldValues) => void;
-    subbmiting?: boolean;
+    submitting?: boolean;
 }
 
-export const FormContextProvider: React.FC<IChildren> = ({ children, defaultValues, validationSchema, onSubmit, subbmiting }) => {
+export const FormContextProvider: React.FC<IChildren> = ({ children, defaultValues, validationSchema, onSubmit, submitting }) => {
     const { handleSubmit, formState: { errors }, control, watch, reset, getValues, setValue, setError, getFieldState} = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: defaultValues
@@ -63,7 +63,7 @@ export const FormContextProvider: React.FC<IChildren> = ({ children, defaultValu
                 watch,
                 setError, 
                 getFieldState, 
-                subbmiting
+                submitting
             }}
         >
             <form onSubmit={handleSubmit(onSubmit)}>

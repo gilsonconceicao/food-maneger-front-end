@@ -8,3 +8,5 @@ export type HandleRouterType = {
     isMaster?: boolean
     pathDefault?: string
 }
+
+export const textFieldIconSx = "text-gray-400 w-4.5 h-4.5";
