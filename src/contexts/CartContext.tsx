@@ -47,7 +47,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token]);
 
   const removeFromCart = useCallback(async (foodId: string) => {
     if(!token) return;
@@ -62,7 +62,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token]);
 
   const updateQuantity = useCallback(async (foodId: string, quantity: number) => {
     if(!token) return;
@@ -79,7 +79,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token]);
 
   const clearCart = useCallback(async () => {
     if(!token) return;
@@ -93,7 +93,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token]);
 
   const toggleCart = useCallback(() => {
     setIsCartOpen(prev => !prev);
