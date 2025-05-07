@@ -23,7 +23,7 @@ export const RegisterContainer = () => {
         defaultValues={registerDefaultValues}
         validationSchema={registerValidationSchema}
         onSubmit={onSubmit}
-        subbmiting={isLoading}
+        submitting={isLoading}
       >
         <Register />
       </FormContextProvider>
