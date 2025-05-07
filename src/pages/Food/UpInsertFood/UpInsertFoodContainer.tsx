@@ -1,13 +1,13 @@
 import { FormContextProvider } from '@/contexts/FormContext'
-import { CreateFood } from './CreateFood'
+import { UpInsertFood } from './UpInsertFood'
 import { createFoodValidationSchema, createFoodDefaultValues } from './createFoodSchema'
 import { useNavigate, useParams } from 'react-router'
 import { FieldValues } from 'react-hook-form'
-import { useCreateFoodMutate, useFoodByIdQuery, useUpdateFoodMutate } from '@/hooks/Foods/useFoodContext'
+import { useUpInsertFoodMutate, useFoodByIdQuery, useUpdateFoodMutate } from '@/hooks/Foods/useFoodContext'
 import toast from 'react-hot-toast'
 import { Food } from '@/services/Foods/Foods.type'
 
-export const CreateFoodContainer = () => {
+export const UpInsertFoodContainer = () => {
     const { id } = useParams();
     const isModeCreate = id === 'adicionar'
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ export const CreateFoodContainer = () => {
         setTimeout(() => navigate('/'), 2000);
     }
 
-    const { mutateAsync: createMutateAsync } = useCreateFoodMutate(onSuccess);
+    const { mutateAsync: createMutateAsync } = useUpInsertFoodMutate(onSuccess);
     const { mutateAsync: editMudateAsync } = useUpdateFoodMutate(id!, onSuccess);
 
     const onSubmit = async (values: FieldValues) => {
@@ -40,7 +40,7 @@ export const CreateFoodContainer = () => {
             validationSchema: createFoodValidationSchema,
             onSubmit
         }}>
-            <CreateFood isModeCreate={isModeCreate}/>
+            <UpInsertFood isModeCreate={isModeCreate}/>
         </FormContextProvider>
     )
 }

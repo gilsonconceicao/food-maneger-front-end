@@ -7,7 +7,7 @@ export const createFoodValidationSchema = yup.object().shape({
         .required("O nome é obrigatório.")
         .min(2, "O nome deve ter no mínimo 2 caracteres."),
 
-    urlImage: yup
+    url: yup
         .string()
         .required("A URL da imagem é obrigatória."),
 
@@ -28,10 +28,10 @@ export const createFoodValidationSchema = yup.object().shape({
 });
 
 export const createFoodDefaultValues = (data?: Food) => {
-    if (data !== undefined) return data;
+    if (data !== undefined) return data; 
     return {    
         name: null,
-        urlImage: null,
+        url: null,
         price: 0,
         category: null,
         description: null,}

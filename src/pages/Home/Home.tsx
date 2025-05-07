@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import FilterFood from '@/components/Food/FilterFood';
 import FoodGrid from '@/components/Food/FoodGrid';
+import { Button } from '@/components/ui/button';
 import { useFoodListQuery } from '@/hooks/Foods/useFoodContext';
 import { Food } from '@/services/Foods/Foods.type';
+import { RefreshCcw } from 'lucide-react';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 const ITEMS_PER_PAGE = 20;
@@ -18,7 +21,8 @@ export const Home: React.FC = () => {
     data,
     isLoading,
     isFetching,
-    error
+    error, 
+    refetch: refetchFoodList
   } = useFoodListQuery({ page, size: ITEMS_PER_PAGE });
 
   const isLoadingMore = isFetching && page > 0;
@@ -62,16 +66,20 @@ export const Home: React.FC = () => {
 
   const handleCategoryChange = (category: string) => {
     setActiveCategory(category);
+    refetchFoodList();
   };
 
   return (
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-8">
-        <div className='flex justify-between items-center'>
-          <div className="mb-8">
+        <div className='flex justify-between items-center gap-1 flex-wrap mb-5'>
+          <div >
             <h2 className="text-3xl font-bold mb-2">Nosso Cardápio</h2>
             <p className="text-gray-300">Descubra nossos pratos deliciosos preparados com ingredientes frescos.</p>
           </div>
+          <Button variant='outline' size='icon' onClick={()=> refetchFoodList()} className='mb-3'>
+            <RefreshCcw/>
+          </Button>
         </div>
 
         <FilterFood
@@ -82,7 +90,7 @@ export const Home: React.FC = () => {
 
         <FoodGrid
           foods={filteredFoods}
-          isLoading={isLoading}
+          isLoading={isLoading }
           error={error}
           lastFoodRef={lastFoodElementRef}
           isLoadingMore={isLoadingMore}

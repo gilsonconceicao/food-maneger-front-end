@@ -10,7 +10,7 @@ interface FilterFoodProps {
 const FilterFood: React.FC<FilterFoodProps> = ({ 
   categories, 
   activeCategory, 
-  onCategoryChange 
+  onCategoryChange
 }) => {
   return (
     <div className="overflow-x-auto pb-2 mb-6 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">

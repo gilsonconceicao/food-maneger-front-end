@@ -26,7 +26,7 @@ export const SelectFormField = ({
   options,
 }: SelectFormFieldProps) => {
   const { control, errors } = useFormContext();
-
+ 
   return (
     <Controller
       name={name}
@@ -42,7 +42,7 @@ export const SelectFormField = ({
   
             <Select
               onValueChange={field.onChange}
-              defaultValue={options.find(x => x.value === field.value)?.label ?? ""}
+              value={field.value??""}
             >
               <SelectTrigger id={name} className="w-full">
                 <SelectValue placeholder={placeholder}/>

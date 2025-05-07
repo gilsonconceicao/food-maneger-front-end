@@ -30,13 +30,13 @@ export function useFoodByIdQuery(id?: string) {
     })
 }
 
-export function useCreateFoodMutate(onSuccess: () => void) {
+export function useUpInsertFoodMutate(onSuccess: () => void) {
     const { token } = useAuthContext();
     return useMutation({
-        mutationFn: async (values: Food) => {
+        mutationFn: async (values: FoodCreateDTO) => {
             const payload = {
                 ...values, 
-                urlImage: values?.url?.replace('https://', '')
+                url: values?.url?.replace('https://', '')
             } as FoodCreateDTO
             return await createFoodAsync(payload, token!)
         }, 
@@ -48,10 +48,10 @@ export function useUpdateFoodMutate(id: string, onSuccess: () => void) {
     const { token } = useAuthContext();
 
     return useMutation({
-        mutationFn: async (values: Food) => {
+        mutationFn: async (values: FoodCreateDTO) => {
             const payload = {
                 ...values, 
-                urlImage: values?.url?.replace('https://', '')
+                url: values?.url?.replace('https://', '')
             } as FoodCreateDTO
             return await updateFoodAsync(id, payload, token!)
         }, 
