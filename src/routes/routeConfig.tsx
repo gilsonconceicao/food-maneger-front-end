@@ -2,6 +2,7 @@ import { HandleRouterType } from '@/@types/generic.types';
 import { Layout } from '@/components/Layout/Layout';
 import { NotFound, HomeContainer, CartContainer, OrderContaier } from '@/pages';
 import { UpInsertFoodContainer } from '@/pages/Food/UpInsertFood/UpInsertFoodContainer';
+import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
 import { RegisterContainer } from '@/pages/Register/RegisterContainer';
@@ -16,6 +17,10 @@ export const routes: RouteObject[] = [
   {
     path: '/cadastro',
     element: <RegisterContainer />,
+  },
+  {
+    path: '/recuperar-senha',
+    element: <ForgotPasswordContainer />,
   },
   {
     path: '/',

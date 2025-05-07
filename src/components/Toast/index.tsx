@@ -8,9 +8,10 @@ export const ToastCustom = () => {
             toastOptions={{
                 success: {
                     style: {
-                        background: '#1aab26',
+                        background: '#014034',
                         color: 'white'
                     },
+                    icon: '✅',
                     iconTheme: {
                         primary: 'green',
                         secondary: 'white',

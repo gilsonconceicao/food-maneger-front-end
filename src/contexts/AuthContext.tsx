@@ -152,7 +152,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       await sendPasswordResetEmail(auth, email);
-      toast.success('Link de redefinição de senha enviado para seu e-mail.');
+      toast.success('Link de redefinição de senha enviado para seu e-mail.', {
+        duration: 15000,
+        position: 'top-center'
+      });
       handleSuccess?.();
     } catch (error) {
       handleAuthError(error as FirebaseAuthErrorType);

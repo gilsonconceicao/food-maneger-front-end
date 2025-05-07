@@ -1,5 +1,3 @@
-import { ClipboardCheck, Home, ShoppingCart } from "lucide-react"
-
 import {
   Sidebar,
   SidebarContent,
@@ -16,24 +14,6 @@ import { HandleRouterType } from "@/@types/generic.types";
 import { resolveEnableItem } from "@/helpers/Methods";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Link } from "react-router";
-
-export const optionsMenu = [
-  {
-    title: "Início",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "Sacola de compras",
-    url: "/sacola-de-compras",
-    icon: ShoppingCart,
-  },
-  {
-    title: "Meus pedidos",
-    url: "/meus-pedidos",
-    icon: ClipboardCheck,
-  }
-]
 
 export function AppSidebar() {
   const location = useLocation();
@@ -56,7 +36,6 @@ export function AppSidebar() {
       icon: handle.icon
     }
   });
-
   
   return (
     <Sidebar>
