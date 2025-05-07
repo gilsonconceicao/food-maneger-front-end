@@ -17,7 +17,6 @@ import { resolveEnableItem } from "@/helpers/Methods";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Link } from "react-router";
 
-// Menu items.
 export const optionsMenu = [
   {
     title: "Início",

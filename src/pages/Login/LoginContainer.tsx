@@ -38,7 +38,7 @@ export const LoginContainer = () => {
                 defaultValues={loginDefaultValues}
                 validationSchema={loginValidationSchema}
                 onSubmit={onSubmit}
-                subbmiting={isLoading}
+                submitting={isLoading}
             >
                 <Login />
             </FormContextProvider>
