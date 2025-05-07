@@ -17,7 +17,7 @@ export const Header = () => {
     const handleLogout = () => logoutUserAsync();
 
     const { items } = useCart();
-    const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+    const itemCount = items?.length;
 
     const onClose = () => setAction(undefined)
 
