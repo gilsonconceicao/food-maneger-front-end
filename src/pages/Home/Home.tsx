@@ -2,6 +2,7 @@
 import FilterFood from '@/components/Food/FilterFood';
 import FoodGrid from '@/components/Food/FoodGrid';
 import { Button } from '@/components/ui/button';
+import { useSidebar } from '@/components/ui/sidebar';
 import { useFoodListQuery } from '@/hooks/Foods/useFoodContext';
 import { Food } from '@/services/Foods/Foods.type';
 import { RefreshCcw } from 'lucide-react';
@@ -12,6 +13,7 @@ const ITEMS_PER_PAGE = 20;
 export const Home: React.FC = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   const [page, setPage] = useState(0);
+  const { isMobile } =useSidebar();
   const [allFoods, setAllFoods] = useState<Food[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -77,9 +79,9 @@ export const Home: React.FC = () => {
             <h2 className="text-3xl font-bold mb-2">Nosso Cardápio</h2>
             <p className="text-gray-300">Descubra nossos pratos deliciosos preparados com ingredientes frescos.</p>
           </div>
-          <Button variant='outline' size='icon' onClick={()=> refetchFoodList()} className='mb-3'>
+          {!isMobile && <Button variant='outline' size='icon' onClick={()=> refetchFoodList()} className='mb-3'>
             <RefreshCcw/>
-          </Button>
+          </Button>}
         </div>
 
         <FilterFood

@@ -2,6 +2,7 @@ import React from 'react';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { formatCurrencyInCents } from '@/helpers/Methods';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const CartSidebar: React.FC = () => {
   const {
@@ -12,7 +13,14 @@ const CartSidebar: React.FC = () => {
     clearCart,
     isEmptyCartList
   } = useCart();
-  
+  const { isAuthenticated } = useAuthContext();
+
+  const handleCheckout = () => {
+    if (!isAuthenticated) {
+      return;
+    }
+  };
+
   return (
     <>
 
@@ -83,6 +91,7 @@ const CartSidebar: React.FC = () => {
             Limpar Carrinho
           </button>
           <button
+            onClick={handleCheckout}
             className="w-full py-2 px-4 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
           >
             Finalizar Pedido

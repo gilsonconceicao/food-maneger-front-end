@@ -3,10 +3,23 @@ import { Breadcrumbs } from "../Breadcrumb/Breadcrumb";
 import { Header } from "../Header/Header";
 import { AppSidebar } from "../Sidebar/AppSidebar";
 import { useSidebar } from "../ui/sidebar";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 export function Layout() {
   const { isMobile } = useSidebar();
+  const { isAuthenticated } = useAuthContext();
   const sidebarWidth = "250px";
+
+  if (!isAuthenticated) {
+    return (
+      <div className="w-full">
+        <Header />
+        <main className="pl-6 pr-6 pt-5">
+          <Outlet />
+        </main>
+      </div>
+    );
+  }
 
   if (isMobile) {
     return (

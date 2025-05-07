@@ -8,25 +8,32 @@ import { useCart } from '@/contexts/CartContext';
 import { CustomDrawer } from '../Drawer/Drawer';
 import CartSidebar from '../Cart/CartSidebar';
 import { Link } from "react-router";
+import AuthPrompt from '../AuthPrompt/AuthPrompt';
 
 export const Header = () => {
-
     const [action, setAction] = useState<string | undefined>(undefined);
-    const { isAuthenticated, logoutUserAsync, user } = useAuthContext();
+    const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+
     const { isMobile } = useSidebar()
+    const { items } = useCart();
+    const { isAuthenticated, logoutUserAsync, user } = useAuthContext();
+
     const handleLogout = () => logoutUserAsync();
 
-    const { items } = useCart();
-    const itemCount = items?.length;
+    const overrideToggleMenu = () => {
+        if (!isAuthenticated) return setShowAuthPrompt(true);
+        return;
+    }
 
+
+    const itemCount = items?.length;
     const onClose = () => setAction(undefined)
 
     return (
         <div className="bg-sidebar flex justify-between items-center p-4 ">
             <div className="flex items-center gap-2 ">
                 <div>
-
-                    {isMobile && <SidebarTrigger />}
+                    {isMobile && <SidebarTrigger onClick={overrideToggleMenu} showIconLock={!isAuthenticated && showAuthPrompt} />}
                 </div>
                 <div>
                     <p className="leading-7 [&:not(:first-child)]:mt-6">
@@ -87,6 +94,11 @@ export const Header = () => {
                 cancelText="Fechar"
                 onCancel={onClose}
                 children={<CartSidebar />}
+            />
+
+            <AuthPrompt
+                show={showAuthPrompt}
+                onClose={() => setShowAuthPrompt(false)}
             />
         </div>
     )
