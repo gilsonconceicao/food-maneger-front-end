@@ -1,10 +1,9 @@
-/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createCartsAsync, deleteCartsAsync } from '@/services/Carts';
 import { Food } from '@/services/Foods/Foods.type';
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useAuthContext } from './AuthContext';
-import { Cart } from '@/services/Carts/Types/CartsType';
+import { Cart, CartTypeCreate } from '@/services/Carts/Types/CartsType';
 import toast from 'react-hot-toast';
 import { useCartsListQuery } from '@/hooks/Carts/useCartsHook';
 
@@ -39,7 +38,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       await createCartsAsync({
         foodId: food.id,
         quantity: 1
-      }, token!);
+      });
       refetch();
       toast.success("Item adicionado com sucesso");
     } catch (error) {
@@ -53,7 +52,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!token) return;
     setIsLoading(true);
     try {
-      await deleteCartsAsync(foodId, token!);
+      await deleteCartsAsync(foodId);
       refetch();
       toast.success("Item removido com sucesso");
     } catch (error) {
@@ -67,10 +66,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!token) return;
     setIsLoading(true);
     try {
-      await createCartsAsync({
+      const payload = {
         foodId: foodId,
         quantity: quantity
-      }, token!);
+      } as CartTypeCreate; 
+      await createCartsAsync(payload);
       refetch();
     } catch (error) {
       console.error('Error updating cart:', error);

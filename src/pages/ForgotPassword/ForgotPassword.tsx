@@ -2,10 +2,13 @@ import { textFieldIconSx } from "@/@types/generic.types"
 import { TextFormField } from "@/components/FormFields/TextFormField"
 import { Button } from "@/components/ui/button"
 import { useFormContext } from "@/contexts/FormContext"
-import { KeyRound, Lock, Mail } from "lucide-react"
+import { ArrowBigLeft, KeyRound, Lock, Mail } from "lucide-react"
+import { useNavigate } from "react-router"
 
 export const ForgotPassword = () => {
     const { submitting } = useFormContext();
+    const nav = useNavigate();
+
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-gray-900">
             <div className="bg-gray-800 shadow-2xl rounded-2xl p-8 sm:p-10 w-full max-w-md animate-fade-in">
@@ -30,8 +33,11 @@ export const ForgotPassword = () => {
                     </div>
 
                     <div className="grid grid-cols-2 items-center gap-2">
-                        <Button variant='outline' className="w-full">
-                            Fechar
+                        <Button variant='outline' type="button" onClick={() => nav('/login')} className="w-full">
+                            <>
+                                <ArrowBigLeft className="w-4 h-4" />
+                                Voltar
+                            </>
                         </Button>
                         <Button
                             type="submit"

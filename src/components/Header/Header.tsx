@@ -54,7 +54,7 @@ export const Header = () => {
 
                     </div>
                 ) : (
-                    <div className='flex justify-between items-center gap-2'>
+                    <div className='flex justify-between items-center gap-4'>
                         <button
                             className="relative bg-orange-500 p-2 rounded-full text-white hover:bg-orange-600 transition-colors"
                             onClick={() => setAction('cart')}
