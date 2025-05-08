@@ -10,7 +10,6 @@ const CartSidebar: React.FC = () => {
     updateQuantity,
     removeFromCart,
     total,
-    clearCart,
     isEmptyCartList
   } = useCart();
   const { isAuthenticated } = useAuthContext();
@@ -84,12 +83,6 @@ const CartSidebar: React.FC = () => {
             <span>Total</span>
             <span>{formatCurrencyInCents(total)}</span>
           </div>
-          <button
-            onClick={clearCart}
-            className="w-full py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
-          >
-            Limpar Carrinho
-          </button>
           <button
             onClick={handleCheckout}
             className="w-full py-2 px-4 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"

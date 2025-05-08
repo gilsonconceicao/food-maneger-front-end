@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { createCartsAsync, deleteCartsAsync, getCartsListAsyc } from '@/services/Carts';
+import { createCartsAsync, deleteCartsAsync } from '@/services/Carts';
 import { Food } from '@/services/Foods/Foods.type';
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useAuthContext } from './AuthContext';
@@ -13,7 +13,6 @@ interface CartContextData {
   addToCart: (food: Food) => Promise<void>;
   removeFromCart: (foodId: string) => Promise<void>;
   updateQuantity: (foodId: string, quantity: number) => Promise<void>;
-  clearCart: () => Promise<void>;
   total: number;
   isCartOpen: boolean;
   toggleCart: () => void;
@@ -26,22 +25,23 @@ const CartContext = createContext<CartContextData>({} as CartContextData);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const { token } = useAuthContext();
 
-  const { data: cartsList } = useCartsListQuery();
-  const [items, setItems] = useState<Cart[]>(cartsList?.data ?? []);
+  const { data: cartsList, refetch } = useCartsListQuery();
+
+  const items = cartsList?.data ?? [];
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const addToCart = useCallback(async (food: Food) => {
-    if(!token) return;
+    if (!token) return;
     setIsLoading(true);
     try {
       await createCartsAsync({
         foodId: food.id,
         quantity: 1
       }, token!);
-      const cartData = await getCartsListAsyc(token!);
-      setItems(cartData.data.data as Cart[]);
-      toast.success("Item adicionado com sucesso"); 
+      refetch();
+      toast.success("Item adicionado com sucesso");
     } catch (error) {
       console.error('Error adding to cart:', error);
     } finally {
@@ -50,13 +50,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [token]);
 
   const removeFromCart = useCallback(async (foodId: string) => {
-    if(!token) return;
+    if (!token) return;
     setIsLoading(true);
     try {
       await deleteCartsAsync(foodId, token!);
-      const cartData = await getCartsListAsyc(token!);
-      setItems(cartData.data.data as Cart[]);
-      toast.success("Item removido com sucesso"); 
+      refetch();
+      toast.success("Item removido com sucesso");
     } catch (error) {
       console.error('Error removing from cart:', error);
     } finally {
@@ -65,31 +64,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [token]);
 
   const updateQuantity = useCallback(async (foodId: string, quantity: number) => {
-    if(!token) return;
+    if (!token) return;
     setIsLoading(true);
     try {
       await createCartsAsync({
         foodId: foodId,
         quantity: quantity
       }, token!);
-      const cartData = await getCartsListAsyc(token!);
-      setItems(cartData.data.data as Cart[]);
+      refetch();
     } catch (error) {
       console.error('Error updating cart:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [token]);
-
-  const clearCart = useCallback(async () => {
-    if(!token) return;
-    setIsLoading(true);
-    try {
-      await Promise.all(items?.map((x) => removeFromCart(x.id)))
-      setItems([]);
-      toast.success("Sucesso ao limpar carrinho de compras"); 
-    } catch (error) {
-      console.error('Error clearing cart:', error);
     } finally {
       setIsLoading(false);
     }
@@ -108,11 +92,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         addToCart,
         removeFromCart,
         updateQuantity,
-        clearCart,
         total,
         isCartOpen,
         toggleCart,
-        isLoading, 
+        isLoading,
         isEmptyCartList: items?.length === 0
       }}
     >
