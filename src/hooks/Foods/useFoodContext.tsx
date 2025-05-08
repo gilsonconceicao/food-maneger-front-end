@@ -2,7 +2,6 @@ import { ListPaginatation } from "@/services/@types/generic";
 import { createFoodAsync, getFoodById, getListFoodAsync, updateFoodAsync } from "@/services/Foods";
 import { Food, FoodCreateDTO, FoodParamsQuery } from "@/services/Foods/Foods.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAuthContext } from "@/contexts/AuthContext";
 
 export function useFoodListQuery(params?: FoodParamsQuery) {
     return useQuery({
@@ -31,29 +30,26 @@ export function useFoodByIdQuery(id?: string) {
 }
 
 export function useUpInsertFoodMutate(onSuccess: () => void) {
-    const { token } = useAuthContext();
     return useMutation({
         mutationFn: async (values: FoodCreateDTO) => {
             const payload = {
                 ...values, 
                 url: values?.url?.replace('https://', '')
             } as FoodCreateDTO
-            return await createFoodAsync(payload, token!)
+            return await createFoodAsync(payload)
         }, 
         onSuccess
     })
 }
 
 export function useUpdateFoodMutate(id: string, onSuccess: () => void) {
-    const { token } = useAuthContext();
-
     return useMutation({
         mutationFn: async (values: FoodCreateDTO) => {
             const payload = {
                 ...values, 
                 url: values?.url?.replace('https://', '')
             } as FoodCreateDTO
-            return await updateFoodAsync(id, payload, token!)
+            return await updateFoodAsync(id, payload)
         }, 
         onSuccess
     })

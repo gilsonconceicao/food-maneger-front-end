@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import firebaseApp from "@/Firebase";
@@ -24,6 +23,8 @@ import {
   FirebaseAuthErrorType
 } from "@/helpers/Methods";
 import { useVerifyUserIsMaster } from "@/hooks/User/UserHooks";
+import { getAccessTokenLocalStorage, getUserDataInLocalStorage } from "@/constants/localStorage";
+import { saveUserInDataLocalStorge } from "@/helpers/Methods/Storage";
 
 export type CreateUserFirebaseType = {
   email: string;
@@ -63,9 +64,8 @@ const Context = createContext<AuthContextType>({
 });
 
 const getUserDataOnStorage = () => {
-  const localStorageData = localStorage.getItem('userData');
-  if (localStorageData !== null) {
-    const user = JSON.parse(localStorageData);
+  if (getUserDataInLocalStorage !== null) {
+    const user = JSON.parse(String(getUserDataInLocalStorage));
     return user;
   } else {
     return null;
@@ -75,24 +75,20 @@ const getUserDataOnStorage = () => {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = getAuth(firebaseApp);
   auth.useDeviceLanguage();
-  const getAccessTokenStorage = localStorage.getItem('accessToken') ?? undefined;
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingUserData, setIsLoadingUserData] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(getUserDataOnStorage());
-  const [accessToken, setAccessToken] = useState<string | undefined>(
-    localStorage.getItem('accessToken') ?? undefined
-  );
-  const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenStorage);
+  const [accessToken, setAccessToken] = useState<string | undefined>(getAccessTokenLocalStorage ?? undefined);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenLocalStorage);
 
-  const { data: isUserMaster } = useVerifyUserIsMaster(accessToken!, currentUser?.uid);
+  const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid);
 
   const cleanState = () => {
     setCurrentUser(null);
     setAccessToken(undefined);
     setIsAuthenticated(false);
     setIsLoading(false);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('userData');
+    localStorage.clear();
   };
 
   const handleAuthError = (error: FirebaseAuthErrorType) => {
@@ -133,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await signInWithEmailAndPassword(auth, email, password);
       const token = await getIdTokenAsync(response.user);
       setCurrentUser(response.user);
-      localStorage.setItem('userData', JSON.stringify(response.user));
+      saveUserInDataLocalStorge(response.user);
       setIsAuthenticated(true);
       setAccessToken(token);
 
@@ -182,7 +178,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       if (user) {
         setCurrentUser(user);
-        localStorage.setItem('userData', JSON.stringify(user));
+        saveUserInDataLocalStorge(user)
         const token = await getIdTokenAsync(user);
         setAccessToken(token);
         setIsAuthenticated(true);
