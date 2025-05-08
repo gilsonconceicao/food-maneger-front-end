@@ -1,33 +1,10 @@
-import axios, { AxiosRequestConfig } from "axios"
-import { BASE_URL } from "../api"
+import { apiClient } from "../config/axios";
 import { CartType, CartTypeCreate } from "./Types/CartsType"
 
-const url = `${BASE_URL}/Cart`
+const endpoint = `/Cart`
 
-export const getCartsListAsyc = async (token: string) => {
-    const config: AxiosRequestConfig<CartType> = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-    return await axios.get<CartType>(`${url}`, config); 
-}
+export const getCartsListAsyc = async () => await apiClient.get<CartType>(endpoint); 
 
-export const createCartsAsync = async (payload: CartTypeCreate, token: string) => {
-    const config: AxiosRequestConfig = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-    return await axios.post(`${url}`, payload, config); 
-}
+export const createCartsAsync = async (payload: CartTypeCreate) => await apiClient.post(endpoint, payload);
 
-
-export const deleteCartsAsync = async (foodId: string, token: string) => {
-    const config: AxiosRequestConfig = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-    return await axios.delete(`${url}/${foodId}`, config); 
-}
+export const deleteCartsAsync = async (foodId: string) => await apiClient.delete(`${endpoint}/${foodId}`);

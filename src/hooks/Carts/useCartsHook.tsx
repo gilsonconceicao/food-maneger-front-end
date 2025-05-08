@@ -11,17 +11,16 @@ export function useCartsListQuery() {
         refetchOnMount: true,
         refetchOnWindowFocus: false,
         queryFn: async () => {
-            const { data } = await getCartsListAsyc(token!);
+            const { data } = await getCartsListAsyc();
             return data as CartType;
         }
     });
 }
 
 export function useCreateCartsMutate(onSuccess?: () => void) {
-    const { token } = useAuthContext();
     return useMutation({
         mutationFn: async (values: CartTypeCreate) => {
-            return await createCartsAsync(values, token!)
+            return await createCartsAsync(values)
         },
         onSuccess,
         onError() {
@@ -37,10 +36,9 @@ export function useCreateCartsMutate(onSuccess?: () => void) {
 
 
 export function useDeleteCartsMutate(onSuccess?: () => void, onError?: () => void) {
-    const { token } = useAuthContext();
     return useMutation({
         mutationFn: async (cartId: string) => {
-            return await deleteCartsAsync(cartId, token!)
+            return await deleteCartsAsync(cartId)
         },
         onSuccess,
         onError
