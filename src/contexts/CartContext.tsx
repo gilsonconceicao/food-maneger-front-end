@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createCartsAsync, deleteCartsAsync } from '@/services/Carts';
-import { Food } from '@/services/Foods/Foods.type';
+import { IFood } from '@/services/Foods/Foods.type';
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useAuthContext } from './AuthContext';
 import { Cart, CartTypeCreate } from '@/services/Carts/Types/CartsType';
@@ -9,7 +9,7 @@ import { useCartsListQuery } from '@/hooks/Carts/useCartsHook';
 
 interface CartContextData {
   items: Cart[];
-  addToCart: (food: Food) => Promise<void>;
+  addToCart: (food: IFood) => Promise<void>;
   removeFromCart: (foodId: string) => Promise<void>;
   updateQuantity: (foodId: string, quantity: number) => Promise<void>;
   total: number;
@@ -31,7 +31,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const addToCart = useCallback(async (food: Food) => {
+  const addToCart = useCallback(async (food: IFood) => {
     if (!token) return;
     setIsLoading(true);
     try {

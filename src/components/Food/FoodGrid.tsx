@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FoodCard from './FoodCard';
 import { Loader2 } from 'lucide-react';
-import { Food } from '@/services/Foods/Foods.type';
+import { IFoodReadModel } from '@/services/Foods/Foods.type';
+import FoodDetails from './FoodDetatails';
 
 interface FoodGridProps {
-  foods: Food[];
+  foods: IFoodReadModel[];
   isLoading: boolean;
   error: Error | null;
   lastFoodRef?: (node: HTMLDivElement | null) => void;
@@ -12,14 +13,16 @@ interface FoodGridProps {
   hasMore?: boolean;
 }
 
-const FoodGrid: React.FC<FoodGridProps> = ({ 
-  foods, 
-  isLoading, 
-  error, 
+const FoodGrid: React.FC<FoodGridProps> = ({
+  foods,
+  isLoading,
+  error,
   lastFoodRef,
   isLoadingMore,
-  hasMore 
+  hasMore
 }) => {
+  const [ selectedFood, setSelectedFood ] = useState<IFoodReadModel | null>(null);
+
   if (isLoading && !isLoadingMore) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -52,27 +55,33 @@ const FoodGrid: React.FC<FoodGridProps> = ({
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-full overflow-hidden">
         {foods.map((food, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             ref={index === foods.length - 1 ? lastFoodRef : null}
             className="min-w-0"
           >
-            <FoodCard food={food} />
+            <FoodCard food={food} onSelectFood={(food) => setSelectedFood(food)}/>
           </div>
         ))}
       </div>
-      
+
       {isLoadingMore && (
         <div className="flex justify-center items-center mt-8">
           <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
         </div>
       )}
-      
+
       {!hasMore && foods.length > 0 && (
         <div className="text-center mt-8 text-gray-500">
           Não há mais itens para carregar
         </div>
       )}
+
+      <FoodDetails
+        showFoodDetails={!!selectedFood}
+        food={selectedFood!}
+        onClose={() => setSelectedFood(null)}
+      />
     </>
   );
 };

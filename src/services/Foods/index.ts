@@ -1,6 +1,6 @@
 import { ListPaginatation } from "../@types/generic";
 import { apiClient } from "../config/axios";
-import { Food, FoodCreateDTO, FoodParamsQuery } from "./Foods.type";
+import { IFood, FoodCreateDTO, FoodParamsQuery } from "./Foods.type";
 
 const endpoint = `/Food`
 
@@ -13,10 +13,10 @@ export const getListFoodAsync = async (params?: FoodParamsQuery) => {
         }
     };
 
-    return await apiClient.get<ListPaginatation<Food>>(endpoint, config);
+    return await apiClient.get<ListPaginatation<IFood>>(endpoint, config);
 }
 
-export const getFoodById = async (id: string) => await apiClient.get<Food>(`${endpoint}/${id}`);
+export const getFoodById = async (id: string) => await apiClient.get<IFood>(`${endpoint}/${id}`);
 
 export const createFoodAsync = async (values: FoodCreateDTO) => await apiClient.post(endpoint, values);
 

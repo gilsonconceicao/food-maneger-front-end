@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router'
 import { FieldValues } from 'react-hook-form'
 import { useUpInsertFoodMutate, useFoodByIdQuery, useUpdateFoodMutate } from '@/hooks/Foods/useFoodContext'
 import toast from 'react-hot-toast'
-import { Food } from '@/services/Foods/Foods.type'
+import { IFood } from '@/services/Foods/Foods.type'
 
 export const UpInsertFoodContainer = () => {
     const { id } = useParams();
@@ -24,9 +24,9 @@ export const UpInsertFoodContainer = () => {
 
     const onSubmit = async (values: FieldValues) => {
         if (isModeCreate) {
-            await createMutateAsync(values as Food);
+            await createMutateAsync(values as IFood);
         } else {
-            await editMudateAsync(values as Food)
+            await editMudateAsync(values as IFood)
         }
     }
 

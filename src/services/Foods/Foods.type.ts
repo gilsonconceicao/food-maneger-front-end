@@ -1,7 +1,7 @@
 import { OrderItems } from "../@types/generic";
 import { FoodCategoryEnum } from "../Enums/FoodCategoryEnum";
 
-export interface Food {
+export interface IFood {
   id: string;
   name: string;
   url: string;
@@ -9,6 +9,19 @@ export interface Food {
   isAvailable: boolean;
   price: number;
   category: FoodCategoryEnum | null;
+  items: OrderItems[];
+  createdAt: Date;
+}
+
+export interface IFoodReadModel {
+  id: string;
+  name: string;
+  url: string;
+  description: string;
+  isAvailable: boolean;
+  price: number;
+  categoryDisplay: string;
+  category: FoodCategoryEnum;
   items: OrderItems[];
   createdAt: Date;
 }

@@ -4,7 +4,7 @@ import FoodGrid from '@/components/Food/FoodGrid';
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
 import { useFoodListQuery } from '@/hooks/Foods/useFoodContext';
-import { Food } from '@/services/Foods/Foods.type';
+import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import { RefreshCcw } from 'lucide-react';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
@@ -14,7 +14,7 @@ export const Home: React.FC = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   const [page, setPage] = useState(0);
   const { isMobile } =useSidebar();
-  const [allFoods, setAllFoods] = useState<Food[]>([]);
+  const [allFoods, setAllFoods] = useState<IFoodReadModel[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [hasMore, setHasMore] = useState(true);

@@ -1,4 +1,4 @@
-import { Food } from "../Foods/Foods.type";
+import { IFood } from "../Foods/Foods.type";
 import { Order } from "../Order/Order.type";
 import { User } from "../User/user.types";
 
@@ -11,7 +11,7 @@ export type ModelBase = {
 export interface OrderItems {
     orderId: string;
     order: Order;
-    food: Food;
+    food: IFood;
     user?: User | null;
     userId?: string | null;
     price?: number | null;

@@ -1,6 +1,6 @@
 import { useCart } from '@/contexts/CartContext';
 import { formatCurrencyInCents } from '@/helpers/Methods';
-import { Food } from '@/services/Foods/Foods.type';
+import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import React from 'react';
 import { Button } from '../ui/button';
 import { useAuthContext } from '@/contexts/AuthContext';
@@ -8,10 +8,11 @@ import { useNavigate } from 'react-router';
 import AuthPrompt from '../AuthPrompt/AuthPrompt';
 
 interface FoodCardProps {
-  food: Food;
+  food: IFoodReadModel;
+  onSelectFood: (food: IFoodReadModel) => void;
 }
 
-const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
+const FoodCard: React.FC<FoodCardProps> = ({ food, onSelectFood}) => {
   const navigate = useNavigate();
   const [showAuthPrompt, setShowAuthPrompt] = React.useState(false);
   const { name: title, price, url: image, description } = food;
@@ -29,7 +30,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
   const imageUrl = image !== null ? `https://${image}` : 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800';
 
   return (
-    <div className="bg-sidebar rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+    <div className="bg-sidebar rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full" onClick={() => onSelectFood(food)}>
       <div className="relative h-48 overflow-hidden">
         <img
           src={imageUrl}
@@ -59,7 +60,6 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
           Editar
         </Button>}
       </div>
-
 
       <AuthPrompt
         show={showAuthPrompt}

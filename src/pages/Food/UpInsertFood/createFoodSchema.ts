@@ -1,5 +1,5 @@
 import yup from "@/Extensions/Schema/yupConfig";
-import { Food } from "@/services/Foods/Foods.type";
+import { IFood } from "@/services/Foods/Foods.type";
 
 export const createFoodValidationSchema = yup.object().shape({
     name: yup
@@ -27,7 +27,7 @@ export const createFoodValidationSchema = yup.object().shape({
         .min(5, "A descrição deve ter no mínimo 5 caracteres."),
 });
 
-export const createFoodDefaultValues = (data?: Food) => {
+export const createFoodDefaultValues = (data?: IFood) => {
     if (data !== undefined) return data; 
     return {    
         name: null,

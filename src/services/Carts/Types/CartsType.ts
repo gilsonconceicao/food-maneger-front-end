@@ -1,5 +1,5 @@
 import { ModelBase } from "@/services/@types/generic"
-import { Food } from "@/services/Foods/Foods.type";
+import { IFood } from "@/services/Foods/Foods.type";
 
 
 
@@ -11,7 +11,7 @@ export type CartType = {
 export type Cart = {
     foodId: string
     quantity: number
-    food: Food
+    food: IFood
     observations: string
 } & ModelBase; 
 

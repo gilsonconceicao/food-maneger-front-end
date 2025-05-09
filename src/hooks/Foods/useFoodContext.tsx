@@ -1,6 +1,6 @@
 import { ListPaginatation } from "@/services/@types/generic";
 import { createFoodAsync, getFoodById, getListFoodAsync, updateFoodAsync } from "@/services/Foods";
-import { Food, FoodCreateDTO, FoodParamsQuery } from "@/services/Foods/Foods.type";
+import { IFood, FoodCreateDTO, FoodParamsQuery, IFoodReadModel } from "@/services/Foods/Foods.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useFoodListQuery(params?: FoodParamsQuery) {
@@ -11,7 +11,7 @@ export function useFoodListQuery(params?: FoodParamsQuery) {
         refetchOnWindowFocus: false, 
         queryFn: async () => {
             const {  data } = await getListFoodAsync(params);
-            return data as ListPaginatation<Food>; 
+            return data as ListPaginatation<IFoodReadModel>; 
         }
     })
 }
@@ -24,7 +24,7 @@ export function useFoodByIdQuery(id?: string) {
         refetchOnWindowFocus: false, 
         queryFn: async () => {
             const {  data } = await getFoodById(id!);
-            return data as Food; 
+            return data as IFood; 
         }
     })
 }
