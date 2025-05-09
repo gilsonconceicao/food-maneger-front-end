@@ -22,13 +22,6 @@ export const LoginContainer = () => {
         await signUserAsync(values?.email, values?.password, loginOnSuccess);
     };
 
-    // const handleResetPasswordSubmit = async (values: FieldValues) => {
-    //     await sendPasswordResetEmailAsync(values?.email,
-    //         () => {
-    //             onClose();
-    //         })
-    // };
-
     const currentEventAction = action?.name;
     const onClose = () => setAction(null);
 

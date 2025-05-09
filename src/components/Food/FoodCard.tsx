@@ -26,11 +26,10 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onSelectFood}) => {
     addToCart(food)
   }
 
-  // Default image if none provided
   const imageUrl = image !== null ? `https://${image}` : 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800';
 
   return (
-    <div className="bg-sidebar rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full" onClick={() => onSelectFood(food)}>
+    <div className={`bg-sidebar rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full ${isAuthenticated && 'cursor-pointer'}`} onClick={() => onSelectFood(food)}>
       <div className="relative h-48 overflow-hidden">
         <img
           src={imageUrl}
@@ -50,13 +49,13 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onSelectFood}) => {
         </div>
         <Button
           onClick={handleAddCart}
-          className="mt-4 bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 py-2 px-4 rounded-md flex items-center justify-center">
+          className="mt-4 bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 py-2 px-4 rounded-md flex items-center justify-center cursor-pointer">
           Adicionar
         </Button>
-        {user.isMaster && <Button
+        {user?.isMaster && <Button
           onClick={() => navigate('/adicionar-comida/' + food.id)}
           variant='outline'
-          className="mt-4 py-2 px-4 rounded-md flex items-center justify-center">
+          className="mt-4 py-2 px-4 rounded-md flex items-center justify-center cursor-pointer">
           Editar
         </Button>}
       </div>

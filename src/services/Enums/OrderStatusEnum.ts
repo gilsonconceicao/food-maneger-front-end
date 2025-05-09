@@ -1,15 +1,13 @@
-// enums/OrderStatus.ts
 export enum OrderStatusEnum {
-    Created = 'Created',                      // Criado
-    Requested = 'Requested',                  // Solicitado
-    AwaitingConfirmation = 'AwaitingConfirmation', // Aguardando confirmação
-    InPreparation = 'InPreparation',          // Em preparo
-    Done = 'Done',                            // Pronto
-    Finished = 'Finished',                    // Finalizado
-    Canceled = 'Canceled'                     // Cancelado
+    Created = 'Created',                      
+    Requested = 'Requested',                 
+    AwaitingConfirmation = 'AwaitingConfirmation',
+    InPreparation = 'InPreparation',        
+    Done = 'Done',                            
+    Finished = 'Finished',                    
+    Canceled = 'Canceled'                    
   }
   
-  // Mapeamento para as descrições em português
   export const OrderStatusDescriptions: Record<OrderStatusEnum, string> = {
     [OrderStatusEnum.Created]: "Criado",
     [OrderStatusEnum.Requested]: "Solicitado",

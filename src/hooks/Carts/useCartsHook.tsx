@@ -25,11 +25,6 @@ export function useCreateCartsMutate(onSuccess?: () => void) {
         onSuccess,
         onError() {
             // to-do
-            // //@ts-expect-error
-            // const errorMessage = (error as AxiosError)?.response?.data?.message ?? "Lamento! Ocorreu um erro desconhecido."; 
-            // toast.error(errorMessage, {
-            //     position: 'top-right'
-            // });
         },
     })
 }

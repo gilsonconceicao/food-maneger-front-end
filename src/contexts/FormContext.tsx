@@ -74,5 +74,4 @@ export const FormContextProvider: React.FC<IChildren> = ({ children, defaultValu
 };
 
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useFormContext = () => useContext(FormContext);

@@ -19,7 +19,6 @@ export enum FoodCategoryEnum {
     Vegan = 'Vegan'
 }
 
-// Mapeamento para as descrições em português
 export const FoodCategoryDescriptions: Record<FoodCategoryEnum, string> = {
     [FoodCategoryEnum.Appetizer]: "Entrada",
     [FoodCategoryEnum.MainCourse]: "Prato Principal",

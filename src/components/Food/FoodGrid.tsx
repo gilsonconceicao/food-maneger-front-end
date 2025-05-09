@@ -3,6 +3,7 @@ import FoodCard from './FoodCard';
 import { Loader2 } from 'lucide-react';
 import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import FoodDetails from './FoodDetatails';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 interface FoodGridProps {
   foods: IFoodReadModel[];
@@ -21,7 +22,13 @@ const FoodGrid: React.FC<FoodGridProps> = ({
   isLoadingMore,
   hasMore
 }) => {
+  const { isAuthenticated } = useAuthContext();
   const [ selectedFood, setSelectedFood ] = useState<IFoodReadModel | null>(null);
+
+  const onSelectFood = (food: IFoodReadModel) => {
+    if (!isAuthenticated) return;
+    setSelectedFood(food);
+  }
 
   if (isLoading && !isLoadingMore) {
     return (
@@ -60,7 +67,7 @@ const FoodGrid: React.FC<FoodGridProps> = ({
             ref={index === foods.length - 1 ? lastFoodRef : null}
             className="min-w-0"
           >
-            <FoodCard food={food} onSelectFood={(food) => setSelectedFood(food)}/>
+            <FoodCard food={food} onSelectFood={onSelectFood}/>
           </div>
         ))}
       </div>
