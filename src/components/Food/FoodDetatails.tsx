@@ -2,7 +2,7 @@ import React from 'react';
 import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
 import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import { useCart } from '@/contexts/CartContext';
-import { formatCurrencyInCents } from '@/helpers/Methods';
+import { formatCurrencyInCents, renderUrlImageValidate } from '@/helpers/Methods';
 import { Button } from '../ui/button';
 
 interface FoodDetailsProps {
@@ -26,7 +26,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
     return null;
   }
 
-  const imageUrl = food.url !== null ? `https://${food.url}` : 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800';
+  const imageUrl = renderUrlImageValidate(food.url);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">

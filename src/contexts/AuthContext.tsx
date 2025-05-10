@@ -81,7 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | undefined>(getAccessTokenLocalStorage ?? undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenLocalStorage);
 
-  const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid);
+  const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid, [accessToken!, currentUser, isAuthenticated]);
 
   const cleanState = () => {
     setCurrentUser(null);

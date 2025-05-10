@@ -6,7 +6,7 @@ import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordCo
 import { LoginContainer } from '@/pages/Login/LoginContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
 import { RegisterContainer } from '@/pages/Register/RegisterContainer';
-import { Home, Package, PlusIcon, ShoppingCart } from 'lucide-react';
+import { Home, Package, Phone, PlusIcon } from 'lucide-react';
 import { RouteObject } from 'react-router-dom';
 
 export const routes: RouteObject[] = [
@@ -38,16 +38,6 @@ export const routes: RouteObject[] = [
         } as HandleRouterType
       },
       {
-        path: '/sacola-de-compras',
-        element: <CartContainer />,
-        handle: {
-          breadcrumb: 'Sacola de compras',
-          title: "Sacola de compras",
-          icon: ShoppingCart,
-          enable: true
-        } as HandleRouterType
-      },
-      {
         path: '/meus-pedidos',
         element: <OrderContaier />,
         handle: {
@@ -75,6 +65,16 @@ export const routes: RouteObject[] = [
           icon: PlusIcon,
           enable: true, 
           isMaster: true
+        } as HandleRouterType
+      },
+      {
+        path: '/contato',
+        element: <CartContainer />,
+        handle: {
+          breadcrumb: 'Contato',
+          title: "Contato",
+          icon: Phone,
+          enable: true
         } as HandleRouterType
       },
     ]

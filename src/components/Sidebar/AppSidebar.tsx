@@ -20,9 +20,9 @@ export function AppSidebar() {
   const matches = matchRoutes(routes, location);
   const { user } = useAuthContext();
 
-  if (!matches) return null;
+  if (!matches || user.isMaster === undefined) return null;
 
-  const getChildrensRoute =matches
+  const getChildrensRoute = matches
     .filter(x => x.route?.path === '/')
     .map(x => x.route.children)[0] ?? [];
 

@@ -34,12 +34,11 @@ const CartSidebar: React.FC = () => {
               const name = item.food.name;
               const price = item.food.price;
               const url = item.food.url;
-              const imageUrl = url !== null ? `https://${url}` : 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800';
 
               return (
                 <div key={item.id} className="flex items-center gap-4 p-3 rounded-lg border">
                   <img
-                    src={imageUrl}
+                    src={url}
                     alt={name}
                     className="w-20 h-20 object-cover rounded-md"
                   />

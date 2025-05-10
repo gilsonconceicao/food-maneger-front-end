@@ -28,7 +28,7 @@ export interface IFoodReadModel {
 export interface FoodCreateDTO {
   id?: string;
   name?: string;
-  url?: string;
+  urlImage?: string;
   description?: string;
   isAvailable?: boolean;
   price?: number;

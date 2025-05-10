@@ -1,0 +1,1 @@
+export const urlIMageDefault = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800';

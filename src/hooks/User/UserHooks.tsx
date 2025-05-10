@@ -1,9 +1,9 @@
 import { verifyUserIsMasterAsync } from "@/services/User";
 import { useQuery } from "@tanstack/react-query";
 
-export function useVerifyUserIsMaster(userId?: string) {
+export function useVerifyUserIsMaster(userId?: string, queryKey?: unknown[]) {
     return useQuery({
-        queryKey: ['verify-user-is-master', userId],
+        queryKey: ['verify-user-is-master', userId, queryKey],
         enabled: !!userId ,
         refetchOnMount: false,
         refetchOnWindowFocus: false,

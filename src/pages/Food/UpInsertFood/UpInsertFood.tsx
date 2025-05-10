@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { useFormContext } from "@/contexts/FormContext"
 import { foodCategories } from "@/services/Foods/Foods.type"
+import { PlusIcon, RefreshCw, Trash } from "lucide-react"
 import { Link } from 'react-router'
 
 type UpInsertFoodProps = {
     isModeCreate: boolean;
+    onDeleteFood: () => void;
 }
 
-export const UpInsertFood = ({ isModeCreate }: UpInsertFoodProps) => {
+export const UpInsertFood = ({ isModeCreate, onDeleteFood }: UpInsertFoodProps) => {
     const { watch } = useFormContext()
     const { isMobile } = useSidebar();
     const nameValue = watch('name') ?? undefined
@@ -57,9 +59,15 @@ export const UpInsertFood = ({ isModeCreate }: UpInsertFoodProps) => {
             </div>
 
             <Link to={nameValue !== undefined ? `https://www.pexels.com/pt-br/procurar/${nameValue}/` : 'https://www.pexels.com/pt-br'} className="block text-blue-400 mt-5 mb-2"  target="_blank">Referência para imagens</Link>
-            <div style={{ marginTop: '30px' }} className={isMobile ? "grid" : "flex justify-end items-center"}>
+            <div style={{ marginTop: '30px', gap: 20}} className={isMobile ? "grid" : "flex justify-end items-center"}>
 
-                <Button type="submit" variant='default'>
+                <Button variant='destructive' type="button" onClick={onDeleteFood} disabled={isModeCreate} className="cursor-pointer">
+                    <Trash className="w-4 h-4" />
+                    Excluir
+                </Button>
+
+                <Button type="submit" variant='default'   className="cursor-pointer">
+                    {isModeCreate ? <PlusIcon className="w-4 h-4" /> : <RefreshCw className="w-4 h-4" />}
                     {editOrAddTextDisplay}
                 </Button>
             </div>
