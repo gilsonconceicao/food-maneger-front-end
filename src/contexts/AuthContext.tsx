@@ -64,8 +64,8 @@ const Context = createContext<AuthContextType>({
 });
 
 const getUserDataOnStorage = () => {
-  if (getUserDataInLocalStorage !== null) {
-    const user = JSON.parse(String(getUserDataInLocalStorage));
+  if (getUserDataInLocalStorage !== null && getUserDataInLocalStorage !== undefined) {
+    const user = JSON?.parse(String(getUserDataInLocalStorage ?? ""));
     return user;
   } else {
     return null;
