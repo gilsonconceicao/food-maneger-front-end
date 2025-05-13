@@ -1,5 +1,5 @@
 import { IFood } from "../Foods/Foods.type";
-import { Order } from "../Order/Order.type";
+import { IOrder } from "../Order/Order.type";
 import { User } from "../User/user.types";
 
 export type ModelBase = {
@@ -8,16 +8,16 @@ export type ModelBase = {
     isDeleted: boolean
 }
 
-export interface OrderItems {
+export interface OrderItem {
     orderId: string;
-    order: Order;
+    order: IOrder;
     food: IFood;
-    user?: User | null;
-    userId?: string | null;
-    price?: number | null;
-    quantity?: number | null;
-    observations?: string | null;
-    discount?: number | null;
+    user?: User;
+    userId?: string;
+    price?: number ;
+    quantity?: number;
+    observations?: string;
+    discount?: number;
     createdAt: Date;
 }
 

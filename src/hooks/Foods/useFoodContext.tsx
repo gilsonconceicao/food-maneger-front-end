@@ -1,9 +1,10 @@
+import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
 import { ListPaginatation } from "@/services/@types/generic";
 import { createFoodAsync, deleteFoodAsync, getFoodById, getListFoodAsync, updateFoodAsync } from "@/services/Foods";
-import { IFood, FoodCreateDTO, FoodParamsQuery, IFoodReadModel } from "@/services/Foods/Foods.type";
+import { IFood, FoodCreateDTO, IFoodReadModel } from "@/services/Foods/Foods.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-export function useFoodListQuery(params?: FoodParamsQuery) {
+export function useFoodListQuery(params?: IDefaultParamsPaginatedQuery) {
     return useQuery({
         queryKey: ['food-get-list', params],
         enabled: true,

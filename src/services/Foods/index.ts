@@ -1,10 +1,11 @@
+import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
 import { ListPaginatation } from "../@types/generic";
 import { apiClient } from "../config/axios";
-import { IFood, FoodCreateDTO, FoodParamsQuery } from "./Foods.type";
+import { IFood, FoodCreateDTO } from "./Foods.type";
 
 const endpoint = `/Food`
 
-export const getListFoodAsync = async (params?: FoodParamsQuery) => {
+export const getListFoodAsync = async (params?: IDefaultParamsPaginatedQuery) => {
     const config = {
         params: {
             ...params,

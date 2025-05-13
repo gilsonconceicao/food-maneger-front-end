@@ -1,4 +1,4 @@
-import { urlIMageDefault } from "@/constants/generic";
+import { urlImageDefault } from "@/constants/generic";
 
 export function formatCurrencyInCents(value: number) {
     const convertFromString = value.toString();
@@ -20,7 +20,7 @@ export function isNullOrEmpty(value?: string) {
 
 
 export function renderUrlImageValidate(url?: string) {
-    if (isNullOrEmpty(url)) return urlIMageDefault;
+    if (isNullOrEmpty(url)) return urlImageDefault;
     if (url?.startsWith('https://')) return url;
     else return `https://${url}`;
 } 

@@ -4,10 +4,10 @@ import { CartType, CartTypeCreate } from "@/services/Carts/Types/CartsType";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useCartsListQuery() {
-    const { token } = useAuthContext();
+    const contextUser = useAuthContext();
     return useQuery({
-        queryKey: ['get-carts-list', token],
-        enabled: !!token,
+        queryKey: ['get-carts-list', contextUser],
+        enabled: !!contextUser.token,
         refetchOnMount: true,
         refetchOnWindowFocus: false,
         queryFn: async () => {

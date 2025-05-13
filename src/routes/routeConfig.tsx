@@ -31,14 +31,14 @@ export const routes: RouteObject[] = [
         path: '/',
         element: <HomeContainer />,
         handle: {
-          breadcrumb: 'Home',
-          title: "Início",
+          breadcrumb: 'Cardápio',
+          title: "Cardápio",
           icon: Home,
           enable: true
         } as HandleRouterType
       },
       {
-        path: '/meus-pedidos',
+        path: '/pedidos',
         element: <OrderContaier />,
         handle: {
           breadcrumb: 'Meus pedidos',
@@ -46,17 +46,19 @@ export const routes: RouteObject[] = [
           icon: Package,
           enable: true
         } as HandleRouterType,
-        children: [
-          {
-            path: ':id',
-            element: <OrderDetailsContainer />,
-            handle: { breadcrumb: 'Detalhes' },
-          }
-        ]
+      }, 
+      {
+        path: '/pedidos/:id',
+        element: <OrderDetailsContainer />,
+        handle: {
+          breadcrumb: 'Detalhes',
+          title: "Pedido",
+          icon: Package,
+          enable: false
+        } as HandleRouterType,
       }, 
       {
         path: '/adicionar-comida/:id',
-        
         element: <UpInsertFoodContainer />,
         handle: {
           pathDefault: '/adicionar-comida/adicionar',
@@ -76,7 +78,7 @@ export const routes: RouteObject[] = [
           icon: Phone,
           enable: true
         } as HandleRouterType
-      },
+      }
     ]
   },
   {
