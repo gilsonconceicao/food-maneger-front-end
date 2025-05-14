@@ -34,7 +34,7 @@ export const routes: RouteObject[] = [
           breadcrumb: 'Cardápio',
           title: "Cardápio",
           icon: Home,
-          enable: true
+          showSideMenu: true
         } as HandleRouterType
       },
       {
@@ -44,8 +44,8 @@ export const routes: RouteObject[] = [
           breadcrumb: 'Meus pedidos',
           title: "Meus pedidos",
           icon: Package,
-          enable: true
-        } as HandleRouterType,
+          showSideMenu: true
+        } as HandleRouterType
       }, 
       {
         path: '/pedidos/:id',
@@ -54,8 +54,8 @@ export const routes: RouteObject[] = [
           breadcrumb: 'Detalhes',
           title: "Pedido",
           icon: Package,
-          enable: false
-        } as HandleRouterType,
+          showSideMenu: false
+        } as HandleRouterType
       }, 
       {
         path: '/adicionar-comida/:id',
@@ -65,7 +65,7 @@ export const routes: RouteObject[] = [
           breadcrumb: 'Adicionar',
           title: "Adicionar comida",
           icon: PlusIcon,
-          enable: true, 
+          showSideMenu: true, 
           isMaster: true
         } as HandleRouterType
       },
@@ -76,7 +76,7 @@ export const routes: RouteObject[] = [
           breadcrumb: 'Contato',
           title: "Contato",
           icon: Phone,
-          enable: true
+          showSideMenu: true
         } as HandleRouterType
       }
     ]
