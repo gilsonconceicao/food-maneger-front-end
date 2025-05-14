@@ -1,4 +1,4 @@
-import { OrderItem } from "../@types/generic";
+import { IOrderItem } from "../@types/generic";
 import { FoodCategoryEnum } from "../Enums/FoodCategoryEnum";
 
 export interface IFood {
@@ -9,7 +9,7 @@ export interface IFood {
   isAvailable: boolean;
   price: number;
   category: FoodCategoryEnum | null;
-  items: OrderItem[];
+  items: IOrderItem[];
   createdAt: Date;
 }
 
@@ -22,7 +22,7 @@ export interface IFoodReadModel {
   price: number;
   categoryDisplay: string;
   category: FoodCategoryEnum;
-  items: OrderItem[];
+  items: IOrderItem[];
   createdAt: Date;
 }
 export interface FoodCreateDTO {
@@ -33,7 +33,7 @@ export interface FoodCreateDTO {
   isAvailable?: boolean;
   price?: number;
   category?: FoodCategoryEnum | null;
-  items?: OrderItem[];
+  items?: IOrderItem[];
   createdAt?: Date;
 }
 

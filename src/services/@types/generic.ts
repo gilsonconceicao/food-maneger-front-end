@@ -1,4 +1,4 @@
-import { IFood } from "../Foods/Foods.type";
+import { IFood, IFoodReadModel } from "../Foods/Foods.type";
 import { IOrder } from "../Order/Order.type";
 import { User } from "../User/user.types";
 
@@ -8,7 +8,7 @@ export type ModelBase = {
     isDeleted: boolean
 }
 
-export interface OrderItem {
+export interface IOrderItem {
     orderId: string;
     order: IOrder;
     food: IFood;
@@ -19,6 +19,10 @@ export interface OrderItem {
     observations?: string;
     discount?: number;
     createdAt: Date;
+}
+
+export interface IOrderItemReadModel extends IOrderItem {
+    food: IFoodReadModel;
 }
 
 
