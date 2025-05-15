@@ -1,9 +1,10 @@
 import { formatCurrencyInCents, renderUrlImageValidate } from "@/helpers/Methods";
 import { ListPaginatation } from "@/services/@types/generic";
 import { IOrderReadModel } from "@/services/Order/Order.type";
-import { formatRelativeTime, statusConfig } from "./OrderGeneric";
+import { statusConfig } from "./OrderGeneric";
 import { useNavigate } from "react-router";
 import { GoBack } from "@/components/GoBack/GoBack";
+import moment from "moment"
 
 type OrderProps = {
   orderListData: ListPaginatation<IOrderReadModel>;
@@ -70,7 +71,7 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
               </span>
             </div>
             <p className="text-sm text-gray-500 mt-2">
-              Pedido #{order.orderNumber} • {formatRelativeTime(order.createdAt)}
+              Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
             </p>
           </div>
           <p className="text-lg font-semibold ">
