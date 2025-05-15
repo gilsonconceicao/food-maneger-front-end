@@ -76,12 +76,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = getAuth(firebaseApp);
   auth.useDeviceLanguage();
   const [isLoading, setIsLoading] = useState(false);
+  const [queryKey, setQueryKey] = useState<number>(0);
   const [isLoadingUserData, setIsLoadingUserData] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(getUserDataOnStorage());
   const [accessToken, setAccessToken] = useState<string | undefined>(getAccessTokenLocalStorage ?? undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenLocalStorage);
 
-  const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid, [accessToken!, currentUser, isAuthenticated, children?.toString()]);
+  const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid, queryKey);
 
   const cleanState = () => {
     setCurrentUser(null);
@@ -182,8 +183,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const token = await getIdTokenAsync(user);
         setAccessToken(token);
         setIsAuthenticated(true);
+        setQueryKey((prev) => prev + 1); 
       } else {
         cleanState();
+        setQueryKey((prev) => prev + 1); 
       }
       setIsLoadingUserData(false);
     });
