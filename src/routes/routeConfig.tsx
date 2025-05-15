@@ -1,6 +1,6 @@
 import { HandleRouterType } from '@/@types/generic.types';
 import { Layout } from '@/components/Layout/Layout';
-import { NotFound, HomeContainer, CartContainer, OrderContaier } from '@/pages';
+import { NotFound, HomeContainer, OrderContaier } from '@/pages';
 import { UpInsertFoodContainer } from '@/pages/Food/UpInsertFood/UpInsertFoodContainer';
 import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
@@ -31,52 +31,54 @@ export const routes: RouteObject[] = [
         path: '/',
         element: <HomeContainer />,
         handle: {
-          breadcrumb: 'Home',
-          title: "Início",
+          breadcrumb: 'Cardápio',
+          title: "Cardápio",
           icon: Home,
-          enable: true
+          showSideMenu: true
         } as HandleRouterType
       },
       {
-        path: '/meus-pedidos',
+        path: '/pedidos',
         element: <OrderContaier />,
         handle: {
           breadcrumb: 'Meus pedidos',
           title: "Meus pedidos",
           icon: Package,
-          enable: true
-        } as HandleRouterType,
-        children: [
-          {
-            path: ':id',
-            element: <OrderDetailsContainer />,
-            handle: { breadcrumb: 'Detalhes' },
-          }
-        ]
+          showSideMenu: true
+        } as HandleRouterType
+      }, 
+      {
+        path: '/pedidos/:id',
+        element: <OrderDetailsContainer />,
+        handle: {
+          breadcrumb: 'Detalhes',
+          title: "Pedido",
+          icon: Package,
+          showSideMenu: false
+        } as HandleRouterType
       }, 
       {
         path: '/adicionar-comida/:id',
-        
         element: <UpInsertFoodContainer />,
         handle: {
           pathDefault: '/adicionar-comida/adicionar',
           breadcrumb: 'Adicionar',
           title: "Adicionar comida",
           icon: PlusIcon,
-          enable: true, 
+          showSideMenu: true, 
           isMaster: true
         } as HandleRouterType
       },
       {
         path: '/contato',
-        element: <CartContainer />,
+        element: <>Contato...</>,
         handle: {
           breadcrumb: 'Contato',
           title: "Contato",
           icon: Phone,
-          enable: true
+          showSideMenu: true
         } as HandleRouterType
-      },
+      }
     ]
   },
   {

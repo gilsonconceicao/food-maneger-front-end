@@ -10,7 +10,8 @@ export const RegisterContainer = () => {
   const navigate = useNavigate();
 
   const createUserOnSuccess = () => {
-    navigate("/", { replace: true });
+    navigate("/", { replace: true, });
+    window.location.reload();
   }
 
   const onSubmit = async (values: FieldValues) => {

@@ -34,7 +34,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
         <div className="relative h-64 sm:h-80">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 bg-sidebar p-2 rounded-full hover:bg-white transition-colors z-10"
+            className="absolute top-4 right-4 bg-sidebar p-2 rounded-full hover:bg-gray-800 cursor-pointer transition-colors z-10"
           >
             <X className="w-6 h-6" />
           </button>

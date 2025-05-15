@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 20;
 export const Home: React.FC = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   const [page, setPage] = useState(0);
-  const { isMobile } =useSidebar();
+  const { isMobile } = useSidebar();
   const [allFoods, setAllFoods] = useState<IFoodReadModel[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -23,7 +23,7 @@ export const Home: React.FC = () => {
     data,
     isLoading,
     isFetching,
-    error, 
+    error,
     refetch: refetchFoodList
   } = useFoodListQuery({ page, size: ITEMS_PER_PAGE });
 
@@ -33,18 +33,23 @@ export const Home: React.FC = () => {
     if (data?.data) {
       const fetchedFoods = data.data;
 
-      setAllFoods(prev => [...prev, ...fetchedFoods]);
+      setAllFoods(prev => {
+        const existingIds = new Set(prev.map(f => f.id));
+        const newFoods = fetchedFoods.filter(f => !existingIds.has(f.id));
+        return [...prev, ...newFoods];
+      });
 
       if (fetchedFoods.length < ITEMS_PER_PAGE) {
         setHasMore(false);
       }
 
-      const unique = Array.from(new Set(
-        [...allFoods, ...fetchedFoods]
+      const combinedFoods = [...allFoods, ...fetchedFoods];
+      const uniqueCategories = Array.from(new Set(
+        combinedFoods
           .filter(food => food.category)
           .map(food => food.category as string)
       ));
-      setCategories(unique);
+      setCategories(uniqueCategories);
     }
   }, [data]);
 
@@ -79,8 +84,8 @@ export const Home: React.FC = () => {
             <h2 className="text-3xl font-bold mb-2">Nosso Cardápio</h2>
             <p className="text-gray-300">Descubra nossos pratos deliciosos preparados com ingredientes frescos.</p>
           </div>
-          {!isMobile && <Button variant='outline' size='icon' onClick={()=> refetchFoodList()} className='mb-3'>
-            <RefreshCcw/>
+          {!isMobile && <Button variant='outline' size='icon' onClick={() => refetchFoodList()} className='mb-3'>
+            <RefreshCcw />
           </Button>}
         </div>
 
@@ -92,7 +97,7 @@ export const Home: React.FC = () => {
 
         <FoodGrid
           foods={filteredFoods}
-          isLoading={isLoading }
+          isLoading={isLoading}
           error={error}
           lastFoodRef={lastFoodElementRef}
           isLoadingMore={isLoadingMore}

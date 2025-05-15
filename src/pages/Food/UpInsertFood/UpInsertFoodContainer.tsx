@@ -6,7 +6,6 @@ import { FieldValues } from 'react-hook-form'
 import { useUpInsertFoodMutate, useFoodByIdQuery, useUpdateFoodMutate, useDeleteFoodMutate } from '@/hooks/Foods/useFoodContext'
 import toast from 'react-hot-toast'
 import { IFood } from '@/services/Foods/Foods.type'
-import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Modal } from '@/components/Modal/Modal'
 
@@ -14,7 +13,6 @@ export const UpInsertFoodContainer = () => {
     const { id } = useParams();
     const isModeCreate = id === 'adicionar'
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
     const [signalAction, setSignalAction] = useState<string | undefined>(undefined);
     const onClose = () => setSignalAction(undefined); 
 
@@ -33,10 +31,8 @@ export const UpInsertFoodContainer = () => {
 
         setTimeout(async () => {
             refetch();
-            await queryClient.refetchQueries({
-                queryKey: ['food-get-list']
-            })
             navigate('/');
+            window.location.reload();
         }, 1000);
 
         onClose();

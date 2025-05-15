@@ -27,7 +27,7 @@ export function Layout() {
         <AppSidebar />
         <Header />
         <ShowSidebar />
-        <main className="pl-6 pr-6 pt-5">
+        <main className="pl-3 pr-3 pt-5">
           <Outlet />
         </main>
       </div>
