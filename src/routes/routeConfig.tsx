@@ -1,6 +1,6 @@
 import { HandleRouterType } from '@/@types/generic.types';
 import { Layout } from '@/components/Layout/Layout';
-import { NotFound, HomeContainer, CartContainer, OrderContaier } from '@/pages';
+import { NotFound, HomeContainer, OrderContaier } from '@/pages';
 import { UpInsertFoodContainer } from '@/pages/Food/UpInsertFood/UpInsertFoodContainer';
 import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
@@ -71,7 +71,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/contato',
-        element: <CartContainer />,
+        element: <>Contato...</>,
         handle: {
           breadcrumb: 'Contato',
           title: "Contato",

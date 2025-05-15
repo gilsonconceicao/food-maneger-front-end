@@ -91,8 +91,6 @@ export const Header = () => {
                 title="Carrinho de compras"
                 description="Confira os itens que você adicionou ao carrinho."
                 confirmText="Ir para o pagamento"
-                cancelText="Fechar"
-                onCancel={onClose}
                 children={<CartSidebar />}
             />
 
