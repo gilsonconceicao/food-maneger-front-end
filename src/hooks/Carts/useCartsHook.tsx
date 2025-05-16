@@ -8,7 +8,7 @@ export function useCartsListQuery() {
     return useQuery({
         queryKey: ['get-carts-list', contextUser],
         enabled: !!contextUser.token,
-        refetchOnMount: true,
+        refetchOnMount: 'always',
         refetchOnWindowFocus: false,
         queryFn: async () => {
             const { data } = await getCartsListAsyc();

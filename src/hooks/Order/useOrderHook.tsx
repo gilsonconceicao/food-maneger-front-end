@@ -8,7 +8,7 @@ export function useOrderListQuery(params?: IDefaultParamsPaginatedQuery) {
     return useQuery({
         queryKey: ['order-get-list', params],
         enabled: true,
-        refetchOnMount: false,
+        refetchOnMount: 'always',
         refetchOnWindowFocus: false,
         queryFn: async () => {
             const { data } = await getOrderListAsync(params);
