@@ -8,9 +8,9 @@ interface CartSidebarProps {
   isLoading: boolean;
 }
 
-const CartSidebar: React.FC<CartSidebarProps> = ({generateOrderAsync, isLoading: isLoadingCreateOrder}) => {
+const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading: isLoadingCreateOrder }) => {
   const { items, updateQuantity, removeFromCart, total, isEmptyCartList, isLoading } = useCart();
-
+  
   return (
     <>
 
@@ -32,6 +32,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({generateOrderAsync, isLoading:
             {items.map(item => {
               const name = item.food.name;
               const price = item.food.price;
+              const quantity = item.quantity;
               const url = item.food.url;
 
               return (
@@ -43,20 +44,26 @@ const CartSidebar: React.FC<CartSidebarProps> = ({generateOrderAsync, isLoading:
                   />
                   <div className="flex-1">
                     <h3 className="font-medium">{name}</h3>
-                    <div className="text-orange-500 font-medium">
-                      {formatCurrencyInCents(price)}
+                    <div className='flex items-center justify-between gap-2'>
+                      <div className="text-gray-400 font-medium">
+                        {formatCurrencyInCents(price)}
+                      </div>
+                      <div className="text-orange-500 font-medium">
+                        {formatCurrencyInCents(price * quantity)}
+                      </div>
+
                     </div>
                     <div className="flex items-center gap-2 mt-2">
                       <button
-                        onClick={() => updateQuantity(item.foodId, item.quantity - 1)}
+                        onClick={() => updateQuantity(item.foodId, quantity - 1)}
                         className="p-1 hover:bg-gray-100 rounded"
                         disabled={isLoading}
                       >
                         <Minus className="h-4 w-4" />
                       </button>
-                      <span className="w-8 text-center">{item.quantity}</span>
+                      <span className="w-8 text-center">{quantity}</span>
                       <button
-                        onClick={() => updateQuantity(item.foodId, item.quantity + 1)}
+                        onClick={() => updateQuantity(item.foodId, quantity + 1)}
                         className="p-1 hover:bg-gray-100 rounded"
                         disabled={isLoading}
                       >

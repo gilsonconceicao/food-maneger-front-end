@@ -70,14 +70,18 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
                 {order.statusDisplay}
               </span>
             </div>
-            <p className="text-sm text-gray-500 mt-2">
-              Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
-            </p>
           </div>
           <p className="text-lg font-semibold text-orange-200">
             {formatCurrencyInCents(order?.totalValue ?? 0)}
           </p>
         </div>
+
+        <div style={{marginTop: -10, marginBottom: 10}} className="flex flex-wrap items-center justify-between">
+              <p className="text-sm text-gray-500 mt-2">
+                Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
+              </p>
+              <p className="text-sm text-gray-500 mt-2">{order?.items?.length ?? 0} {order?.items?.length > 1 ? 'itens' : 'item'}</p>
+            </div>
 
         <div className="border-t border-gray-800 pt-4">
           <ul className="divide-y divide-gray-800">
@@ -90,19 +94,22 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
                   <img
                     src={image}
                     alt={food.name}
-                    className="w-16 h-16 object-cover rounded-lg"
+                    className="w-13 h-13 object-cover rounded-lg"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">
+                    <p className="text-sm font-medium truncate gap-2.5">
                       {food.name}
+                    <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                      {item.quantity}x
+                    </span>
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
                       {item.food.categoryDisplay}
                     </p>
                   </div>
-                  {order.items.length > 1 && <p className="text-sm font-medium ">
-                    {formatCurrencyInCents(item.price ?? 0)}
-                  </p>}
+                  <p className="text-sm font-medium ">
+                    {formatCurrencyInCents((item.price ?? 0) * (item?.quantity ?? 0))}
+                  </p>
                 </li>
               )
             })}
