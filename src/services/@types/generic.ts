@@ -25,7 +25,6 @@ export interface IOrderItemReadModel extends IOrderItem {
     food: IFoodReadModel;
 }
 
-
 export type ListPaginatation <T> = {
     page: number; 
     size: number; 

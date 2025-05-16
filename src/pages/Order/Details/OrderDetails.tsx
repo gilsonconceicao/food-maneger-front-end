@@ -1,16 +1,21 @@
 import { IOrderReadModel } from "@/services/Order/Order.type"
-import { CalendarClock, Receipt } from "lucide-react"
+import { CalendarClock, Receipt, Wallet } from "lucide-react"
 import { statusConfig } from "../OrderGeneric"
 import { formatCurrencyInCents, renderUrlImageValidate } from "@/helpers/Methods"
 import { GoBack } from "@/components/GoBack/GoBack"
+import { useNavigate } from "react-router"
 
 type OrderDataType = {
     order: IOrderReadModel
 }
 
 export const OrderDetails = ({ order }: OrderDataType) => {
-    const createdAtFormted = formatDate(order.createdAt); 
-    const updatedAtFormated = formatDate(order.updatedAt); 
+    const navigate = useNavigate(); 
+
+    const createdAtFormted = formatDate(order.createdAt);
+    const updatedAtFormated = formatDate(order.updatedAt);
+
+    const isAwaitPayment = order.status === 'AwaitingPayment'; 
 
     return (
         <div className="space-y-4 max-w-4xl mx-auto p-4">
@@ -32,6 +37,18 @@ export const OrderDetails = ({ order }: OrderDataType) => {
                             </div>
                         </div>
                     </div>
+
+                    {isAwaitPayment && (
+                        <div className="mb-6">
+                            <button
+                                onClick={() => navigate(`/pedidos/${order.id}/pagamento`)}
+                                className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                                <Wallet className="w-5 h-5" />
+                                Realizar pagamento
+                            </button>
+                        </div>
+                    )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                         <div className="flex items-start gap-3 p-4 bg-gray-700 rounded-lg">
