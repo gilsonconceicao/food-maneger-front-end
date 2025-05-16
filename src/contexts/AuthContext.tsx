@@ -76,13 +76,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = getAuth(firebaseApp);
   auth.useDeviceLanguage();
   const [isLoading, setIsLoading] = useState(false);
-  const [queryKey, setQueryKey] = useState<number>(0);
   const [isLoadingUserData, setIsLoadingUserData] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(getUserDataOnStorage());
   const [accessToken, setAccessToken] = useState<string | undefined>(getAccessTokenLocalStorage ?? undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenLocalStorage);
 
-  const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid, queryKey);
+  const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid);
 
   const cleanState = () => {
     setCurrentUser(null);
@@ -176,22 +175,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    let refreshTokenInterval: NodeJS.Timeout;
+
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       if (user) {
         setCurrentUser(user);
-        saveUserInDataLocalStorge(user)
+        saveUserInDataLocalStorge(user);
+
         const token = await getIdTokenAsync(user);
         setAccessToken(token);
         setIsAuthenticated(true);
-        setQueryKey((prev) => prev + 1); 
+
+        refreshTokenInterval = setInterval(async () => {
+          try {
+            const refreshedToken = await user.getIdToken(true); 
+            setAccessToken(refreshedToken);
+            localStorage.setItem('accessToken', refreshedToken);
+            console.log("[Auth] Token atualizado automaticamente.");
+          } catch (error) {
+            console.error("[Auth] Erro ao atualizar o token:", error);
+          }
+        }, 30 * 60 * 1000); 
       } else {
         cleanState();
-        setQueryKey((prev) => prev + 1); 
       }
+
       setIsLoadingUserData(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      if (refreshTokenInterval) clearInterval(refreshTokenInterval);
+    };
   }, []);
 
   const contextValue: AuthContextType = {

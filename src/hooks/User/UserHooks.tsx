@@ -1,11 +1,11 @@
 import { verifyUserIsMasterAsync } from "@/services/User";
 import { useQuery } from "@tanstack/react-query";
 
-export function useVerifyUserIsMaster(userId?: string, queryKey?: number) {
+export function useVerifyUserIsMaster(userId?: string) {
     return useQuery({
-        queryKey: ['verify-user-is-master', userId, queryKey],
+        queryKey: ['verify-user-is-master', userId],
         enabled: !!userId ,
-        refetchOnMount: false, // adding the 'always' option might be a good thing, try...
+        refetchOnMount: 'always', 
         refetchOnWindowFocus: false,
         queryFn: async () => {
             const { data } = await verifyUserIsMasterAsync(userId!) ?? false;
