@@ -21,6 +21,6 @@ export const getOrderByIdAsync = async (id: string) => await apiClient.get<IOrde
 
 export const createOrderAsync = async (userId: string, cartIds: string[]) => {
     const path = `${endpoint}/${userId}`;
-    await apiClient
-        .post<IOrderReadModel>(path, { cartIds });
+    return await apiClient
+        .post<string>(path, { cartIds });
 }

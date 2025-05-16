@@ -16,7 +16,8 @@ export interface IOrder {
 }
 
 
-export interface IOrderReadModel extends IOrder {
+export interface IOrderReadModel extends Omit<IOrder, "status"> {
   statusDisplay: string;
+  status: string;
   items: IOrderItemReadModel[];
 }

@@ -30,10 +30,11 @@ export function useGetOrderByIdQuery(id?: string) {
     })
 }
 
-export function useCreateOrderMutation(onSuccess: () => void) {
+export function useCreateOrderMutation(onSuccess: (orderId: string) => void) {
     return useMutation({
         mutationFn: async (payload: {userId: string, cartIds: string[]}) => {
-            return await createOrderAsync(payload.userId, payload.cartIds)
+            const { data } = await createOrderAsync(payload.userId, payload.cartIds); 
+            return data;
         },
         onSuccess
     })

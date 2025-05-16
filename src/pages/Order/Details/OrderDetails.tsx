@@ -1,16 +1,21 @@
 import { IOrderReadModel } from "@/services/Order/Order.type"
-import { CalendarClock, Receipt } from "lucide-react"
+import { CalendarClock, Receipt, Wallet } from "lucide-react"
 import { statusConfig } from "../OrderGeneric"
 import { formatCurrencyInCents, renderUrlImageValidate } from "@/helpers/Methods"
 import { GoBack } from "@/components/GoBack/GoBack"
+import { useNavigate } from "react-router"
 
 type OrderDataType = {
     order: IOrderReadModel
 }
 
 export const OrderDetails = ({ order }: OrderDataType) => {
-    const createdAtFormted = formatDate(order.createdAt); 
-    const updatedAtFormated = formatDate(order.updatedAt); 
+    const navigate = useNavigate(); 
+
+    const createdAtFormted = formatDate(order.createdAt);
+    const updatedAtFormated = formatDate(order.updatedAt);
+
+    const isAwaitPayment = order.status === 'AwaitingPayment'; 
 
     return (
         <div className="space-y-4 max-w-4xl mx-auto p-4">
@@ -21,17 +26,26 @@ export const OrderDetails = ({ order }: OrderDataType) => {
                 <div className="p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
-                            <span className={`mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border ${statusConfig[order.status].color}`}>
+                            <span className="font-bold text-sm">Status: </span>
+                            <span className={`mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 w-full rounded-sm text-sm font-medium border ${statusConfig[order.status].color}`}>
                                 {statusConfig[order.status].icon}
                                 {order.statusDisplay}
                             </span>
                         </div>
-                        <div className="text-right">
-                            <div className="text-2xl font-bold ">
-                                {formatCurrencyInCents(order.totalValue ?? 0)}
-                            </div>
-                        </div>
+               
                     </div>
+
+                    {isAwaitPayment && (
+                        <div className="mb-6">
+                            <button
+                                onClick={() => navigate(`/pedidos/${order.id}/pagamento`)}
+                                className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                                <Wallet className="w-5 h-5" />
+                                Realizar pagamento
+                            </button>
+                        </div>
+                    )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                         <div className="flex items-start gap-3 p-4 bg-gray-700 rounded-lg">
@@ -85,7 +99,7 @@ export const OrderDetails = ({ order }: OrderDataType) => {
                     <div className="border-t border-gray-800 mt-6 pt-6">
                         <div className="flex justify-between items-center text-lg font-bold ">
                             <span>Total</span>
-                            <span>{formatCurrencyInCents(order.totalValue ?? 0)}</span>
+                            <span className=" text-orange-200 font-bold">{formatCurrencyInCents(order.totalValue ?? 0)}</span>
                         </div>
                     </div>
                 </div>

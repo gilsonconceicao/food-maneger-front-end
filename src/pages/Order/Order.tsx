@@ -65,7 +65,7 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
         <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${statusConfig[order.status].color}`}>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-sm font-medium ${statusConfig[order.status].color}`}>
                 {statusConfig[order.status].icon}
                 {order.statusDisplay}
               </span>
@@ -74,7 +74,7 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
               Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
             </p>
           </div>
-          <p className="text-lg font-semibold ">
+          <p className="text-lg font-semibold text-orange-200">
             {formatCurrencyInCents(order?.totalValue ?? 0)}
           </p>
         </div>
@@ -100,10 +100,9 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
                       {item.food.categoryDisplay}
                     </p>
                   </div>
-                  <p className="text-sm font-medium ">
-                    {/* aqui mostra o subtotal */}
+                  {order.items.length > 1 && <p className="text-sm font-medium ">
                     {formatCurrencyInCents(item.price ?? 0)}
-                  </p>
+                  </p>}
                 </li>
               )
             })}
