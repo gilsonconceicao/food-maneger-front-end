@@ -1,7 +1,7 @@
 import { OrderStatusEnum } from "@/services/Enums/OrderStatusEnum";
 import { CheckCircle, ChefHat, Clock, Package, XCircle } from "lucide-react";
 
-export const statusConfig: Record<OrderStatusEnum, { icon: React.ReactNode; color: string }> = {
+export const statusConfig: Record<string, { icon: React.ReactNode; color: string }> = {
   AwaitingPayment: {
     icon: <Clock className="w-5 h-5" />,
     color: 'text-blue-500 bg-blue-50'

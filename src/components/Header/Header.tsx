@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { useCart } from '@/contexts/CartContext';
 import { CustomDrawer } from '../Drawer/Drawer';
-import CartSidebar from '../Cart/CartSidebar';
 import { Link } from "react-router";
 import AuthPrompt from '../AuthPrompt/AuthPrompt';
+import CartSidebarContainer from '../Cart/CartSidebarContainer';
 
 export const Header = () => {
     const [action, setAction] = useState<string | undefined>(undefined);
@@ -91,7 +91,7 @@ export const Header = () => {
                 title="Carrinho de compras"
                 description="Confira os itens que você adicionou ao carrinho."
                 confirmText="Ir para o pagamento"
-                children={<CartSidebar />}
+                children={<CartSidebarContainer onCloseSidebar={onClose}/>}
             />
 
             <AuthPrompt

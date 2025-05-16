@@ -2,17 +2,14 @@ import React from 'react';
 import { Loader2, Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { formatCurrencyInCents } from '@/helpers/Methods';
-import { useAuthContext } from '@/contexts/AuthContext';
 
-const CartSidebar: React.FC = () => {
+interface CartSidebarProps {
+  generateOrderAsync: () => void;
+  isLoading: boolean;
+}
+
+const CartSidebar: React.FC<CartSidebarProps> = ({generateOrderAsync, isLoading: isLoadingCreateOrder}) => {
   const { items, updateQuantity, removeFromCart, total, isEmptyCartList, isLoading } = useCart();
-  const { isAuthenticated } = useAuthContext();
-
-  const handleCheckout = () => {
-    if (!isAuthenticated) {
-      return;
-    }
-  };
 
   return (
     <>
@@ -88,11 +85,11 @@ const CartSidebar: React.FC = () => {
             <span>{formatCurrencyInCents(total)}</span>
           </div>
           <button
-            onClick={handleCheckout}
-            disabled={isLoading}
+            onClick={generateOrderAsync}
+            disabled={isLoading || isLoadingCreateOrder}
             className="w-full py-2 px-4 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
           >
-            Finalizar Pedido
+            Realizar Pedido
           </button>
         </div>}
     </>
