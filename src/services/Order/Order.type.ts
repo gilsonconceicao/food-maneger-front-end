@@ -10,6 +10,8 @@ export interface IOrder {
   status: OrderStatusEnum;
   user: User;
   userId: string;
+  paymentId: string;
+  externalPaymentId: string;
   items: IOrderItem[];
   createdAt: string;
   updatedAt: string;

@@ -1,7 +1,9 @@
 import React from 'react';
-import { CreditCard, QrCode, Wallet, Loader2 } from 'lucide-react';
+import { CreditCard, QrCode, Wallet, Loader2, AlertCircle } from 'lucide-react';
 import { PaymentMethod } from '@/services/Payment/Payment.type';
 import { GoBack } from '@/components/GoBack/GoBack';
+import { IOrderReadModel } from '@/services/Order/Order.type';
+import { formatCurrencyInCents } from '@/helpers/Methods';
 
 const paymentMethods: { id: PaymentMethod; title: string; icon: React.ReactNode; description: string }[] = [
     {
@@ -27,21 +29,51 @@ const paymentMethods: { id: PaymentMethod; title: string; icon: React.ReactNode;
 interface PaymentProps {
     orderId: string;
     handlePayment: () => void;
+    handleRetryPayment: () => void;
     setSelectedMethod: React.Dispatch<React.SetStateAction<PaymentMethod | null>>;
-    selectedMethod: PaymentMethod | null; 
+    selectedMethod: PaymentMethod | null;
     isLoadingPaymentProcess: boolean;
+    orderData: IOrderReadModel
 }
 
 export const Payment = (props: PaymentProps) => {
-    const { handlePayment, orderId, selectedMethod, setSelectedMethod, isLoadingPaymentProcess } = props;
+    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, isLoadingPaymentProcess, orderData } = props;
+    const isAwaitPayment = orderData.status === 'AwaitingPayment';
+    const isGeneratedExternalPayment = isAwaitPayment && orderData.externalPaymentId !== null;
+
+    console.log('orderData', orderData);
+
     return (
         <div className="min-h-screen">
             <div className=" max-w-2xl mx-auto p-4">
                 <GoBack text='Voltar para o pedido' path={`/pedidos/${orderId}`} />
-                <div className="bg-sidebar rounded-lg shadow-sm p-6 mt-4">
-                    <h1 className="text-2xl font-bold mb-6">
-                        Escolha a forma de pagamento
-                    </h1>
+                <div className="bg-sidebar rounded-lg shadow-sm p-6 mt-4 space-y-3">
+                    <div className='space-y-1'>
+                        <h1 className="text-2xl font-bold">
+                            Escolha a forma de pagamento
+                        </h1>
+                        <p className="leading-7">Total a pagar: {formatCurrencyInCents(orderData?.totalValue)}</p>
+                    </div>
+
+                    {isGeneratedExternalPayment && (
+                        <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                            <div className="flex items-start gap-3">
+                                <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                <div>
+                                    <h3 className="font-medium text-orange-800">Pagamento em andamento</h3>
+                                    <p className="text-sm text-orange-700 mt-1">
+                                        Detectamos uma tentativa anterior de pagamento. Você pode continuar de onde parou ou escolher um novo método.
+                                    </p>
+                                    <button
+                                        onClick={handleRetryPayment}
+                                        className="mt-3 text-sm bg-orange-700 text-orange-100 px-4 py-2 rounded-md hover:bg-orange-800 transition-colors cursor-pointer"
+                                    >
+                                        Continuar pagamento anterior
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="space-y-4">
                         {paymentMethods.map((method) => {

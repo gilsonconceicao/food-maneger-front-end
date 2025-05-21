@@ -55,6 +55,11 @@ type OrderItemRenderProps = {
 
 const OrderItemRender = ({ order }: OrderItemRenderProps) => {
   const navigate = useNavigate();
+  const isGeneratedExternalPayment = order.status === 'AwaitingPayment' && order.externalPaymentId !== null;
+
+  const statusDisplay = isGeneratedExternalPayment ? "Concluir pagamento" : order.statusDisplay;
+  const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[order.status].color;
+
   return (
     <div
       key={order.id}
@@ -65,9 +70,9 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
         <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-sm font-medium ${statusConfig[order.status].color}`}>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-sm font-medium ${color}`}>
                 {statusConfig[order.status].icon}
-                {order.statusDisplay}
+                {statusDisplay}
               </span>
             </div>
           </div>
@@ -76,12 +81,12 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
           </p>
         </div>
 
-        <div style={{marginTop: -10, marginBottom: 10}} className="flex flex-wrap items-center justify-between">
-              <p className="text-sm text-gray-500 mt-2">
-                Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
-              </p>
-              <p className="text-sm text-gray-500 mt-2">{order?.items?.length ?? 0} {order?.items?.length > 1 ? 'itens' : 'item'}</p>
-            </div>
+        <div style={{ marginTop: -10, marginBottom: 10 }} className="flex flex-wrap items-center justify-between">
+          <p className="text-sm text-gray-500 mt-2">
+            Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
+          </p>
+          <p className="text-sm text-gray-500 mt-2">{order?.items?.length ?? 0} {order?.items?.length > 1 ? 'itens' : 'item'}</p>
+        </div>
 
         <div className="border-t border-gray-800 pt-4">
           <ul className="divide-y divide-gray-800">
@@ -99,9 +104,9 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate gap-2.5">
                       {food.name}
-                    <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                      {item.quantity}x
-                    </span>
+                      <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                        {item.quantity}x
+                      </span>
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
                       {item.food.categoryDisplay}
