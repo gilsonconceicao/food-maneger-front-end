@@ -1,7 +1,7 @@
 import { HandleRouterType } from "@/@types/generic.types";
 
 export const resolveEnableItem = (handle: HandleRouterType, isUserMaster?: boolean) => {
-  const handleEnable = handle.enable;
+  const handleEnable = handle.showSideMenu;
 
   if (!handleEnable) return false;
 

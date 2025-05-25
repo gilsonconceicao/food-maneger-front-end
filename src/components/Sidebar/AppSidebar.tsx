@@ -7,6 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { matchRoutes, useLocation } from "react-router"
 import { routes } from '../../routes/routeConfig';
@@ -19,10 +20,11 @@ export function AppSidebar() {
   const location = useLocation();
   const matches = matchRoutes(routes, location);
   const { user } = useAuthContext();
+  const { isMobile, toggleSidebar} = useSidebar(); 
 
-  if (!matches) return null;
+  if (!matches || user.isMaster === undefined) return null;
 
-  const getChildrensRoute =matches
+  const getChildrensRoute = matches
     .filter(x => x.route?.path === '/')
     .map(x => x.route.children)[0] ?? [];
 
@@ -45,10 +47,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {matchesMapped.map((item) => {
-                const isActive = window.location.pathname === item.path
+                const isActive = window.location.pathname === item.path; 
                 if (item.enable === false) return null; 
+
                 return (
-                  <SidebarMenuItem key={item.title} isActive={isActive}>
+                  <SidebarMenuItem key={item.title} isActive={isActive}  onClick={() => isMobile ? toggleSidebar() : null}>
                     <SidebarMenuButton asChild style={{fontSize: '17px'}}>
                       <Link to={item?.path ?? "/pagina-nao-definida"}>
                         <item.icon />

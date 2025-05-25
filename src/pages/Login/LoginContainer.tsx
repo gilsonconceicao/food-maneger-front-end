@@ -15,7 +15,8 @@ export const LoginContainer = () => {
     const { signUserAsync, isLoading } = useAuthContext();
 
     const loginOnSuccess = () => {
-        navigate("/", { replace: true });
+        navigate("/", { replace: true,  });
+        window.location.reload();
     }
 
     const onSubmit = async (values: FieldValues) => {

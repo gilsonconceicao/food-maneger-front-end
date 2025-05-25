@@ -63,7 +63,7 @@ const FoodGrid: React.FC<FoodGridProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-full overflow-hidden">
         {foods.map((food, index) => (
           <div
-            key={index}
+            key={food.id}
             ref={index === foods.length - 1 ? lastFoodRef : null}
             className="min-w-0"
           >

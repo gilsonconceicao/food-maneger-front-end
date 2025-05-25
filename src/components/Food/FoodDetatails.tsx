@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
 import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import { useCart } from '@/contexts/CartContext';
-import { formatCurrencyInCents } from '@/helpers/Methods';
+import { formatCurrencyInCents, renderUrlImageValidate } from '@/helpers/Methods';
 import { Button } from '../ui/button';
 
 interface FoodDetailsProps {
@@ -41,7 +41,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
     return null;
   }
 
-  const imageUrl = food.url !== null ? `https://${food.url}` : 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800';
+  const imageUrl = renderUrlImageValidate(food.url);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -49,7 +49,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
         <div ref={modalRef} className="relative h-64 sm:h-80">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 bg-sidebar p-2 rounded-full hover:bg-white transition-colors z-10"
+            className="absolute top-4 right-4 bg-sidebar p-2 rounded-full hover:bg-gray-800 cursor-pointer transition-colors z-10"
           >
             <X className="w-6 h-6" />
           </button>

@@ -1,4 +1,4 @@
-import { OrderItems } from "../@types/generic";
+import { IOrderItem } from "../@types/generic";
 import { FoodCategoryEnum } from "../Enums/FoodCategoryEnum";
 
 export interface IFood {
@@ -9,7 +9,7 @@ export interface IFood {
   isAvailable: boolean;
   price: number;
   category: FoodCategoryEnum | null;
-  items: OrderItems[];
+  items: IOrderItem[];
   createdAt: Date;
 }
 
@@ -22,25 +22,19 @@ export interface IFoodReadModel {
   price: number;
   categoryDisplay: string;
   category: FoodCategoryEnum;
-  items: OrderItems[];
+  items: IOrderItem[];
   createdAt: Date;
 }
 export interface FoodCreateDTO {
   id?: string;
   name?: string;
-  url?: string;
+  urlImage?: string;
   description?: string;
   isAvailable?: boolean;
   price?: number;
   category?: FoodCategoryEnum | null;
-  items?: OrderItems[];
+  items?: IOrderItem[];
   createdAt?: Date;
-}
-
-export type FoodParamsQuery = {
-  page?: number,
-  size?: number,
-  searchString?: string | null
 }
 
 export const foodCategories = [

@@ -15,6 +15,7 @@ interface CartContextData {
   total: number;
   isCartOpen: boolean;
   toggleCart: () => void;
+  refetchCartList: () => void;
   isLoading: boolean;
   isEmptyCartList: boolean;
 }
@@ -89,6 +90,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider
       value={{
         items,
+        refetchCartList: refetch, 
         addToCart,
         removeFromCart,
         updateQuantity,

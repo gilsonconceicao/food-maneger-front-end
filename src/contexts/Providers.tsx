@@ -6,6 +6,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter } from 'react-router'
 import { AuthProvider } from './AuthContext'
 import { CartProvider } from './CartContext'
+import moment from 'moment';
+//@ts-ignore
+import 'moment/dist/locale/pt-br';
+moment.locale('pt-br');
 
 export const Providers = () => {
     const queryClient = new QueryClient();
