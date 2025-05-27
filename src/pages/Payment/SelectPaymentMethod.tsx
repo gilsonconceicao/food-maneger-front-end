@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, QrCode, AlertCircle } from 'lucide-react';
+import { AlertCircle, CreditCard, QrCode } from 'lucide-react';
 import { PaymentMethod } from '@/services/Payment/Payment.type';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { IOrderReadModel } from '@/services/Order/Order.type';
@@ -26,11 +26,12 @@ interface PaymentProps {
     handleRetryPayment: () => void;
     setSelectedMethod: React.Dispatch<React.SetStateAction<PaymentMethod | null>>;
     selectedMethod: PaymentMethod | null;
-    orderData: IOrderReadModel
+    orderData: IOrderReadModel; 
+    isLoading: boolean
 }
 
 export const SelectPaymentMethod = (props: PaymentProps) => {
-    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, orderData } = props;
+    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, orderData, isLoading} = props;
     const isAwaitPayment = orderData.status === 'AwaitingPayment';
     const isGeneratedExternalPayment = isAwaitPayment && orderData.paymentId !== null;
 
@@ -46,14 +47,14 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                         <p className="leading-7">Total a pagar: {formatCurrencyInCents(orderData?.totalValue)}</p>
                     </div>
 
-                    {isGeneratedExternalPayment && (
+                    {selectedMethod === 'pix' && isGeneratedExternalPayment && (
                         <div className="mb-6 p-4 bg-indigo-950 border border-indigo-500 rounded-lg">
                             <div className="flex items-start gap-3">
                                 <AlertCircle className="w-5 h-5  flex-shrink-0 mt-0.5" />
                                 <div>
-                                    <h3 className="font-medium ">Pagamento em andamento</h3>
+                                    <h3 className="font-medium ">PIX em andamento</h3>
                                     <p className="text-sm mt-1">
-                                        Detectamos uma tentativa anterior de pagamento. Você pode continuar de onde parou ou escolher um novo método.
+                                        Detectamos que um QR Code foi gerado. Você pode continuar de onde parou ou escolher um novo método.
                                     </p>
                                     <button
                                         onClick={handleRetryPayment}
@@ -112,7 +113,7 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
 
                     <button
                         onClick={handlePayment}
-                        disabled={!selectedMethod}
+                        disabled={!selectedMethod || isLoading}
                         className="mt-8 w-full bg-orange-500 text-white py-3 px-4 cursor-pointer rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                         Continuar para pagamento
