@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertCircle, CreditCard, QrCode } from 'lucide-react';
-import { PaymentMethod } from '@/services/Payment/Payment.type';
+import { IPay, PaymentMethod } from '@/services/Payment/Payment.type';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { IOrderReadModel } from '@/services/Order/Order.type';
 import { formatCurrencyInCents } from '@/helpers/Methods';
@@ -26,12 +26,13 @@ interface PaymentProps {
     handleRetryPayment: () => void;
     setSelectedMethod: React.Dispatch<React.SetStateAction<PaymentMethod | null>>;
     selectedMethod: PaymentMethod | null;
-    orderData: IOrderReadModel; 
-    isLoading: boolean
+    orderData: IOrderReadModel;
+    isLoading: boolean;
+    paymentData?: IPay
 }
 
 export const SelectPaymentMethod = (props: PaymentProps) => {
-    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, orderData, isLoading} = props;
+    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, orderData, isLoading, paymentData } = props;
     const isAwaitPayment = orderData.status === 'AwaitingPayment';
     const isGeneratedExternalPayment = isAwaitPayment && orderData.paymentId !== null;
 
@@ -47,20 +48,20 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                         <p className="leading-7">Total a pagar: {formatCurrencyInCents(orderData?.totalValue)}</p>
                     </div>
 
-                    {selectedMethod === 'pix' && isGeneratedExternalPayment && (
+                    {(paymentData !== null && paymentData !== undefined && paymentData.paymentMethodId === 'pix') && isGeneratedExternalPayment && (
                         <div className="mb-6 p-4 bg-indigo-950 border border-indigo-500 rounded-lg">
                             <div className="flex items-start gap-3">
                                 <AlertCircle className="w-5 h-5  flex-shrink-0 mt-0.5" />
                                 <div>
-                                    <h3 className="font-medium ">PIX em andamento</h3>
+                                    <h3 className="font-medium ">Pagamento Pix pendente</h3>
                                     <p className="text-sm mt-1">
-                                        Detectamos que um QR Code foi gerado. Você pode continuar de onde parou ou escolher um novo método.
+                                        Identificamos que você gerou um QR Code Pix, mas o pagamento não foi concluído. Você pode retomar esse pagamento ou, se preferir, escolher outra forma de pagamento.
                                     </p>
                                     <button
                                         onClick={handleRetryPayment}
                                         className="mt-3 text-sm bg-indigo-700 text-orange-100 px-4 py-2 rounded-md hover:bg-indigo-800 transition-colors cursor-pointer"
                                     >
-                                        Continuar pagamento anterior
+                                        Retomar pagamento Pix
                                     </button>
                                 </div>
                             </div>

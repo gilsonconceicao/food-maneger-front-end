@@ -15,8 +15,8 @@ export const OrderDetails = ({ order }: OrderDataType) => {
     const createdAtFormted = formatDate(order.createdAt);
     const updatedAtFormated = formatDate(order.updatedAt);
 
-    const isAwaitPayment = order.status === 'AwaitingPayment';
-    const isGeneratedExternalPayment = isAwaitPayment && order.paymentId !== null;
+    const enablePaymentAction = ['AwaitingPayment', 'Expired'].includes(order.status);
+    const isGeneratedExternalPayment = order.status === 'AwaitingPayment' && order.paymentId !== null;
 
     const statusDisplay = isGeneratedExternalPayment ? "Concluir pagamento" : order.statusDisplay;
     const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[order.status].color;
@@ -46,14 +46,20 @@ export const OrderDetails = ({ order }: OrderDataType) => {
                         </div>
                     </div>
 
-                    {isAwaitPayment && (
+                    {!!order.failureReason && (
+                        <span className={`mb-5 inline-flex items-center gap-1.5 px-3 py-1.5 w-full rounded-sm text-sm font-medium border`}>
+                            {order.failureReason}
+                        </span>
+                    )}
+
+                    {enablePaymentAction && (
                         <div className="mb-6">
                             <button
                                 onClick={() => navigate(`/pedidos/${order.id}/pagamento`)}
                                 className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                             >
                                 <Wallet className="w-5 h-5" />
-                                {isGeneratedExternalPayment ? "Finalizar pagamento" : "Realizar pagamento"}
+                                {isGeneratedExternalPayment ? "Finalizar pagamento" : order.status === 'Expired' ? "Pagar novamente" : "Realizar pagamento"}
                             </button>
                         </div>
                     )}

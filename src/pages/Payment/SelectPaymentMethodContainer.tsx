@@ -47,7 +47,8 @@ export const SelectPaymentMethodContainer = () => {
             setSelectedMethod,
             orderData,
             handleRetryPayment,
-            isLoading: isLoadingCreatePayment
+            isLoading: isLoadingCreatePayment,
+            paymentData
         }} />
     )
 }

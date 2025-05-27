@@ -14,6 +14,7 @@ export interface IOrder {
   items: IOrderItem[];
   createdAt: string;
   updatedAt: string;
+  failureReason: string
 }
 
 
