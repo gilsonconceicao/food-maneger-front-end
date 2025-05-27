@@ -3,33 +3,41 @@ import { TextFormField } from '@/components/FormFields/TextFormField';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { formatCurrencyInCents } from '@/helpers/Methods';
 import { useGetOrderByIdQuery } from '@/hooks/Order/useOrderHook';
-import { PaymentMethod } from '@/services/Payment/Payment.type';
-import { Check, Copy, IdCardIcon } from 'lucide-react';
+import { IPay, PaymentMethod } from '@/services/Payment/Payment.type';
+import { Check, Copy, IdCardIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useParams } from 'react-router';
+import QrCode from 'react-qr-code';
+
 
 type PaymentCheckoutProps = {
   paymentMethod: PaymentMethod;
+  paymentData: IPay;
+  isLoadingPayment: boolean
 }
 
-export const PaymentCheckout = ({ paymentMethod }: PaymentCheckoutProps) => {
+export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment }: PaymentCheckoutProps) => {
   const { id: orderId } = useParams();
-    const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false);
 
 
-  const { data: orderData } = useGetOrderByIdQuery(orderId);
+  const { data: orderData, isLoading: isLoadingOrder} = useGetOrderByIdQuery(orderId);
 
- const handleCopyPix = () => {
-    navigator.clipboard.writeText("");
+  const handleCopyPix = () => {
+    navigator.clipboard.writeText(paymentData!.qrCode!);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
   const paymentMethodDisplay = paymentMethod === 'card' ? 'Cartão de Crédito/Débito' : 'PIX';
+
+  if (isLoadingPayment || isLoadingOrder)
+    return <div className="flex justify-center items-center h-screen"><Loader2 className="animate-spin" /></div>;
 
   return (
     <div className="min-h-screen">
       <div className='max-w-2xl mx-auto p-4'>
-        <GoBack text='Escolher outro método de pagamento' path={`/pedidos/${orderId}/pagamento`} />
+        <GoBack text='Ver pedido' path={`/pedidos/${orderId}`} />
         <div className="bg-sidebar rounded-lg shadow-sm p-6 mt-4 space-y-3">
 
           <div className='space-y-1'>
@@ -87,11 +95,7 @@ export const PaymentCheckout = ({ paymentMethod }: PaymentCheckoutProps) => {
           {paymentMethod === 'pix' && (
             <div className="space-y-6">
               <div className="flex justify-center">
-                <img
-                  src="https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg"
-                  alt="QR Code"
-                  className="w-64 h-64 object-cover"
-                />
+                <QrCode value={paymentData?.qrCode} size={200} />
               </div>
 
               <div className="bg-gray-900 p-4 rounded-lg">
@@ -115,7 +119,7 @@ export const PaymentCheckout = ({ paymentMethod }: PaymentCheckoutProps) => {
                   </button>
                 </div>
                 <p className="mt-2 text-sm font-mono bg-gray-700 p-2 rounded border border-gray-800 break-all">
-                  {"mockPixCode1234567890abcdefg"}
+                  {paymentData?.qrCode ?? ""}
                 </p>
               </div>
 
@@ -133,12 +137,12 @@ export const PaymentCheckout = ({ paymentMethod }: PaymentCheckoutProps) => {
             </div>
           )}
 
-          <button
-type='submit'
-className="w-full bg-orange-500 text-white py-3 px-4 my-3 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+         {paymentMethod === 'card' && <button
+            type='submit'
+            className="w-full bg-orange-500 text-white py-3 px-4 my-3 rounded-lg font-medium hover:bg-orange-600 transition-colors"
           >
             Confirmar Pagamento
-          </button>
+          </button>}
         </div>
       </div>
     </div>
