@@ -48,7 +48,7 @@ export const routes: RouteObject[] = [
           icon: Package,
           showSideMenu: true
         } as HandleRouterType
-      }, 
+      },
       {
         path: '/pedidos/:id',
         element: <OrderDetailsContainer />,
@@ -58,7 +58,7 @@ export const routes: RouteObject[] = [
           icon: Package,
           showSideMenu: false
         } as HandleRouterType
-      }, 
+      },
       {
         path: '/pedidos/:id/pagamento',
         element: <SelectPaymentMethodContainer />,
@@ -67,16 +67,25 @@ export const routes: RouteObject[] = [
           icon: Package,
           showSideMenu: false
         } as HandleRouterType
-      }, 
+      },
       {
-        path: '/pedidos/:id/pagamento/:method',
+        path: '/pedidos/:id/pagamento/pix/:paymentId',
         element: <PaymentCheckoutContainer />,
         handle: {
-          breadcrumb: 'Finalizar pagamento',
+          breadcrumb: 'Pix',
           icon: Package,
           showSideMenu: false
         } as HandleRouterType
-      }, 
+      },
+      {
+        path: '/pedidos/:id/pagamento/card',
+        element: <PaymentCheckoutContainer />,
+        handle: {
+          breadcrumb: 'Cartão de crédito',
+          icon: Package,
+          showSideMenu: false
+        } as HandleRouterType
+      },
       {
         path: '/adicionar-comida/:id',
         element: <UpInsertFoodContainer />,
@@ -85,7 +94,7 @@ export const routes: RouteObject[] = [
           breadcrumb: 'Adicionar',
           title: "Adicionar comida",
           icon: PlusIcon,
-          showSideMenu: true, 
+          showSideMenu: true,
           isMaster: true
         } as HandleRouterType
       },

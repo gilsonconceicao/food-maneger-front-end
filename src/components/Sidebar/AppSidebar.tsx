@@ -32,7 +32,7 @@ export function AppSidebar() {
     const handle = route.handle as HandleRouterType;
     
     return {
-      title: handle.title, 
+      title: handle?.title, 
       path: handle?.pathDefault ?? route.path,
       enable: resolveEnableItem(handle, user.isMaster), 
       icon: handle.icon
@@ -51,11 +51,11 @@ export function AppSidebar() {
                 if (item.enable === false) return null; 
 
                 return (
-                  <SidebarMenuItem key={item.title} isActive={isActive}  onClick={() => isMobile ? toggleSidebar() : null}>
+                  <SidebarMenuItem key={item?.title} isActive={isActive}  onClick={() => isMobile ? toggleSidebar() : null}>
                     <SidebarMenuButton asChild style={{fontSize: '17px'}}>
                       <Link to={item?.path ?? "/pagina-nao-definida"}>
                         <item.icon />
-                        <span>{item.title}</span>
+                        <span>{item?.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

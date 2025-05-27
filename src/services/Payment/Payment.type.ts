@@ -1,55 +1,34 @@
+import { IOrder } from "../Order/Order.type";
+
 export type PaymentMethod =
   | 'card'
   | 'pix'
 
 
-export interface IPreference {
+export interface IPay {
   id: string;
-  items: IPreferenceItem[];
-  payer: IPreferencePayer;
-  notificationUrl: string;
-  statementDescriptor: string;
-  externalReference: string;
-  expires?: boolean;
-  dateOfExpiration?: Date;
-  expirationDateFrom?: Date;
-  expirationDateTo?: Date;
-  collectorId?: number;
-  marketplace: string;
-  marketplaceFee?: number;
-  purpose: string;
-  additionalInfo: string;
-  autoReturn: string;
-  sponsorId?: number;
-  processingModes: string[];
-  binaryMode?: boolean;
-  initPoint: string;
-  sandboxInitPoint: string;
-  dateCreated?: Date;
-}
-
-export interface IPreferencePayer {
-  name: string;
-  surname: string;
-  email: string;
-  phone: string; 
-  address: object;
-  dateCreated?: Date;
-  authenticationType: string;
-  isPrimeUser?: boolean;
-  isFirstPurchaseOnline?: boolean;
-  lastPurchase?: Date;
-}
-
-export interface IPreferenceItem {
-  id: string;
-  title: string;
+  orderId: string; 
+  order: IOrder;
   description: string;
-  pictureUrl: string;
-  categoryId: string;
-  quantity?: number;
-  unitPrice?: number;
+  status: string;
+  paymentTypeId: string;
+  paymentMethodId: string;
   currencyId: string;
-  warranty?: boolean;
-  eventDate?: Date;
+  installments?: number; 
+  transactionAmount?: number; 
+  externalReference: string;
+  notificationUrl: string;
+  dateCreated: string; 
+  dateLastUpdated: string;
+  expirationDateTo: string;
+  qrCode: string;
+  qrCodeBase64: string;
+  collectorId: number; 
+  issuerId: string;
+}
+export interface ICreatePayment {
+  orderId: string,
+  paymentMethod: "Pix" | "Card",
+  installments?: number,
+  paymentMehodToken?: string
 }
