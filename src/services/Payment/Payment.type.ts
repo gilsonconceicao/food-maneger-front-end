@@ -1,7 +1,6 @@
 export type PaymentMethod =
-  | 'credit_card'
+  | 'card'
   | 'pix'
-  | 'debit_card';
 
 
 export interface IPreference {

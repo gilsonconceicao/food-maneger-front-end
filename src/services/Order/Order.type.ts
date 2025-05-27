@@ -11,7 +11,6 @@ export interface IOrder {
   user: User;
   userId: string;
   paymentId: string;
-  externalPaymentId: string;
   items: IOrderItem[];
   createdAt: string;
   updatedAt: string;

@@ -1,6 +1,6 @@
 import { createPaymentPreference, getPreferencePaymentById } from "@/services/Payment";
+import { IPreference } from "@/services/Payment/Payment.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Preference } from "mercadopago";
 
 export function usePreferencePaymentByIdQuery(preferenceId: string) {
     return useQuery({
@@ -10,15 +10,16 @@ export function usePreferencePaymentByIdQuery(preferenceId: string) {
         refetchOnWindowFocus: false,
         queryFn: async () => {
             const { data } = await getPreferencePaymentById(preferenceId);
-            return data as Preference;
+            return data as IPreference;
         }
     })
 }
 
-export function useCreatePaymentPreferenceMutate(onSuccess: () => void) {
+export function useCreatePaymentPreferenceMutate(onSuccess: (initPoint: string) => void) {
     return useMutation({
         mutationFn: async (orderIds: string[]) => {
-            return await createPaymentPreference(orderIds);
+            const { data } = await createPaymentPreference(orderIds);
+            return data;
         }, 
         onSuccess, 
         onError: () => {}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, QrCode, Wallet, Loader2, AlertCircle } from 'lucide-react';
+import { CreditCard, QrCode, AlertCircle } from 'lucide-react';
 import { PaymentMethod } from '@/services/Payment/Payment.type';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { IOrderReadModel } from '@/services/Order/Order.type';
@@ -7,8 +7,8 @@ import { formatCurrencyInCents } from '@/helpers/Methods';
 
 const paymentMethods: { id: PaymentMethod; title: string; icon: React.ReactNode; description: string }[] = [
     {
-        id: 'credit_card',
-        title: 'Cartão de Crédito',
+        id: 'card',
+        title: 'Cartão de Débito/Crédito',
         icon: <CreditCard className="w-6 h-6" />,
         description: 'Pague em até 12x'
     },
@@ -17,12 +17,6 @@ const paymentMethods: { id: PaymentMethod; title: string; icon: React.ReactNode;
         title: 'PIX',
         icon: <QrCode className="w-6 h-6" />,
         description: 'Pagamento instantâneo'
-    },
-    {
-        id: 'debit_card',
-        title: 'Cartão de Débito',
-        icon: <Wallet className="w-6 h-6" />,
-        description: 'Débito à vista'
     }
 ];
 
@@ -32,16 +26,13 @@ interface PaymentProps {
     handleRetryPayment: () => void;
     setSelectedMethod: React.Dispatch<React.SetStateAction<PaymentMethod | null>>;
     selectedMethod: PaymentMethod | null;
-    isLoadingPaymentProcess: boolean;
     orderData: IOrderReadModel
 }
 
-export const Payment = (props: PaymentProps) => {
-    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, isLoadingPaymentProcess, orderData } = props;
+export const SelectPaymentMethod = (props: PaymentProps) => {
+    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, orderData } = props;
     const isAwaitPayment = orderData.status === 'AwaitingPayment';
-    const isGeneratedExternalPayment = isAwaitPayment && orderData.externalPaymentId !== null;
-
-    console.log('orderData', orderData);
+    const isGeneratedExternalPayment = isAwaitPayment && orderData.paymentId !== null;
 
     return (
         <div className="min-h-screen">
@@ -56,17 +47,17 @@ export const Payment = (props: PaymentProps) => {
                     </div>
 
                     {isGeneratedExternalPayment && (
-                        <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                        <div className="mb-6 p-4 bg-indigo-950 border border-indigo-500 rounded-lg">
                             <div className="flex items-start gap-3">
-                                <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                <AlertCircle className="w-5 h-5  flex-shrink-0 mt-0.5" />
                                 <div>
-                                    <h3 className="font-medium text-orange-800">Pagamento em andamento</h3>
-                                    <p className="text-sm text-orange-700 mt-1">
+                                    <h3 className="font-medium ">Pagamento em andamento</h3>
+                                    <p className="text-sm mt-1">
                                         Detectamos uma tentativa anterior de pagamento. Você pode continuar de onde parou ou escolher um novo método.
                                     </p>
                                     <button
                                         onClick={handleRetryPayment}
-                                        className="mt-3 text-sm bg-orange-700 text-orange-100 px-4 py-2 rounded-md hover:bg-orange-800 transition-colors cursor-pointer"
+                                        className="mt-3 text-sm bg-indigo-700 text-orange-100 px-4 py-2 rounded-md hover:bg-indigo-800 transition-colors cursor-pointer"
                                     >
                                         Continuar pagamento anterior
                                     </button>
@@ -97,19 +88,34 @@ export const Payment = (props: PaymentProps) => {
                         })}
                     </div>
 
+                    {selectedMethod && (
+                        <div className="mt-6 p-4 bg-gray-800 rounded-lg">
+                            <h3 className="text-lg font-semibold mb-2">Como funciona o pagamento</h3>
+                            {selectedMethod === "pix" ? (
+                                <p className="text-sm text-gray-300">
+                                    Ao escolher <strong>PIX</strong>, um <strong>QR Code</strong> será gerado.
+                                    Escaneie com o app do seu banco para realizar o pagamento instantâneo de forma simples e segura.
+                                </p>
+                            ) : (
+                                <p className="text-sm text-gray-300">
+                                    Ao escolher <strong>Cartão de Crédito</strong>, preencha os dados do seu cartão
+                                    (número, validade, CVV e nome do titular) para concluir o pagamento.
+                                </p>
+                            )}
+                            <p className="text-sm text-gray-300 mt-2">
+                                Assim que o pagamento for confirmado, seu pedido será processado automaticamente.
+                            </p>
+                        </div>
+                    )}
+
+
+
                     <button
                         onClick={handlePayment}
                         disabled={!selectedMethod}
                         className="mt-8 w-full bg-orange-500 text-white py-3 px-4 cursor-pointer rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                        {isLoadingPaymentProcess ? (
-                            <>
-                                <Loader2 className="w-5 h-5 animate-spin" />
-                                Processando...
-                            </>
-                        ) : (
-                            'Continuar para pagamento'
-                        )}
+                        Continuar para pagamento
                     </button>
                 </div>
             </div>
@@ -117,4 +123,4 @@ export const Payment = (props: PaymentProps) => {
     );
 };
 
-export default Payment;
+export default SelectPaymentMethod;

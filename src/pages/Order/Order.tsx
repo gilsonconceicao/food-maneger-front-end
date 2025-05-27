@@ -16,6 +16,7 @@ export const Order = ({ orderListData }: OrderProps) => {
 
   const activeOrders = orders.filter(order => ['awaitingpayment', 'inpreparation', 'delivery'].includes(order.status.toLowerCase()));
   const completedOrders = orders.filter(order => ['delivered', 'cancelled'].includes(order.status.toLowerCase()));
+  const expiredOrders = orders.filter(order => ['expired'].includes(order.status.toLowerCase()));
 
   return (
     <div className="space-y-4 max-w-4xl mx-auto p-4">
@@ -45,6 +46,15 @@ export const Order = ({ orderListData }: OrderProps) => {
           </div>
         </div>
       )}
+
+      {expiredOrders.length > 0 && (
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Pedidos expirados</h2>
+          <div className="space-y-4">
+            {expiredOrders.map((order, index) => <OrderItemRender key={index} order={order} />)}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -55,7 +65,7 @@ type OrderItemRenderProps = {
 
 const OrderItemRender = ({ order }: OrderItemRenderProps) => {
   const navigate = useNavigate();
-  const isGeneratedExternalPayment = order.status === 'AwaitingPayment' && order.externalPaymentId !== null;
+  const isGeneratedExternalPayment = order.status === 'AwaitingPayment' && order.paymentId !== null;
 
   const statusDisplay = isGeneratedExternalPayment ? "Concluir pagamento" : order.statusDisplay;
   const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[order.status].color;

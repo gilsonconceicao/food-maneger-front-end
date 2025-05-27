@@ -21,7 +21,7 @@ export function useGetOrderByIdQuery(id?: string) {
     return useQuery({
         queryKey: ['order-get-by-id', id],
         enabled: !!id && id !== 'adicionar',
-        refetchOnMount: false,
+        refetchOnMount: 'always',
         refetchOnWindowFocus: false,
         queryFn: async () => {
             const { data } = await getOrderByIdAsync(id!);

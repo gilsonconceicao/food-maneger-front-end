@@ -13,7 +13,7 @@ const endpoint = `/Payment`
  **/
 export const createPaymentPreference = async (orderIds: string[]): Promise<AxiosResponse<string>> => {
   const body = { orderIds }
-  return await apiClient.post<string>(`${endpoint}`, body);
+  return await apiClient.post<string>(`${endpoint}/CreatePreference`, body);
 }
 
 /**

@@ -5,7 +5,8 @@ import { UpInsertFoodContainer } from '@/pages/Food/UpInsertFood/UpInsertFoodCon
 import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
-import { PaymentContainer } from '@/pages/Payment/PaymentContainer';
+import { PaymentCheckoutContainer } from '@/pages/Payment/PaymentCheckout/PaymentCheckoutContainer';
+import { SelectPaymentMethodContainer } from '@/pages/Payment/SelectPaymentMethodContainer';
 import { RegisterContainer } from '@/pages/Register/RegisterContainer';
 import { Home, Package, Phone, PlusIcon } from 'lucide-react';
 import { RouteObject } from 'react-router-dom';
@@ -60,9 +61,18 @@ export const routes: RouteObject[] = [
       }, 
       {
         path: '/pedidos/:id/pagamento',
-        element: <PaymentContainer />,
+        element: <SelectPaymentMethodContainer />,
         handle: {
           breadcrumb: 'Pagamento',
+          icon: Package,
+          showSideMenu: false
+        } as HandleRouterType
+      }, 
+      {
+        path: '/pedidos/:id/pagamento/:method',
+        element: <PaymentCheckoutContainer />,
+        handle: {
+          breadcrumb: 'Finalizar pagamento',
           icon: Package,
           showSideMenu: false
         } as HandleRouterType

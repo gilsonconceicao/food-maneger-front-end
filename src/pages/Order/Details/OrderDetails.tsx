@@ -16,7 +16,7 @@ export const OrderDetails = ({ order }: OrderDataType) => {
     const updatedAtFormated = formatDate(order.updatedAt);
 
     const isAwaitPayment = order.status === 'AwaitingPayment';
-    const isGeneratedExternalPayment = isAwaitPayment && order.externalPaymentId !== null;
+    const isGeneratedExternalPayment = isAwaitPayment && order.paymentId !== null;
 
     const statusDisplay = isGeneratedExternalPayment ? "Concluir pagamento" : order.statusDisplay;
     const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[order.status].color;

@@ -101,9 +101,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   };
 
-  const getIdTokenAsync = async (user: User) => {
+  const getIdTokenAsync = async (user: User, forceRefresh = false) => {
     try {
-      const token = await user.getIdToken();
+      const token = await user.getIdToken(forceRefresh);
       setAccessToken(token);
       localStorage.setItem('accessToken', token);
       return token;
@@ -187,7 +187,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setCurrentUser(user);
         saveUserInDataLocalStorge(user);
 
-        const token = await getIdTokenAsync(user);
+        const token = await getIdTokenAsync(user, true);
         setAccessToken(token);
         setIsAuthenticated(true);
 
