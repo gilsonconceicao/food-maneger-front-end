@@ -88,7 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
       if (user) {
-        const token = await user.getIdToken();
+        const token = await getIdTokenAsync(user, true) as string;
         setCurrentUser(user);
         setAccessToken(token);
         setIsAuthenticated(true);
