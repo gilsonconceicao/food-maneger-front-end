@@ -7,7 +7,7 @@ import { IPay, PaymentMethod } from '@/services/Payment/Payment.type';
 import { Check, Copy, IdCardIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useParams } from 'react-router';
-import QrCode from 'react-qr-code';
+import { QRCodeCanvas } from 'qrcode.react';
 
 
 type PaymentCheckoutProps = {
@@ -21,7 +21,7 @@ export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment }
   const [copied, setCopied] = useState(false);
 
 
-  const { data: orderData, isLoading: isLoadingOrder} = useGetOrderByIdQuery(orderId);
+  const { data: orderData, isLoading: isLoadingOrder } = useGetOrderByIdQuery(orderId);
 
   const handleCopyPix = () => {
     navigator.clipboard.writeText(paymentData!.qrCode!);
@@ -95,7 +95,19 @@ export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment }
           {paymentMethod === 'pix' && (
             <div className="space-y-6">
               <div className="flex justify-center">
-                <QrCode value={paymentData?.qrCode} size={200} />
+                {paymentData?.qrCode !== undefined && paymentData?.qrCode !== null &&
+                  <div style={{
+                    background: 'white', 
+                    padding: 10, 
+                    borderRadius: '10px', 
+                  }}>
+                    <QRCodeCanvas
+                      value={paymentData?.qrCode}
+                      size={200}
+                      id='qr-gen'
+                      level="H"
+                    />
+                  </div>}
               </div>
 
               <div className="bg-gray-900 p-4 rounded-lg">
@@ -137,7 +149,7 @@ export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment }
             </div>
           )}
 
-         {paymentMethod === 'card' && <button
+          {paymentMethod === 'card' && <button
             type='submit'
             className="w-full bg-orange-500 text-white py-3 px-4 my-3 rounded-lg font-medium hover:bg-orange-600 transition-colors"
           >

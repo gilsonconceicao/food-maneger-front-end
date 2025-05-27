@@ -1,27 +1,27 @@
-import { createPaymentPreference, getPreferencePaymentById } from "@/services/Payment";
-import { IPreference } from "@/services/Payment/Payment.type";
+import { createPaymentAsync, getPaymentById } from "@/services/Payment";
+import { ICreatePayment, IPay } from "@/services/Payment/Payment.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-export function usePreferencePaymentByIdQuery(preferenceId: string) {
+export function usePaymentByIdQuery(paymentId?: string) {
     return useQuery({
-        queryKey: ['get-preference-payment-by-id', preferenceId],
-        enabled: true,
+        queryKey: ['get-payment-by-id', paymentId],
+        enabled: !!paymentId,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         queryFn: async () => {
-            const { data } = await getPreferencePaymentById(preferenceId);
-            return data as IPreference;
+            const { data } = await getPaymentById(paymentId!);
+            return data as IPay;
         }
     })
 }
 
-export function useCreatePaymentPreferenceMutate(onSuccess: (initPoint: string) => void) {
+export function useCreatePaymentMutate(onSuccess: (pay: IPay) => void) {
     return useMutation({
-        mutationFn: async (orderIds: string[]) => {
-            const { data } = await createPaymentPreference(orderIds);
+        mutationFn: async (body: ICreatePayment): Promise<IPay> => {
+            const { data } = await createPaymentAsync(body);
             return data;
         }, 
         onSuccess, 
-        onError: () => {}
+        onError: () => { }
     })
 }

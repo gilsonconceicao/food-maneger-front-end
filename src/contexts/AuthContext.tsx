@@ -4,6 +4,7 @@ import firebaseApp from "@/Firebase";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  onIdTokenChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
@@ -25,11 +26,6 @@ import {
 import { useVerifyUserIsMaster } from "@/hooks/User/UserHooks";
 import { getAccessTokenLocalStorage, getUserDataInLocalStorage } from "@/constants/localStorage";
 import { saveUserInDataLocalStorge } from "@/helpers/Methods/Storage";
-import { jwtDecode } from "jwt-decode";
-
-type DecodedIdToken = {
-  exp: number; // tempo de expiração (em segundos desde Unix epoch)
-};
 
 export type CreateUserFirebaseType = {
   email: string;
@@ -87,6 +83,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenLocalStorage);
 
   const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid);
+
+
+  useEffect(() => {
+    const unsubscribe = onIdTokenChanged(auth, async (user) => {
+      if (user) {
+        const token = await user.getIdToken();
+        setCurrentUser(user);
+        setAccessToken(token);
+        setIsAuthenticated(true);
+        saveUserInDataLocalStorge(user);
+        localStorage.setItem('accessToken', token);
+      } else {
+        cleanState();
+      }
+      setIsLoadingUserData(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const cleanState = () => {
     setCurrentUser(null);
@@ -178,51 +193,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    let refreshTokenInterval: NodeJS.Timeout;
-
-    const unsubscribe = auth.onIdTokenChanged(async (user) => {
-      if (user) {
-        setCurrentUser(user);
-        saveUserInDataLocalStorge(user);
-
-        const token = await getIdTokenAsync(user, true);
-        setAccessToken(token);
-        setIsAuthenticated(true);
-
-        refreshTokenInterval = setInterval(async () => {
-          try {
-            if (!token) return;
-
-            const decoded = jwtDecode<DecodedIdToken>(token);
-            const currentTime = Date.now() / 1000; // em segundos
-            const timeLeft = decoded.exp - currentTime;
-
-            if (timeLeft < 600) {
-              const refreshedToken = await user.getIdToken(true);
-              setAccessToken(refreshedToken);
-              localStorage.setItem("accessToken", refreshedToken);
-              console.log("[Auth] Token atualizado automaticamente.");
-            } else {
-              console.log(`[Auth] Token ainda válido por ${Math.floor(timeLeft / 60)} minutos.`);
-            }
-          } catch (error) {
-            console.error("[Auth] Erro ao atualizar o token:", error);
-          }
-        }, 5 * 60 * 1000);
-      } else {
-        cleanState();
-      }
-
-      setIsLoadingUserData(false);
-    });
-
-    return () => {
-      unsubscribe();
-      if (refreshTokenInterval) clearInterval(refreshTokenInterval);
-    };
-  }, []);
 
   const contextValue: AuthContextType = {
     createUserAsync,
