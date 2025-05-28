@@ -1,6 +1,6 @@
 import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
 import { ListPaginatation } from "../@types/generic";
-import { apiClient } from "../config/axios";
+import apiClient from "../config/axios";
 import { IOrderReadModel } from "./Order.type";
 
 const endpoint = '/Order'

@@ -1,4 +1,4 @@
-import { apiClient } from "../config/axios";
+import apiClient from "../config/axios";
 import { CartType, CartTypeCreate } from "./Types/CartsType"
 
 const endpoint = `/Cart`

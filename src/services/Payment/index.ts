@@ -1,6 +1,6 @@
 
 import { AxiosResponse } from "axios";
-import { apiClient } from "../config/axios"
+import apiClient from "../config/axios"
 import { ICreatePayment, IPay } from "./Payment.type";
 
 const endpoint = `/Payment`
