@@ -30,5 +30,14 @@ export interface ICreatePayment {
   orderId: string,
   paymentMethod: "Pix" | "Card",
   installments?: number,
-  paymentMehodToken?: string
+  card: ICard
+}
+
+interface ICard
+{
+  cardNumber: string;
+  cardHolderNamenoCartão: string;
+  expirationMonth: string;
+  expirationYear: string;
+  cvv: string; 
 }

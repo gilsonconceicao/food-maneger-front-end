@@ -1,12 +1,13 @@
 import { textFieldIconSx } from '@/@types/generic.types';
 import { TextFormField } from '@/components/FormFields/TextFormField';
 import { IPay, PaymentMethod } from '@/services/Payment/Payment.type';
-import { Check, Copy, IdCardIcon, Loader2 } from 'lucide-react';
+import { Calendar, Check, Copy, CreditCard, IdCardIcon, RectangleEllipsis, User } from 'lucide-react';
 import { useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import moment from 'moment';
 import { IOrderReadModel } from '@/services/Order/Order.type';
-
+import { Loading } from '@/components/Loading/Loading';
+import { SelectFormField } from '@/components/FormFields/SelectFormField';
 
 type PaymentCheckoutProps = {
   paymentMethod: PaymentMethod;
@@ -25,54 +26,68 @@ export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment, 
     setTimeout(() => setCopied(false), 2000);
   };
 
-
   if (isLoadingPayment || isLoadingOrder)
-    return <div className="flex justify-center items-center h-screen"><Loader2 className="animate-spin" /></div>;
+    return <Loading />
 
   return (
     <div >
       {paymentMethod === "card" && (
         <div className="space-y-4">
-          <div>
-            <TextFormField
-              name="cardNumber"
-              label="Número do Cartão"
-              placeholder="9999 9999 9999 9999"
-              mask="card"
-              icon={<IdCardIcon className={textFieldIconSx} />}
-            />
+          <TextFormField
+            name="cardNumber"
+            label="Número do Cartão"
+            placeholder="9999 9999 9999 9999"
+            mask="card"
+            icon={<CreditCard className={textFieldIconSx} />}
+          />
 
-          </div>
-
-          <div>
-            <TextFormField
-              name="cardName"
-              label="Nome no Cartão"
-              placeholder="9999 9999 9999 9999"
-              icon={<IdCardIcon className={textFieldIconSx} />}
-            />
-          </div>
+          <TextFormField
+            name="cardName"
+            label="Nome no Cartão"
+            placeholder=""
+            icon={<IdCardIcon className={textFieldIconSx} />}
+          />
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <TextFormField
-                name="expiry"
-                label="Validade"
-                mask='expiry'
-                icon={<IdCardIcon className={textFieldIconSx} />}
-              />
-            </div>
+            <TextFormField
+              name="expiry"
+              label="Validade"
+              mask='expiry'
+              placeholder='00/00'
+              icon={<Calendar className={textFieldIconSx} />}
+            />
 
-            <div>
-              <TextFormField
-                name="cvv"
-                label="CVV"
-                mask='cvv'
-                type='number'
-                icon={<IdCardIcon className={textFieldIconSx} />}
-              />
-            </div>
+            <TextFormField
+              name="cvv"
+              label="CVV"
+              mask='cvv'
+              placeholder='000'
+              type='number'
+              icon={<RectangleEllipsis className={textFieldIconSx} />}
+            />
           </div>
+
+          <SelectFormField
+            name="installments"
+            label="Quantidade de parcelas"
+            placeholder="Selecione..."
+            options={[
+              { label: "1x", value: "1" },
+              { label: "2x", value: "2" },
+              { label: "3x", value: "3" },
+              { label: "4x", value: "4" },
+              { label: "5x", value: "5" },
+              { label: "6x", value: "6" }
+            ]}
+          />
+
+          <TextFormField
+            name="identificationNumber"
+            label="CPF do titular"
+            placeholder="999-999-9999-99"
+            mask='cpf'
+            icon={<User className={textFieldIconSx} />}
+          />
         </div>
       )}
 
@@ -139,7 +154,7 @@ export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment, 
 
       {paymentMethod === 'card' && <button
         type='submit'
-        className="w-full bg-orange-500 text-white py-3 px-4 my-3 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+        className="w-full bg-orange-500 text-white py-3 px-4 my-7 rounded-lg font-medium hover:bg-orange-600 transition-colors"
       >
         Confirmar Pagamento
       </button>}

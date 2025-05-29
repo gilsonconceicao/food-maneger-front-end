@@ -1,6 +1,10 @@
+import { FailureFormatDefault } from "@/@types/generic.types";
+import { failureErrorMercadoPago } from "@/helpers/Methods";
 import { createPaymentAsync, getPaymentById } from "@/services/Payment";
 import { ICreatePayment, IPay } from "@/services/Payment/Payment.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 export function usePaymentByIdQuery(paymentId?: string) {
     return useQuery({
@@ -22,6 +26,11 @@ export function useCreatePaymentMutate(onSuccess: (pay: IPay) => void) {
             return data;
         }, 
         onSuccess, 
-        onError: () => { }
+        onError: (err: AxiosError) => { 
+            const responseData = err.response?.data as FailureFormatDefault; 
+            const messageMapped = responseData.message.replace(" ", "_").toLowerCase()
+            const message = failureErrorMercadoPago(messageMapped);
+            toast.error(message);
+        }
     })
 }
