@@ -5,6 +5,7 @@ import { formatCurrencyInCents, renderUrlImageValidate } from "@/helpers/Methods
 import { GoBack } from "@/components/GoBack/GoBack"
 import { useNavigate } from "react-router"
 import { useAuthContext } from "@/contexts/AuthContext"
+import OrderTimeline from "@/components/OrderTimeline/OrderTimeline"
 
 type OrderDataType = {
     order: IOrderReadModel;
@@ -14,21 +15,20 @@ type OrderDataType = {
 
 export const OrderDetails = ({ order, setAction, isLoading }: OrderDataType) => {
     const navigate = useNavigate();
-
     const { user: { isMaster } } = useAuthContext();
-
     const createdAtFormted = formatDate(order.createdAt);
     const updatedAtFormated = formatDate(order.updatedAt);
+    const orderStatus = order.status;
 
-    const enablePaymentAction = ['AwaitingPayment', 'Expired'].includes(order.status);
-    const isGeneratedExternalPayment = order.status === 'AwaitingPayment' && order.paymentId !== null;
+    const enablePaymentAction = ['AwaitingPayment', 'Expired'].includes(orderStatus);
+    const isGeneratedExternalPayment = orderStatus === 'AwaitingPayment' && order.paymentId !== null;
 
     const statusDisplay = isGeneratedExternalPayment ? "Concluir pagamento" : order.statusDisplay;
-    const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[order.status].color;
+    const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[orderStatus].color;
 
-    const canCancel: boolean = ['AwaitingPayment', 'PaymentFailed', 'Expired'].includes(order.status);
-    const canDelete: boolean = ['Cancelled', 'PaymentFailed'].includes(order.status);
-    const canUpdateStatus: boolean = ['Paid', 'InPreparation', 'Done', 'Delivery'].includes(order.status);
+    const canCancel: boolean = ['AwaitingPayment', 'PaymentFailed', 'Expired'].includes(orderStatus);
+    const canDelete: boolean = ['Cancelled', 'PaymentFailed'].includes(orderStatus);
+    const canUpdateStatus: boolean = ['Paid', 'InPreparation', 'Done', 'Delivery'].includes(orderStatus);
 
     return (
         <div className="space-y-4 max-w-4xl mx-auto p-4">
@@ -42,7 +42,7 @@ export const OrderDetails = ({ order, setAction, isLoading }: OrderDataType) => 
                                 Pedido #{order.orderNumber}
                             </h1>
                             <span className={`mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 w-full rounded-sm text-sm font-medium border ${color}`}>
-                                {statusConfig[order.status].icon}
+                                {statusConfig[orderStatus].icon}
                                 {statusDisplay}
                             </span>
                         </div>
@@ -162,6 +162,10 @@ export const OrderDetails = ({ order, setAction, isLoading }: OrderDataType) => 
                             Atualizar status do pedido
                         </button>
                     )}
+                </div>
+
+                <div className="border-t border-gray-800 mt-6 p-5">
+                    <OrderTimeline status={orderStatus} />
                 </div>
             </div>
         </div>

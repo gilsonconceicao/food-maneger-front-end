@@ -17,9 +17,9 @@ type OrderProps = {
 export const Order = ({ orderListData, setPage, page }: OrderProps) => {
   const orders = orderListData?.data ?? [];
 
-  const activeOrders = orders.filter(order => ['awaitingpayment', 'inpreparation', 'delivery'].includes(order.status.toLowerCase()));
-  const completedOrders = orders.filter(order => ['delivered', 'cancelled'].includes(order.status.toLowerCase()));
-  const expiredOrders = orders.filter(order => ['expired'].includes(order.status.toLowerCase()));
+  const activeOrders = orders.filter(order => ['awaitingpayment', 'inpreparation', 'delivery', 'paid', 'Done'].includes(order.status.toLowerCase()));
+  const completedOrders = orders.filter(order => ['finished', 'cancelled'].includes(order.status.toLowerCase()));
+  const expiredOrders = orders.filter(order => ['expired', 'paymentfailed'].includes(order.status.toLowerCase()));
 
   return (
     <div className="space-y-4 max-w-4xl mx-auto p-4">
