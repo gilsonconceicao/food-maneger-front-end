@@ -1,17 +1,17 @@
 import React from 'react';
-import { AlertCircle, CreditCard, QrCode } from 'lucide-react';
+import { AlertCircle, QrCode } from 'lucide-react';
 import { IPay, PaymentMethod } from '@/services/Payment/Payment.type';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { IOrderReadModel } from '@/services/Order/Order.type';
 import { formatCurrencyInCents } from '@/helpers/Methods';
 
 const paymentMethods: { id: PaymentMethod; title: string; icon: React.ReactNode; description: string }[] = [
-    {
-        id: 'card',
-        title: 'Cartão de Débito/Crédito',
-        icon: <CreditCard className="w-6 h-6" />,
-        description: 'Pague em até 12x'
-    },
+    // {
+    //     id: 'card',
+    //     title: 'Cartão de Débito/Crédito',
+    //     icon: <CreditCard className="w-6 h-6" />,
+    //     description: 'Pague em até 12x'
+    // },
     {
         id: 'pix',
         title: 'PIX',

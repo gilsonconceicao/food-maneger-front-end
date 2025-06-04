@@ -5,13 +5,16 @@ import { statusConfig } from "./OrderGeneric";
 import { useNavigate } from "react-router";
 import { GoBack } from "@/components/GoBack/GoBack";
 import moment from "moment"
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type OrderProps = {
   orderListData: ListPaginatation<IOrderReadModel>;
   refetch: () => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>
+  page: number;
 }
 
-export const Order = ({ orderListData }: OrderProps) => {
+export const Order = ({ orderListData, setPage, page }: OrderProps) => {
   const orders = orderListData?.data ?? [];
 
   const activeOrders = orders.filter(order => ['awaitingpayment', 'inpreparation', 'delivery'].includes(order.status.toLowerCase()));
@@ -38,6 +41,15 @@ export const Order = ({ orderListData }: OrderProps) => {
         </div>
       )}
 
+      {expiredOrders.length > 0 && (
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Pedidos expirados</h2>
+          <div className="space-y-4">
+            {expiredOrders.map((order, index) => <OrderItemRender key={index} order={order} />)}
+          </div>
+        </div>
+      )}
+
       {completedOrders.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold mb-4">Histórico de pedidos</h2>
@@ -47,12 +59,27 @@ export const Order = ({ orderListData }: OrderProps) => {
         </div>
       )}
 
-      {expiredOrders.length > 0 && (
-        <div>
-          <h2 className="text-lg font-semibold mb-4">Pedidos expirados</h2>
-          <div className="space-y-4">
-            {expiredOrders.map((order, index) => <OrderItemRender key={index} order={order} />)}
-          </div>
+      {orders.length > 1 && (
+        <div className="mt-8 flex justify-center items-center gap-2">
+          <button
+            onClick={() => setPage(prev => prev - 1)}
+            disabled={page === 0}
+            className="p-2 rounded-lg border bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <h3 className="pnpm dlx shadcn@latest add typography">
+            {page + 1}
+          </h3>
+
+          <button
+            onClick={() => setPage(prev => prev + 1)}
+            disabled={page === orderListData.totalPages - 1}
+            className="p-2 rounded-lg border bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       )}
     </div>

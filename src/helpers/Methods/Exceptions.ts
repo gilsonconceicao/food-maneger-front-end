@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
 export function getFailureErrorMessageFirebase(code: string): string {
@@ -219,3 +220,10 @@ export type FirebaseAuthErrorType = {
   };
   name: string;
 };
+
+export function handleOnError (axiosError: AxiosError) {
+  const { response } = axiosError;
+  //@ts-ignore
+  const errorMessage = response?.data?.message ?? axiosError?.message ?? "Desculpe, erro não identificado, entre em contato com o suporte na aba 'Contato'.";
+  toast.error(errorMessage);
+}

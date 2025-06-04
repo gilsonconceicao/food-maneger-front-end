@@ -1,5 +1,4 @@
 import { Outlet } from "react-router";
-import { Breadcrumbs } from "../Breadcrumb/Breadcrumb";
 import { Header } from "../Header/Header";
 import { AppSidebar } from "../Sidebar/AppSidebar";
 import { useSidebar } from "../ui/sidebar";
@@ -26,7 +25,6 @@ export function Layout() {
       <div className="w-full">
         <AppSidebar />
         <Header />
-        <ShowSidebar />
         <main className="pl-3 pr-3 pt-5">
           <Outlet />
         </main>
@@ -57,20 +55,10 @@ export function Layout() {
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Header />
-        <ShowSidebar />
         <main className="pl-6 pr-6 pt-5 overflow-y-auto">
           <Outlet />
         </main>
       </div>
     </div>
   );
-}
-
-
-const ShowSidebar = () => {
-  return (
-    <div className="pl-5 pt-2">
-      <Breadcrumbs />
-    </div>
-  )
 }

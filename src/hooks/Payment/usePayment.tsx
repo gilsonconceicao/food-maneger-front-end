@@ -10,7 +10,7 @@ export function usePaymentByIdQuery(paymentId?: string) {
     return useQuery({
         queryKey: ['get-payment-by-id', paymentId],
         enabled: !!paymentId,
-        refetchOnMount: false,
+        refetchOnMount: 'always',
         refetchOnWindowFocus: false,
         queryFn: async () => {
             const { data } = await getPaymentById(paymentId!);

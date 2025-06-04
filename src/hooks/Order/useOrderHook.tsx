@@ -1,6 +1,7 @@
 import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
+import { handleOnError } from "@/helpers/Methods";
 import { ListPaginatation } from "@/services/@types/generic";
-import { createOrderAsync, getOrderByIdAsync, getOrderListAsync } from "@/services/Order";
+import { cancelOrderAsync, createOrderAsync, deleteOrderAsync, getOrderByIdAsync, getOrderListAsync, updateOrderStatusAsync } from "@/services/Order";
 import { IOrderReadModel } from "@/services/Order/Order.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -32,10 +33,47 @@ export function useGetOrderByIdQuery(id?: string) {
 
 export function useCreateOrderMutation(onSuccess: (orderId: string) => void) {
     return useMutation({
-        mutationFn: async (payload: {userId: string, cartIds: string[]}) => {
-            const { data } = await createOrderAsync(payload.userId, payload.cartIds); 
+        mutationFn: async (payload: { userId: string, cartIds: string[] }) => {
+            const { data } = await createOrderAsync(payload.userId, payload.cartIds);
             return data;
         },
-        onSuccess
+        onSuccess,
+        onError: handleOnError
+    })
+}
+
+export function useCancelOrderMutate(
+    onSuccess: (isUpdated: boolean) => void
+) {
+    return useMutation({
+        mutationFn: async (orderId: string) => {
+            return await cancelOrderAsync(orderId) as unknown as boolean;
+        },
+        onSuccess,
+        onError: handleOnError
+    })
+}
+
+export function useDeleteOrderMutate(
+    onSuccess: (isDeleted: boolean) => void
+) {
+    return useMutation({
+        mutationFn: async (orderId: string) => {
+            return await deleteOrderAsync(orderId) as unknown as boolean;
+        },
+        onSuccess,
+        onError: handleOnError
+    })
+}
+
+export function useUpdateOrderStatusMutate(
+    onSuccess: (isDeleted: boolean) => void
+) {
+    return useMutation({
+        mutationFn: async (orderId: string) => {
+            return await updateOrderStatusAsync(orderId) as unknown as boolean;
+        },
+        onSuccess,
+        onError: handleOnError
     })
 }
