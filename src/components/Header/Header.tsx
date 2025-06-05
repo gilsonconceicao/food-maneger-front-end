@@ -1,7 +1,7 @@
 import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { Button } from '../ui/button';
-import { LogOutIcon, ShoppingCart } from 'lucide-react';
+import { LogOutIcon, ShoppingCart, User } from 'lucide-react';
 import { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { useCart } from '@/contexts/CartContext';
@@ -66,6 +66,12 @@ export const Header = () => {
                                 </span>
                             )}
                         </button>
+                        <Link
+                            to="/perfil"
+                            className="bg-gray-100 p-2 rounded-full text-gray-600 hover:bg-gray-200 transition-colors"
+                        >
+                            <User className="h-5 w-5" />
+                        </Link>
                         <Button variant="outline" size="icon" onClick={() => setAction('logout')}>
                             <LogOutIcon />
                         </Button>
@@ -91,7 +97,7 @@ export const Header = () => {
                 title="Carrinho de compras"
                 description="Confira os itens que você adicionou ao carrinho."
                 confirmText="Ir para o pagamento"
-                children={<CartSidebarContainer onCloseSidebar={onClose}/>}
+                children={<CartSidebarContainer onCloseSidebar={onClose} />}
             />
 
             <AuthPrompt

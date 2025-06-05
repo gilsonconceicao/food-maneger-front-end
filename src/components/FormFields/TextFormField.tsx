@@ -29,7 +29,7 @@ export type TextFormFieldProps = {
   type?: string;
   mask?: "cpf" | "phone" | "card" | "expiry" | "cvv";
   icon?: ReactNode;
-};
+} & React.ComponentProps<"input">;
 
 export const TextFormField = ({
   name,
@@ -38,6 +38,7 @@ export const TextFormField = ({
   type = "text",
   mask,
   icon,
+  ...rest
 }: TextFormFieldProps) => {
   const { control, errors } = useFormContext();
 
@@ -90,6 +91,7 @@ export const TextFormField = ({
             ) : (
               <Input
                 {...field}
+                {...rest}
                 id={name}
                 placeholder={placeholder}
                 type={type}

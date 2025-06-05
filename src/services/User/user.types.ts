@@ -22,7 +22,6 @@ export type CreateUserType = {
     name?: string;
     phoneNumber?: string
     address?: CreateAddress
-    email: string
 }
 
 export type CreateAddress = {

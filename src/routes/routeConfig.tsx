@@ -1,12 +1,14 @@
 import { HandleRouterType } from '@/@types/generic.types';
 import { Layout } from '@/components/Layout/Layout';
 import { NotFound, HomeContainer, OrderContaier } from '@/pages';
+import ContactContainer from '@/pages/Contact/ContactContainer';
 import { UpInsertFoodContainer } from '@/pages/Food/UpInsertFood/UpInsertFoodContainer';
 import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
 import { PaymentCheckoutContainer } from '@/pages/Payment/PaymentCheckout/PaymentCheckoutContainer';
 import { SelectPaymentMethodContainer } from '@/pages/Payment/SelectPaymentMethodContainer';
+import { ProfileContainer } from '@/pages/Profile/ProfileContainer';
 import { RegisterContainer } from '@/pages/Register/RegisterContainer';
 import { Home, Package, Phone, PlusIcon } from 'lucide-react';
 import { RouteObject } from 'react-router-dom';
@@ -100,12 +102,22 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/contato',
-        element: <>Contato...</>,
+        element: <ContactContainer />,
         handle: {
           breadcrumb: 'Contato',
           title: "Contato",
           icon: Phone,
           showSideMenu: true
+        } as HandleRouterType
+      }, 
+      {
+        path: '/perfil',
+        element: <ProfileContainer />,
+        handle: {
+          breadcrumb: 'Perfil',
+          title: "Perfil",
+          icon: Phone,
+          showSideMenu: false
         } as HandleRouterType
       }
     ]
