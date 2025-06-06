@@ -6,11 +6,14 @@ import { FailureError } from "@/components/FailureError/FailureError";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Modal } from "@/components/Modal/Modal";
+import { useGetUserQuery } from "@/hooks/User/UserHooks";
 
 export const OrderDetailsContainer = () => {
   const [action, setAction] = useState<string | undefined>(undefined);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+    const { data: userData, isLoading: isLoadingUser } = useGetUserQuery();
 
   const { data: orderData, isLoading, error, refetch } = useGetOrderByIdQuery(id);
   const onClose = () => setAction(undefined);
@@ -36,7 +39,7 @@ export const OrderDetailsContainer = () => {
   const { mutateAsync: deleteMutateAsync, isPending: isLoadingDelete } = useDeleteOrderMutate(onSuccessByAxtion);
   const { mutateAsync: updateStatusMutateAsync, isPending: isLoadingUpdateStatus } = useUpdateOrderStatusMutate(onSuccessByAxtion);
 
-  if (isLoading) return <Loading />
+  if (isLoading || isLoadingUser) return <Loading />
   if (error) return <FailureError error={error} />
 
   return (
@@ -44,6 +47,7 @@ export const OrderDetailsContainer = () => {
       <OrderDetails
         order={orderData!}
         setAction={setAction}
+        user={userData!}
         isLoading={isLoadingDelete || isLoadingCancel || isLoadingUpdateStatus}
       />
 

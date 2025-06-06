@@ -40,9 +40,12 @@ export function useUpdateUserByIdMutate(
     return useMutation({
         mutationFn: async (body: CreateUserType) => {
             const payload = {
-                address: body.address ?? null,
+                address: {
+                    ...body.address, 
+                    zipCode: body.address?.zipCode.replace(/\D/g, "").trim() ?? null
+                },
                 name: body?.name ?? null,
-                phoneNumber: body.phoneNumber?.replace(/\D/g, "").trim() ?? null 
+                phoneNumber: body.phoneNumber?.replace(/\D/g, "").trim() ?? null, 
             } as CreateUserType;
 
             return await updateUserById(userId!, payload) as unknown as boolean;

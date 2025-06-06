@@ -8,7 +8,7 @@ type ContactFormProps = {
 
 export const ContactForm = ({ isLoading }: ContactFormProps) => {
     return (
-        <div>
+        <div className='space-y-2'>
             <TextFormField
                 label='Nome completo'
                 name='name'

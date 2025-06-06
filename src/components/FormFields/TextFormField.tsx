@@ -27,7 +27,7 @@ export type TextFormFieldProps = {
   label: string;
   placeholder?: string;
   type?: string;
-  mask?: "cpf" | "phone" | "card" | "expiry" | "cvv";
+  mask?: "cpf" | "phone" | "card" | "expiry" | "cvv" | "zipCode";
   icon?: ReactNode;
 } & React.ComponentProps<"input">;
 
@@ -53,6 +53,8 @@ export const TextFormField = ({
       ? "00/00"
       : mask === "cvv"
       ? "000"
+      : mask === 'zipCode' ?
+        "00000-000"
       : undefined;
 
   return (
@@ -83,7 +85,7 @@ export const TextFormField = ({
                 type={type}
                 className={cn(
                   "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent py-1 pr-3 text-base shadow-xs transition-[color,box-shadow] outline-none",
-                  icon && "pl-10",
+                  icon ? "pl-10" :"pl-3",
                   "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
                   "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                 )}

@@ -15,6 +15,7 @@ export const profileValidationSchema = yup.object().shape({
     street: yup.string().typeError('Rua: Precisa ser preenchido').required('Rua: Precisa ser preenchido'),
     number: yup.string().typeError('Número: Precisa ser preenchido').required('Número: Precisa ser preenchido'),
     zipCode: yup.string().typeError('CEP: Precisa ser preenchido').required('CEP: Precisa ser preenchido'),
+    complement: yup.string().notRequired().nullable(),
   })
 });
 

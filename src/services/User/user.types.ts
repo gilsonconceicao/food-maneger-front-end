@@ -12,6 +12,7 @@ export interface Address {
     street: string;
     city: string;
     state: string;
+    complement: string;
     zipCode: string;
     number: number;
     user?: User | null;
