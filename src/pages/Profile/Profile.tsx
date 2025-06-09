@@ -2,15 +2,18 @@ import React from 'react';
 import { User, Save, Loader2, MailIcon, PhoneIcon, LocateIcon } from 'lucide-react';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { TextFormField } from '@/components/FormFields/TextFormField';
+import { SelectFormField } from '@/components/FormFields/SelectFormField';
+import { states } from '@/constants/generic';
 
 type ProfileProps = {
   isLoading: boolean;
+  redirectTo: string;
 }
 
-const Profile: React.FC<ProfileProps> = ({ isLoading }) => {
+const Profile: React.FC<ProfileProps> = ({ isLoading, redirectTo }) => {
   return (
     <div className="space-y-4 max-w-4xl mx-auto p-4">
-      <GoBack path="/" />
+      <GoBack path={redirectTo ?? "/"} />
 
       <div className="bg-sidebar space-y-1 rounded-lg shadow-sm overflow-hidden">
         <div className="space-y-2 rounded-lg shadow-sm p-6">
@@ -20,7 +23,7 @@ const Profile: React.FC<ProfileProps> = ({ isLoading }) => {
             </div>
             <div>
               <h1 className="text-2xl font-bold ">Meu Perfil</h1>
-              <p >Atualize suas informações pessoais</p>
+              <p className='text-gray-500'>Atualize suas informações pessoais</p>
             </div>
           </div>
 
@@ -53,32 +56,29 @@ const Profile: React.FC<ProfileProps> = ({ isLoading }) => {
             <TextFormField
               label='CEP'
               name='address.zipCode'
+              mask='zipCode'
               icon={<LocateIcon />}
             />
-
             <TextFormField
               label='Rua'
               name='address.street'
+            />
+            <TextFormField
+              label='Cidade'
+              name='address.city'
+            />
+            <SelectFormField
+              label='Estádo '
+              name='address.state'
+              options={states}
             />
             <TextFormField
               label='Número'
               name='address.number'
             />
             <TextFormField
-              label='Bairro'
-              name='address.bairro' 
-            />
-            <TextFormField
-              label='Cidade'
-              name='address.city'
-            />
-            <TextFormField
-              label='Estádo '
-              name='address.state'
-            />
-            <TextFormField
               label='Complemento'
-              name='address.complement' 
+              name='address.complement'
             />
           </div>
           <div className="border-t pt-4 mt-4">
