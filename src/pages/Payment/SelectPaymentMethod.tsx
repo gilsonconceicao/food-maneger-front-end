@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, QrCode } from 'lucide-react';
+import { QrCode } from 'lucide-react';
 import { IPay, PaymentMethod } from '@/services/Payment/Payment.type';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { IOrderReadModel } from '@/services/Order/Order.type';
@@ -32,9 +32,7 @@ interface PaymentProps {
 }
 
 export const SelectPaymentMethod = (props: PaymentProps) => {
-    const { handlePayment, handleRetryPayment, orderId, selectedMethod, setSelectedMethod, orderData, isLoading, paymentData } = props;
-    const isAwaitPayment = orderData.status === 'AwaitingPayment';
-    const isGeneratedExternalPayment = isAwaitPayment && orderData.paymentId !== null;
+    const { handlePayment, orderId, selectedMethod, setSelectedMethod, orderData, isLoading } = props;
 
     return (
         <div className="min-h-screen">
@@ -47,26 +45,6 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                         </h1>
                         <p className="leading-7">Total a pagar: {formatCurrencyInCents(orderData?.totalValue)}</p>
                     </div>
-
-                    {(paymentData !== null && paymentData !== undefined && paymentData.paymentMethodId === 'pix') && isGeneratedExternalPayment && (
-                        <div className="mb-6 p-4 bg-indigo-950 border border-indigo-500 rounded-lg">
-                            <div className="flex items-start gap-3">
-                                <AlertCircle className="w-5 h-5  flex-shrink-0 mt-0.5" />
-                                <div>
-                                    <h3 className="font-medium ">Pagamento Pix pendente</h3>
-                                    <p className="text-sm mt-1">
-                                        Identificamos que você gerou um QR Code Pix, mas o pagamento não foi concluído. Você pode retomar esse pagamento ou, se preferir, escolher outra forma de pagamento.
-                                    </p>
-                                    <button
-                                        onClick={handleRetryPayment}
-                                        className="mt-3 text-sm bg-indigo-700 text-orange-100 px-4 py-2 rounded-md hover:bg-indigo-800 transition-colors cursor-pointer"
-                                    >
-                                        Retomar pagamento Pix
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
                     <div className="space-y-4">
                         {paymentMethods.map((method) => {

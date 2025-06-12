@@ -45,6 +45,7 @@ export const OrderDetailsContainer = () => {
   return (
     <>
       <OrderDetails
+        refetch={refetch}
         order={orderData!}
         setAction={setAction}
         user={userData!}

@@ -5,7 +5,6 @@ import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { ReactNode, forwardRef } from "react";
 
-// 🔥 Wrapper para IMask funcionar com React Hook Form
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MaskedInput = forwardRef<HTMLInputElement, any>(

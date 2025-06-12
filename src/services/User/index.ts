@@ -14,3 +14,7 @@ export const getUserById = async (userId: string) => {
 export const updateUserById = async (userId: string, body: CreateUserType) => {
     return await apiClient.put<boolean>(`${endpoint}/${userId}`, body);
 }
+
+export const syncUser = async () => {
+    return await apiClient.post<boolean>(`${endpoint}/Sync`, {});
+}

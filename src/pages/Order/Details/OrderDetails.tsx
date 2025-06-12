@@ -1,5 +1,5 @@
 import { IOrderReadModel } from "@/services/Order/Order.type"
-import { CalendarClock, ChartPie, Mail, MapPin, MapPinHouse, Phone, Receipt, Trash2, User as UserIcon, Wallet, XCircle } from "lucide-react"
+import { CalendarClock, ChartPie, Mail, MapPin, MapPinHouse, Minus, Phone, Plus, Receipt, Trash2, User as UserIcon, Wallet, XCircle } from "lucide-react"
 import { statusConfig } from "../OrderGeneric"
 import { formatCurrencyInCents, formatPhoneNumber, renderUrlImageValidate } from "@/helpers/Methods"
 import { GoBack } from "@/components/GoBack/GoBack"
@@ -7,17 +7,23 @@ import { Link, useNavigate } from "react-router"
 import { useAuthContext } from "@/contexts/AuthContext"
 import { User } from "@/services/User/user.types"
 import { Alert, AlertTitle } from "@/components/ui/alert"
+import OrderTimeline from "@/components/OrderTimeline/OrderTimeline"
+import { ObservationSection } from "./Observations/ObservationSection"
+import { useCart } from "@/contexts/CartContext"
 
 type OrderDataType = {
     order: IOrderReadModel;
     setAction: (a: string) => void;
     isLoading: boolean;
     user: User;
+    refetch: () => void;
 }
 
-export const OrderDetails = ({ order, setAction, isLoading, user }: OrderDataType) => {
+export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: OrderDataType) => {
     const navigate = useNavigate();
     const { user: { isMaster } } = useAuthContext();
+    const { updateQuantity, isLoading: isLoadingCart } = useCart();
+
     const createdAtFormted = formatDate(order.createdAt);
     const updatedAtFormated = formatDate(order.updatedAt);
     const orderStatus = order.status;
@@ -28,8 +34,10 @@ export const OrderDetails = ({ order, setAction, isLoading, user }: OrderDataTyp
     const statusDisplay = isGeneratedExternalPayment ? "Concluir pagamento" : order.statusDisplay;
     const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[orderStatus].color;
 
-    const canCancel: boolean = ['AwaitingPayment', 'PaymentFailed', 'Expired'].includes(orderStatus);
+    const canCancelAndAddReasion: boolean = ['AwaitingPayment', 'PaymentFailed', 'Expired'].includes(orderStatus);
     const canDelete: boolean = ['Cancelled', 'PaymentFailed'].includes(orderStatus);
+    const canTimeline: boolean = !['Cancelled', 'PaymentFailed', 'Expired'].includes(orderStatus);
+    const canEditQuantity: boolean = ['AwaitingPayment', 'Expired'].includes(orderStatus);
     const canUpdateStatus: boolean = ['Paid', 'InPreparation', 'Done', 'Delivery'].includes(orderStatus);
 
     const userAddress = user.address ?? null;
@@ -125,6 +133,85 @@ export const OrderDetails = ({ order, setAction, isLoading, user }: OrderDataTyp
                         </div>
                     </div>
 
+                    <div className="border-t border-gray-800 pt-6">
+                        <h2 className="text-lg font-semibold  mb-4">Itens do pedido</h2>
+
+                        <ul className="divide-y divide-gray-800">
+                            {order.items.map((item, index) => {
+                                const quantity = item.quantity ?? 0;
+                                return (
+                                    <li key={index} className="py-4">
+                                        <div className="flex items-center gap-4">
+                                            <img
+                                                src={renderUrlImageValidate(item.food.url)}
+                                                alt={item.food.name}
+                                                className="w-20 h-20 object-cover rounded-lg"
+                                            />
+                                            <div className=" min-w-0">
+                                                <p className="font-medium ">{item.food.name}</p>
+
+                                                <div className="mt-1 flex items-center gap-4 mb-2">
+                                                    <p className="text-sm text-gray-500">
+                                                        {quantity}x &nbsp;
+                                                        {formatCurrencyInCents(item.food.price)}
+                                                    </p>
+                                                    <p className="text-sm font-medium ">
+                                                        {formatCurrencyInCents(item.food.price * (quantity ?? 0))}
+                                                    </p>
+                                                </div>
+                                                <div className=" flex items-center gap-3">
+                                                    {canEditQuantity && (
+                                                        <>
+                                                            <div className="flex items-center gap-2 bg-gray-800 rounded-lg p-1">
+                                                                <button
+                                                                    onClick={() => updateQuantity(item.foodId, order.id, quantity - 1, () => refetch())}
+                                                                    className="p-1 hover:bg-gray-600 rounded-full transition-colors disabled:opacity-50"
+                                                                    disabled={quantity <= 1 || isLoadingCart}
+                                                                >
+                                                                    <Minus className="w-4 h-4" />
+                                                                </button>
+                                                                <span className="w-8 text-center font-medium">{quantity}</span>
+                                                                <button
+                                                                    onClick={() => updateQuantity(item.foodId, order.id, quantity + 1, () => refetch())}
+                                                                    disabled={isLoadingCart}
+                                                                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                                                                >
+                                                                    <Plus className="w-4 h-4" />
+                                                                </button>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => { }}
+                                                                className="p-2 hover:bg-red-100 text-red-500 rounded-lg transition-colors"
+                                                                title="Remover item"
+                                                            >
+                                                                <Trash2 className="w-4 h-4" />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+
+                    <div className="border-t border-gray-800 mt-6 pt-6 mb-4">
+                        <div className="flex justify-between items-center text-lg font-bold ">
+                            <span>Total</span>
+                            <span className=" text-orange-200 font-bold">{formatCurrencyInCents(order.totalValue ?? 0)}</span>
+                        </div>
+                    </div>
+
+
+                    <ObservationSection
+                        enable={canCancelAndAddReasion}
+                        orderId={order.id}
+                        refetchOrder={refetch}
+                        observations={order.observations}
+                    />
+
                     {userAddress === null && (
                         <Alert className="flex justify-between items-center mb-4">
                             <div className=" flex items-center gap-2">
@@ -134,7 +221,6 @@ export const OrderDetails = ({ order, setAction, isLoading, user }: OrderDataTyp
                                 </AlertTitle>
                             </div>
                             <Link to={`/perfil?goback=pedido&pedidoId=${order.id}`} className="text-orange-500">Clique aqui</Link>
-                            {/* Redirect with same params to identicate the go back */}
                         </Alert>
                     )}
 
@@ -150,86 +236,53 @@ export const OrderDetails = ({ order, setAction, isLoading, user }: OrderDataTyp
                             </button>
                         </div>
                     )}
-
-                    <div className="border-t border-gray-800 pt-6">
-                        <h2 className="text-lg font-semibold  mb-4">Itens do pedido</h2>
-
-                        <ul className="divide-y divide-gray-800">
-                            {order.items.map((item, index) => {
-                                return (
-                                    <li key={index} className="py-4">
-                                        <div className="flex items-center gap-4">
-                                            <img
-                                                src={renderUrlImageValidate(item.food.url)}
-                                                alt={item.food.name}
-                                                className="w-20 h-20 object-cover rounded-lg"
-                                            />
-                                            <div className=" min-w-0">
-                                                <p className="font-medium ">{item.food.name}</p>
-
-                                                <div className="mt-1 flex items-center gap-4">
-                                                    <p className="text-sm text-gray-500">
-                                                        {item.quantity}x &nbsp;
-                                                        {formatCurrencyInCents(item.food.price)}
-                                                    </p>
-                                                    <p className="text-sm font-medium ">
-                                                        {formatCurrencyInCents(item.food.price * (item.quantity ?? 0))}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-
-                    <div className="border-t border-gray-800 mt-6 pt-6">
-                        <div className="flex justify-between items-center text-lg font-bold ">
-                            <span>Total</span>
-                            <span className=" text-orange-200 font-bold">{formatCurrencyInCents(order.totalValue ?? 0)}</span>
-                        </div>
-                    </div>
-
-                    <div className="border-t border-gray-800 mt-6 pt-6 flex gap-3">
-                        {isMaster && canUpdateStatus && (
-                            <button
-                                onClick={() => setAction('updateStatus')}
-                                disabled={isLoading}
-                                className="px-4 py-2 border text-white  bg-purple-950 rounded-lg hover:bg-purple-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                            >
-                                <ChartPie className="w-5 h-5" />
-                                Atualizar status do pedido
-                            </button>
-                        )}
-                        {canCancel && (
-                            <button
-                                onClick={() => setAction('cancel')}
-                                disabled={isLoading}
-                                className=" px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                            >
-                                <XCircle className="w-5 h-5" />
-                                Cancelar Pedido
-                            </button>
-                        )}
-                        {canDelete && (
-                            <button
-                                onClick={() => setAction('delete')}
-                                disabled={isLoading}
-                                className=" px-4 py-2 border text-white  bg-red-500 rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                            >
-                                <Trash2 className="w-5 h-5" />
-                                Excluir Pedido
-                            </button>
-                        )}
-                    </div>
                 </div>
 
-                {/* <div className="border-t border-gray-800 mt-6 p-5">
+                {canTimeline && <div className="p-5">
+                    <h2 className="text-lg font-semibold  mb-4">Histórico do pedido</h2>
+
                     <OrderTimeline status={orderStatus} />
-                </div> */}
+                </div>}
+
+                {(isMaster && canUpdateStatus) || canCancelAndAddReasion || canDelete &&
+                    <div className="p-5 space-y-2">
+                        <h2 className="text-lg font-semibold">Outras ações</h2>
+
+                        <div className="border-t border-gray-800 flex gap-3 pt-3">
+                            {isMaster && canUpdateStatus && (
+                                <button
+                                    onClick={() => setAction('updateStatus')}
+                                    disabled={isLoading}
+                                    className="px-4 py-2 border text-white  bg-purple-950 rounded-lg hover:bg-purple-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                >
+                                    <ChartPie className="w-5 h-5" />
+                                    Atualizar status do pedido
+                                </button>
+                            )}
+                            {canCancelAndAddReasion && (
+                                <button
+                                    onClick={() => setAction('cancel')}
+                                    disabled={isLoading}
+                                    className=" px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                >
+                                    <XCircle className="w-5 h-5" />
+                                    Cancelar Pedido
+                                </button>
+                            )}
+                            {canDelete && (
+                                <button
+                                    onClick={() => setAction('delete')}
+                                    disabled={isLoading}
+                                    className=" px-4 py-2 border text-white  bg-red-500 rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                >
+                                    <Trash2 className="w-5 h-5" />
+                                    Excluir Pedido
+                                </button>
+                            )}
+                        </div>
+                    </div>}
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -21,5 +21,6 @@ export interface IOrder {
 export interface IOrderReadModel extends Omit<IOrder, "status"> {
   statusDisplay: string;
   status: string;
+  observations: string;
   items: IOrderItemReadModel[];
 }

@@ -23,7 +23,7 @@ import {
   failureErrorMehtodsFirebase,
   FirebaseAuthErrorType
 } from "@/helpers/Methods";
-import { useVerifyUserIsMaster } from "@/hooks/User/UserHooks";
+import { useSyncUserMutate, useVerifyUserIsMaster } from "@/hooks/User/UserHooks";
 import { getAccessTokenLocalStorage, getUserDataInLocalStorage } from "@/constants/localStorage";
 import { saveUserInDataLocalStorge } from "@/helpers/Methods/Storage";
 
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenLocalStorage);
 
   const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid);
-
+  const { mutateAsync: syncUserMutate } = useSyncUserMutate();
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
@@ -135,6 +135,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await updateProfile(response.user, {
         displayName: user.displayName
       });
+      await syncUserMutate(); 
       await signUserAsync(user.email, user.password, handleSuccess, true);
     } catch (error) {
       handleAuthError(error as FirebaseAuthErrorType);

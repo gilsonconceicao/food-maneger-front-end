@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+.header-title {
+  font-family: "Great Vibes", cursive;
+  font-size: 30px;
+  letter-spacing: -0.2px;
+  word-spacing: -2px;
+  color: #f06210;
+  font-weight: 400;
+}

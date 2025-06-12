@@ -31,7 +31,7 @@ const ContactContainer = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-medium ">Telefone</h3>
-                                    <p className="text-gray-600 mt-1">
+                                    <p className="text-orange-200 mt-1">
                                         <a href="tel:+551199999999" className="hover:text-orange-500">
                                             (11) 94486-7163
                                         </a>
@@ -45,7 +45,7 @@ const ContactContainer = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-medium ">Email</h3>
-                                    <p className="text-gray-600 mt-1">
+                                    <p className="text-orange-200 mt-1">
                                         <a href="mailto:crislaureano01@gmail.com" className="hover:text-orange-500">
                                             crislaureano01@gmail.com
                                         </a>

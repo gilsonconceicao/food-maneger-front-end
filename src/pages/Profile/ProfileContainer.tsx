@@ -13,18 +13,18 @@ export const ProfileContainer = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const pedidoId = searchParams.get("pedidoId");
-  const redirectTo = `/pedidos/${pedidoId ?? null}`;
-  
+  const redirectTo = pedidoId !== null && pedidoId !== undefined ? `/pedidos/${pedidoId ?? null}` : '/';
+
   const { data: userData, isLoading, refetch } = useGetUserQuery();
   const { mutateAsync } = useUpdateUserByIdMutate(() => {
     refetch();
-    toast.success("Suas informações foram atualizada com sucesso"); 
-    
+    toast.success("Suas informações foram atualizada com sucesso");
+
     if (pedidoId !== null && pedidoId !== undefined) {
-      navigate(redirectTo); 
+      navigate(redirectTo);
     }
   });
-  
+
   const handleOnSubmit = async (values: FieldValues) => {
     await mutateAsync(values as User);
   }
@@ -37,7 +37,7 @@ export const ProfileContainer = () => {
       onSubmit={handleOnSubmit}
       submitting={isLoading}
     >
-      <Profile isLoading={isLoading} redirectTo={redirectTo}/>
+      <Profile isLoading={isLoading} redirectTo={redirectTo} />
     </FormContextProvider>
   )
 }

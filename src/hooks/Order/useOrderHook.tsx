@@ -1,9 +1,10 @@
 import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
 import { handleOnError } from "@/helpers/Methods";
 import { ListPaginatation } from "@/services/@types/generic";
-import { cancelOrderAsync, createOrderAsync, deleteOrderAsync, getOrderByIdAsync, getOrderListAsync, updateOrderStatusAsync } from "@/services/Order";
+import { cancelOrderAsync, createOrderAsync, deleteOrderAsync, getOrderByIdAsync, getOrderListAsync, updateOrderAsync, updateOrderStatusAsync } from "@/services/Order";
 import { IOrderReadModel } from "@/services/Order/Order.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { FieldValues } from "react-hook-form";
 
 export function useOrderListQuery(params?: IDefaultParamsPaginatedQuery) {
     return useQuery({
@@ -60,6 +61,19 @@ export function useDeleteOrderMutate(
     return useMutation({
         mutationFn: async (orderId: string) => {
             return await deleteOrderAsync(orderId) as unknown as boolean;
+        },
+        onSuccess,
+        onError: handleOnError
+    })
+}
+
+export function useUpdateOrderMutate(
+    orderId: string,
+    onSuccess: (isDeleted: boolean) => void
+) {
+    return useMutation({
+        mutationFn: async (body: FieldValues) => {
+            return await updateOrderAsync(orderId, body) as unknown as boolean;
         },
         onSuccess,
         onError: handleOnError

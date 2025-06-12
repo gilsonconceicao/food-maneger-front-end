@@ -1,6 +1,6 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { handleOnError } from "@/helpers/Methods";
-import { getUserById, updateUserById, verifyUserIsMasterAsync } from "@/services/User";
+import { getUserById, syncUser, updateUserById, verifyUserIsMasterAsync } from "@/services/User";
 import { CreateUserType, User } from "@/services/User/user.types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -31,7 +31,6 @@ export function useGetUserQuery() {
     })
 };
 
-
 export function useUpdateUserByIdMutate(
     onSuccess: (isDeleted: boolean) => void
 ) {
@@ -49,6 +48,18 @@ export function useUpdateUserByIdMutate(
             } as CreateUserType;
 
             return await updateUserById(userId!, payload) as unknown as boolean;
+        },
+        onSuccess,
+        onError: handleOnError
+    })
+}
+
+export function useSyncUserMutate(
+    onSuccess?: (isDeleted: boolean) => void
+) {
+    return useMutation({
+        mutationFn: async () => {
+            return await syncUser() as unknown as boolean;
         },
         onSuccess,
         onError: handleOnError
