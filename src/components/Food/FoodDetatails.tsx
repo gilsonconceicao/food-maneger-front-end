@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
 import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import { useCart } from '@/contexts/CartContext';
@@ -12,8 +12,23 @@ interface FoodDetailsProps {
 }
 
 const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetails }) => {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  
   const [quantity, setQuantity] = React.useState(1);
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -31,7 +46,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-sidebar  rounded-lg shadow-xl max-w-2xl w-full animate-fade-in overflow-hidden">
-        <div className="relative h-64 sm:h-80">
+        <div ref={modalRef} className="relative h-64 sm:h-80">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 bg-sidebar p-2 rounded-full hover:bg-gray-800 cursor-pointer transition-colors z-10"
@@ -67,7 +82,6 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
               <Button
                 onClick={() => setQuantity(q => Math.max(1, q - 1))}
                 className="p-1  rounded-full transition-colors"
-                
               >
                 <Minus className="w-5 h-5" />
               </Button>
@@ -82,7 +96,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
 
             <Button
               onClick={handleAddToCart}
-              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white "
+            className={`flex-1 bg-orange-500 hover:bg-orange-600 text-white cursor-pointer`}
             >
               <ShoppingCart className="w-5 h-5" />
               Adicionar ao carrinho

@@ -51,7 +51,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onSelectFood }) => {
           className="mt-4 bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 py-2 px-4 cursor-pointer rounded-md flex items-center justify-center">
           Adicionar
         </Button>
-        {user.isMaster && <Button
+        {user?.isMaster && <Button
           onClick={() => navigate('/adicionar-comida/' + food.id)}
           variant='outline'
           className="mt-4 py-2 px-4 rounded-md flex items-center justify-center cursor-pointer">

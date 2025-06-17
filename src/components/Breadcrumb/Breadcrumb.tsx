@@ -11,7 +11,7 @@ export function Breadcrumbs() {
   if (!matches) return null;
 
   return (
-    <nav className="flex items-center text-sm text-muted-foreground space-x-1">
+    <nav className="flex items-center text-sm text-muted-foreground">
       {matches.map((match, index) => {
         const route = match.route;
         const isLast = index === matches.length - 1;
@@ -20,7 +20,6 @@ export function Breadcrumbs() {
           .map((m) => m.pathnameBase)
           .join('');
 
-        // label pode ser customizado via route handle ou fallback para pathname
         const label =
           route.handle?.breadcrumb ??
           route.path?.replace('/:id', 'Detalhes') ??
