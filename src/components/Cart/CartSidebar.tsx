@@ -9,7 +9,7 @@ interface CartSidebarProps {
 }
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading: isLoadingCreateOrder }) => {
-  const { items, updateQuantity, removeFromCart, total, isEmptyCartList, isLoading } = useCart();
+  const { items, updateQuantityNoOrder, removeFromCart, total, isEmptyCartList, isLoading } = useCart();
   
   return (
     <>
@@ -55,7 +55,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading
                     </div>
                     <div className="flex items-center gap-2 mt-2">
                       <button
-                        onClick={() => updateQuantity(item.foodId, quantity - 1)}
+                        onClick={() => updateQuantityNoOrder(item.foodId, quantity - 1)}
                         className="p-1 hover:bg-gray-100 rounded"
                         disabled={isLoading}
                       >
@@ -63,7 +63,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading
                       </button>
                       <span className="w-8 text-center">{quantity}</span>
                       <button
-                        onClick={() => updateQuantity(item.foodId, quantity + 1)}
+                        onClick={() => updateQuantityNoOrder(item.foodId, quantity + 1)}
                         className="p-1 hover:bg-gray-100 rounded"
                         disabled={isLoading}
                       >

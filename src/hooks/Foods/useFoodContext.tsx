@@ -1,4 +1,5 @@
 import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
+import { handleOnError } from "@/helpers/Methods";
 import { ListPaginatation } from "@/services/@types/generic";
 import { createFoodAsync, deleteFoodAsync, getFoodById, getListFoodAsync, updateFoodAsync } from "@/services/Foods";
 import { IFood, FoodCreateDTO, IFoodReadModel } from "@/services/Foods/Foods.type";
@@ -40,7 +41,8 @@ export function useUpInsertFoodMutate(onSuccess: () => void) {
             } as FoodCreateDTO
             return await createFoodAsync(payload)
         },
-        onSuccess
+        onSuccess, 
+        onError: handleOnError
     })
 }
 
@@ -54,7 +56,8 @@ export function useUpdateFoodMutate(id: string, onSuccess: () => void) {
             } as FoodCreateDTO
             return await updateFoodAsync(id, payload)
         },
-        onSuccess
+        onSuccess, 
+        onError: handleOnError
     })
 }
 
@@ -63,6 +66,7 @@ export function useDeleteFoodMutate(id: string, onSuccess: () => void) {
         mutationFn: async () => {
             return await deleteFoodAsync(id)
         },
-        onSuccess
+        onSuccess,
+        onError: handleOnError
     })
 }

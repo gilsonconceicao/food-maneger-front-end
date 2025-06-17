@@ -1,11 +1,14 @@
 import { HandleRouterType } from '@/@types/generic.types';
 import { Layout } from '@/components/Layout/Layout';
 import { NotFound, HomeContainer, OrderContaier } from '@/pages';
+import ContactContainer from '@/pages/Contact/ContactContainer';
 import { UpInsertFoodContainer } from '@/pages/Food/UpInsertFood/UpInsertFoodContainer';
 import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
-import { PaymentContainer } from '@/pages/Payment/PaymentContainer';
+import { PaymentCheckoutContainer } from '@/pages/Payment/PaymentCheckout/PaymentCheckoutContainer';
+import { SelectPaymentMethodContainer } from '@/pages/Payment/SelectPaymentMethodContainer';
+import { ProfileContainer } from '@/pages/Profile/ProfileContainer';
 import { RegisterContainer } from '@/pages/Register/RegisterContainer';
 import { Home, Package, Phone, PlusIcon } from 'lucide-react';
 import { RouteObject } from 'react-router-dom';
@@ -47,7 +50,7 @@ export const routes: RouteObject[] = [
           icon: Package,
           showSideMenu: true
         } as HandleRouterType
-      }, 
+      },
       {
         path: '/pedidos/:id',
         element: <OrderDetailsContainer />,
@@ -57,16 +60,34 @@ export const routes: RouteObject[] = [
           icon: Package,
           showSideMenu: false
         } as HandleRouterType
-      }, 
+      },
       {
         path: '/pedidos/:id/pagamento',
-        element: <PaymentContainer />,
+        element: <SelectPaymentMethodContainer />,
         handle: {
           breadcrumb: 'Pagamento',
           icon: Package,
           showSideMenu: false
         } as HandleRouterType
-      }, 
+      },
+      {
+        path: '/pedidos/:id/pagamento/pix/:paymentId',
+        element: <PaymentCheckoutContainer />,
+        handle: {
+          breadcrumb: 'Pix',
+          icon: Package,
+          showSideMenu: false
+        } as HandleRouterType
+      },
+      {
+        path: '/pedidos/:id/pagamento/card',
+        element: <PaymentCheckoutContainer />,
+        handle: {
+          breadcrumb: 'Cartão de crédito',
+          icon: Package,
+          showSideMenu: false
+        } as HandleRouterType
+      },
       {
         path: '/adicionar-comida/:id',
         element: <UpInsertFoodContainer />,
@@ -75,18 +96,28 @@ export const routes: RouteObject[] = [
           breadcrumb: 'Adicionar',
           title: "Adicionar comida",
           icon: PlusIcon,
-          showSideMenu: true, 
+          showSideMenu: true,
           isMaster: true
         } as HandleRouterType
       },
       {
         path: '/contato',
-        element: <>Contato...</>,
+        element: <ContactContainer />,
         handle: {
           breadcrumb: 'Contato',
           title: "Contato",
           icon: Phone,
           showSideMenu: true
+        } as HandleRouterType
+      }, 
+      {
+        path: '/perfil',
+        element: <ProfileContainer />,
+        handle: {
+          breadcrumb: 'Perfil',
+          title: "Perfil",
+          icon: Phone,
+          showSideMenu: false
         } as HandleRouterType
       }
     ]

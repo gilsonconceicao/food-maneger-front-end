@@ -5,17 +5,21 @@ import { statusConfig } from "./OrderGeneric";
 import { useNavigate } from "react-router";
 import { GoBack } from "@/components/GoBack/GoBack";
 import moment from "moment"
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type OrderProps = {
   orderListData: ListPaginatation<IOrderReadModel>;
   refetch: () => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>
+  page: number;
 }
 
-export const Order = ({ orderListData }: OrderProps) => {
+export const Order = ({ orderListData, setPage, page }: OrderProps) => {
   const orders = orderListData?.data ?? [];
-
-  const activeOrders = orders.filter(order => ['awaitingpayment', 'inpreparation', 'delivery'].includes(order.status.toLowerCase()));
-  const completedOrders = orders.filter(order => ['delivered', 'cancelled'].includes(order.status.toLowerCase()));
+console.log('orders', orders)
+  const activeOrders = orders.filter(order => ['awaitingpayment', 'inpreparation', 'delivery', 'paid', 'Done'].includes(order.status.toLowerCase()));
+  const completedOrders = orders.filter(order => ['finished', 'cancelled'].includes(order.status.toLowerCase()));
+  const expiredOrders = orders.filter(order => ['expired', 'paymentfailed'].includes(order.status.toLowerCase()));
 
   return (
     <div className="space-y-4 max-w-4xl mx-auto p-4">
@@ -37,12 +41,45 @@ export const Order = ({ orderListData }: OrderProps) => {
         </div>
       )}
 
+      {expiredOrders.length > 0 && (
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Pedidos expirados</h2>
+          <div className="space-y-4">
+            {expiredOrders.map((order, index) => <OrderItemRender key={index} order={order} />)}
+          </div>
+        </div>
+      )}
+
       {completedOrders.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold mb-4">Histórico de pedidos</h2>
           <div className="space-y-4">
             {completedOrders.map((order, index) => <OrderItemRender key={index} order={order} />)}
           </div>
+        </div>
+      )}
+
+      {orders.length > 1 && (
+        <div className="mt-8 flex justify-center items-center gap-2">
+          <button
+            onClick={() => setPage(prev => prev - 1)}
+            disabled={page === 0}
+            className="p-2 rounded-lg border bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <h3 className="pnpm dlx shadcn@latest add typography">
+            {page + 1}
+          </h3>
+
+          <button
+            onClick={() => setPage(prev => prev + 1)}
+            disabled={page === orderListData.totalPages - 1}
+            className="p-2 rounded-lg border bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       )}
     </div>
@@ -55,6 +92,11 @@ type OrderItemRenderProps = {
 
 const OrderItemRender = ({ order }: OrderItemRenderProps) => {
   const navigate = useNavigate();
+  const isGeneratedExternalPayment = order.status === 'AwaitingPayment' && order.paymentId !== null;
+
+  const statusDisplay = isGeneratedExternalPayment ? "Concluir pagamento" : order.statusDisplay;
+  const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[order.status].color;
+
   return (
     <div
       key={order.id}
@@ -65,9 +107,9 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
         <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-sm font-medium ${statusConfig[order.status].color}`}>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-sm font-medium ${color}`}>
                 {statusConfig[order.status].icon}
-                {order.statusDisplay}
+                {statusDisplay}
               </span>
             </div>
           </div>
@@ -76,12 +118,12 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
           </p>
         </div>
 
-        <div style={{marginTop: -10, marginBottom: 10}} className="flex flex-wrap items-center justify-between">
-              <p className="text-sm text-gray-500 mt-2">
-                Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
-              </p>
-              <p className="text-sm text-gray-500 mt-2">{order?.items?.length ?? 0} {order?.items?.length > 1 ? 'itens' : 'item'}</p>
-            </div>
+        <div style={{ marginTop: -10, marginBottom: 10 }} className="flex flex-wrap items-center justify-between">
+          <p className="text-sm text-gray-500 mt-2">
+            Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
+          </p>
+          <p className="text-sm text-gray-500 mt-2">{order?.items?.length ?? 0} {order?.items?.length > 1 ? 'itens' : 'item'}</p>
+        </div>
 
         <div className="border-t border-gray-800 pt-4">
           <ul className="divide-y divide-gray-800">
@@ -99,9 +141,9 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate gap-2.5">
                       {food.name}
-                    <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                      {item.quantity}x
-                    </span>
+                      <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                        {item.quantity}x
+                      </span>
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
                       {item.food.categoryDisplay}

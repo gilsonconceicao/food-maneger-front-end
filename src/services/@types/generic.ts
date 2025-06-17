@@ -23,6 +23,7 @@ export interface IOrderItem {
 
 export interface IOrderItemReadModel extends IOrderItem {
     food: IFoodReadModel;
+    foodId: string;
 }
 
 export type ListPaginatation <T> = {

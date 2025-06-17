@@ -10,14 +10,17 @@ export interface IOrder {
   status: OrderStatusEnum;
   user: User;
   userId: string;
+  paymentId: string;
   items: IOrderItem[];
   createdAt: string;
   updatedAt: string;
+  failureReason: string
 }
 
 
 export interface IOrderReadModel extends Omit<IOrder, "status"> {
   statusDisplay: string;
   status: string;
+  observations: string;
   items: IOrderItemReadModel[];
 }

@@ -1,7 +1,7 @@
 import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { Button } from '../ui/button';
-import { LogOutIcon, ShoppingCart } from 'lucide-react';
+import { LogOutIcon, ShoppingCart, User, ZapIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { useCart } from '@/contexts/CartContext';
@@ -9,6 +9,7 @@ import { CustomDrawer } from '../Drawer/Drawer';
 import { Link } from "react-router";
 import AuthPrompt from '../AuthPrompt/AuthPrompt';
 import CartSidebarContainer from '../Cart/CartSidebarContainer';
+import './header.style.css'
 
 export const Header = () => {
     const [action, setAction] = useState<string | undefined>(undefined);
@@ -30,15 +31,20 @@ export const Header = () => {
     const onClose = () => setAction(undefined)
 
     return (
-        <div className="bg-sidebar flex justify-between items-center p-4 ">
+        <div className="bg-sidebar flex justify-between items-center p-4 relative ">
             <div className="flex items-center gap-2 ">
                 <div>
                     {isMobile && <SidebarTrigger onClick={overrideToggleMenu} showIconLock={!isAuthenticated && showAuthPrompt} />}
                 </div>
-                <div>
-                    <p className="leading-7 [&:not(:first-child)]:mt-6">
-                        {isAuthenticated ? `Olá, ${user?.name}` : 'Bem-vindo(a)'}
-                    </p>
+                <div className='flex items-center space-x-2' >
+                    {!isMobile && <ZapIcon className='w-7 h-7 text-orange-300 mb-1' />}
+                    {isMobile ? (
+                        <p className="leading-7 [&:not(:first-child)]:mt-6">
+                            {isAuthenticated ? `Olá, ${user?.name}` : 'Bem-vindo(a)'}
+                        </p>
+                    ) : <p className={`header-title`}>
+                        Da Panela Pra Mesa
+                    </p>}
 
                 </div>
             </div>
@@ -56,7 +62,7 @@ export const Header = () => {
                 ) : (
                     <div className='flex justify-between items-center gap-4'>
                         <button
-                            className="relative bg-orange-500 p-2 rounded-full text-white hover:bg-orange-600 transition-colors"
+                            className="relative bg-orange-500 p-2 rounded-full text-white hover:bg-orange-600 transition-colors cursor-pointer"
                             onClick={() => setAction('cart')}
                         >
                             <ShoppingCart className="h-5 w-5" />
@@ -66,9 +72,26 @@ export const Header = () => {
                                 </span>
                             )}
                         </button>
-                        <Button variant="outline" size="icon" onClick={() => setAction('logout')}>
-                            <LogOutIcon />
-                        </Button>
+                        <Link
+                            to="/perfil"
+                            className="bg-orange-500 p-2 rounded-full text-white hover:bg-orange-600 transition-colors"
+                        >
+                            <User className="h-5 w-5" />
+                        </Link>
+                        {
+                            isMobile ? (
+                                <Button variant="outline" size="icon" onClick={() => setAction('logout')}>
+                                    <LogOutIcon />
+                                </Button>
+
+                            ) : (
+                                <Button variant="outline"  onClick={() => setAction('logout')}>
+                                    Sair
+                                    <LogOutIcon />
+                                </Button>
+
+                            )
+                        }
 
                     </div>
                 )}
@@ -91,7 +114,7 @@ export const Header = () => {
                 title="Carrinho de compras"
                 description="Confira os itens que você adicionou ao carrinho."
                 confirmText="Ir para o pagamento"
-                children={<CartSidebarContainer onCloseSidebar={onClose}/>}
+                children={<CartSidebarContainer onCloseSidebar={onClose} />}
             />
 
             <AuthPrompt

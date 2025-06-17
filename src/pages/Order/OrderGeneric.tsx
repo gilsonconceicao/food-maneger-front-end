@@ -1,5 +1,5 @@
 import { OrderStatusEnum } from "@/services/Enums/OrderStatusEnum";
-import { AlertTriangle, CheckCircle, CheckSquare, Clock, DollarSign, Hourglass, Package, Wallet, XCircle } from "lucide-react";
+import { AlertTriangle, CheckSquare, Clock, DollarSign, Hourglass, Package, Truck, Wallet, XCircle } from "lucide-react";
 
 export const statusConfig: Record<string, { icon: React.ReactNode; color: string }> = {
   AwaitingPayment: {
@@ -15,7 +15,7 @@ export const statusConfig: Record<string, { icon: React.ReactNode; color: string
     color: 'text-yellow-500 bg-yellow-50'
   },
   Delivery: {
-    icon: <CheckCircle className="w-5 h-5" />,
+    icon: <Truck className="w-5 h-5" />,
     color: 'text-emerald-500 bg-emerald-50'
   },
   Cancelled: {

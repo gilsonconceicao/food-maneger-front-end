@@ -1,6 +1,6 @@
 import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
 import { ListPaginatation } from "../@types/generic";
-import { apiClient } from "../config/axios";
+import apiClient from "../config/axios";
 import { IFood, FoodCreateDTO } from "./Foods.type";
 
 const endpoint = `/Food`

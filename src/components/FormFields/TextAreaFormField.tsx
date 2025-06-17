@@ -15,7 +15,7 @@ export const TextAreaFormField = ({
   label,
   placeholder
 }: TextAreaFormFieldProps) => {
-  const { control, errors } = useFormContext();
+  const { control, errors, submitting } = useFormContext();
 
   return (
     <Controller
@@ -32,6 +32,7 @@ export const TextAreaFormField = ({
             {...field}
             id={name}
             placeholder={placeholder}
+            disabled={submitting}
           />
 
           {errors[name] && (

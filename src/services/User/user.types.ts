@@ -12,6 +12,7 @@ export interface Address {
     street: string;
     city: string;
     state: string;
+    complement: string;
     zipCode: string;
     number: number;
     user?: User | null;
@@ -22,7 +23,6 @@ export type CreateUserType = {
     name?: string;
     phoneNumber?: string
     address?: CreateAddress
-    email: string
 }
 
 export type CreateAddress = {

@@ -23,4 +23,11 @@ export type CartTypeCreate = {
     foodId: string;
     quantity?: number;
     observations?: string
+    isPersist: boolean
+}
+
+export type UpdateTypeModel = {
+    foodId: string;
+    orderId?: string
+    quantity?: number;
 }

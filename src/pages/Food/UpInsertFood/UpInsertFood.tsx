@@ -58,15 +58,17 @@ export const UpInsertFood = ({ isModeCreate, onDeleteFood }: UpInsertFoodProps) 
                 />
             </div>
 
-            <Link to={nameValue !== undefined ? `https://www.pexels.com/pt-br/procurar/${nameValue}/` : 'https://www.pexels.com/pt-br'} className="block text-blue-400 mt-5 mb-2"  target="_blank">Referência para imagens</Link>
-            <div style={{ marginTop: '30px', gap: 20}} className={isMobile ? "grid" : "flex justify-end items-center"}>
+            <Link to={nameValue !== undefined ? `https://www.pexels.com/pt-br/procurar/${nameValue}/` : 'https://www.pexels.com/pt-br'} className="block text-blue-400 mt-5 mb-2" target="_blank">Referência para imagens</Link>
+            <div style={{ marginTop: '30px', gap: 20 }} className={isMobile ? "grid" : "flex justify-end items-center"}>
 
-                <Button variant='destructive' type="button" onClick={onDeleteFood} disabled={isModeCreate} className="cursor-pointer">
-                    <Trash className="w-4 h-4" />
-                    Excluir
-                </Button>
+                {!isModeCreate && (
+                    <Button variant='destructive' type="button" onClick={onDeleteFood} className="cursor-pointer">
+                        <Trash className="w-4 h-4" />
+                        Excluir
+                    </Button>
+                )}
 
-                <Button type="submit" variant='default'   className="cursor-pointer">
+                <Button type="submit" variant='default' className="cursor-pointer">
                     {isModeCreate ? <PlusIcon className="w-4 h-4" /> : <RefreshCw className="w-4 h-4" />}
                     {editOrAddTextDisplay}
                 </Button>

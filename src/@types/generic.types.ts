@@ -16,3 +16,8 @@ export interface IDefaultParamsPaginatedQuery {
   size?: number,
   searchString?: string | null
 }
+
+export type FailureFormatDefault = {
+  code: string; 
+  message: string;
+}
