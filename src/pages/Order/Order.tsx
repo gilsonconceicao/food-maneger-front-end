@@ -16,7 +16,7 @@ type OrderProps = {
 
 export const Order = ({ orderListData, setPage, page }: OrderProps) => {
   const orders = orderListData?.data ?? [];
-console.log('orders', orders)
+
   const activeOrders = orders.filter(order => ['awaitingpayment', 'inpreparation', 'delivery', 'paid', 'Done'].includes(order.status.toLowerCase()));
   const completedOrders = orders.filter(order => ['finished', 'cancelled'].includes(order.status.toLowerCase()));
   const expiredOrders = orders.filter(order => ['expired', 'paymentfailed'].includes(order.status.toLowerCase()));
