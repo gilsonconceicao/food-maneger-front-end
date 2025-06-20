@@ -5,12 +5,13 @@ import ContactContainer from '@/pages/Contact/ContactContainer';
 import { UpInsertFoodContainer } from '@/pages/Food/UpInsertFood/UpInsertFoodContainer';
 import { ForgotPasswordContainer } from '@/pages/ForgotPassword/ForgotPasswordContainer';
 import { LoginContainer } from '@/pages/Login/LoginContainer';
+import { AdminOrdersContainer } from '@/pages/Order/Admin/AdminOrdersContainer';
 import { OrderDetailsContainer } from '@/pages/Order/Details/OrderDetailsContainer';
 import { PaymentCheckoutContainer } from '@/pages/Payment/PaymentCheckout/PaymentCheckoutContainer';
 import { SelectPaymentMethodContainer } from '@/pages/Payment/SelectPaymentMethodContainer';
 import { ProfileContainer } from '@/pages/Profile/ProfileContainer';
 import { RegisterContainer } from '@/pages/Register/RegisterContainer';
-import { Home, Package, Phone, PlusIcon } from 'lucide-react';
+import { Home, Package, Phone, PlusIcon, Settings2 } from 'lucide-react';
 import { RouteObject } from 'react-router-dom';
 
 export const routes: RouteObject[] = [
@@ -89,6 +90,16 @@ export const routes: RouteObject[] = [
         } as HandleRouterType
       },
       {
+        path: '/pedidos/gerenciar',
+        element: <AdminOrdersContainer />,
+        handle: {
+          title: "Gerenciar pedidos",
+          icon: Settings2,
+          showSideMenu: true,
+          isMaster: true
+        } as HandleRouterType
+      },
+      {
         path: '/adicionar-comida/:id',
         element: <UpInsertFoodContainer />,
         handle: {
@@ -109,7 +120,7 @@ export const routes: RouteObject[] = [
           icon: Phone,
           showSideMenu: true
         } as HandleRouterType
-      }, 
+      },
       {
         path: '/perfil',
         element: <ProfileContainer />,

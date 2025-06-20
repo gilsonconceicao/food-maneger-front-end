@@ -18,7 +18,7 @@ export const OrderDetailsContainer = () => {
   const { data: orderData, isLoading, error, refetch } = useGetOrderByIdQuery(id);
   const onClose = () => setAction(undefined);
 
-  const onSuccessByAxtion = () => {
+  const onSuccessByAction = () => {
     const optionsMessage: { [type: string]: string } = {
       "delete": "Sucesso ao excluir pedido",
       "cancel": "Sucesso ao cancelar pedido", 
@@ -35,9 +35,9 @@ export const OrderDetailsContainer = () => {
     refetch(); 
   }
 
-  const { mutateAsync: cancelMutateAsync, isPending: isLoadingCancel } = useCancelOrderMutate(onSuccessByAxtion);
-  const { mutateAsync: deleteMutateAsync, isPending: isLoadingDelete } = useDeleteOrderMutate(onSuccessByAxtion);
-  const { mutateAsync: updateStatusMutateAsync, isPending: isLoadingUpdateStatus } = useUpdateOrderStatusMutate(onSuccessByAxtion);
+  const { mutateAsync: cancelMutateAsync, isPending: isLoadingCancel } = useCancelOrderMutate(onSuccessByAction);
+  const { mutateAsync: deleteMutateAsync, isPending: isLoadingDelete } = useDeleteOrderMutate(onSuccessByAction);
+  const { mutateAsync: updateStatusMutateAsync, isPending: isLoadingUpdateStatus } = useUpdateOrderStatusMutate(onSuccessByAction);
 
   if (isLoading || isLoadingUser) return <Loading />
   if (error) return <FailureError error={error} />
@@ -81,7 +81,7 @@ export const OrderDetailsContainer = () => {
         title={`Atualizar status do pedido #${orderData?.orderNumber}`}
         description={`Ação exclusiva para admin`}
         cancelText="Fechar"
-        loading={isLoadingCancel}
+        loading={isLoadingUpdateStatus}
         onConfirm={() => updateStatusMutateAsync(id!)}
         onCancel={onClose}
       />

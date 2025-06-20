@@ -18,6 +18,18 @@ export const getOrderListAsync = async (params?: IDefaultParamsPaginatedQuery) =
     return await apiClient.get<ListPaginatation<IOrderReadModel>>(`${endpoint}`, config)
 };
 
+export const getAdminOrdersAsync = async (params?: IDefaultParamsPaginatedQuery) => {
+      const config = {
+        params: {
+            ...params,
+            page: params?.page ?? 0,
+            size: params?.size ?? 30
+        }
+    };
+
+    return await apiClient.get<ListPaginatation<IOrderReadModel>>(`${endpoint}/Admin`, config)
+};
+
 export const getOrderByIdAsync = async (id: string) => await apiClient.get<IOrderReadModel>(`${endpoint}/${id}`);
 
 export const createOrderAsync = async (userId: string, cartIds: string[]) => {

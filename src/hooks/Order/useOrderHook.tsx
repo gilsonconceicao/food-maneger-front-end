@@ -1,7 +1,7 @@
 import { IDefaultParamsPaginatedQuery } from "@/@types/generic.types";
 import { handleOnError } from "@/helpers/Methods";
 import { ListPaginatation } from "@/services/@types/generic";
-import { cancelOrderAsync, createOrderAsync, deleteOrderAsync, getOrderByIdAsync, getOrderListAsync, updateOrderAsync, updateOrderStatusAsync } from "@/services/Order";
+import { cancelOrderAsync, createOrderAsync, deleteOrderAsync, getAdminOrdersAsync, getOrderByIdAsync, getOrderListAsync, updateOrderAsync, updateOrderStatusAsync } from "@/services/Order";
 import { IOrderReadModel } from "@/services/Order/Order.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
@@ -14,6 +14,19 @@ export function useOrderListQuery(params?: IDefaultParamsPaginatedQuery) {
         refetchOnWindowFocus: false,
         queryFn: async () => {
             const { data } = await getOrderListAsync(params);
+            return data as ListPaginatation<IOrderReadModel>;
+        }
+    })
+}
+
+export function useAdminOrderListQuery(params?: IDefaultParamsPaginatedQuery) {
+    return useQuery({
+        queryKey: ['admin-order-get-list', params],
+        enabled: true,
+        refetchOnMount: 'always',
+        refetchOnWindowFocus: false,
+        queryFn: async () => {
+            const { data } = await getAdminOrdersAsync(params);
             return data as ListPaginatation<IOrderReadModel>;
         }
     })
