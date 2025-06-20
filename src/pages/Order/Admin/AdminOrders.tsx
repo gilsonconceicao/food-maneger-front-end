@@ -1,21 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-    ArrowLeft,
-    Clock,
-    CheckCircle,
-    Eye,
-    Loader2,
-    Users,
-    Calendar,
-    AxeIcon,
-    ChevronLeft,
-    ChevronRight
-} from 'lucide-react';
+import { ArrowLeft, Clock, CheckCircle, Eye, Loader2, Users, Calendar, ChevronLeft, ChevronRight, Ban, ChartPie } from 'lucide-react';
 import { formatRelativeTime, statusConfig } from '../OrderGeneric';
 import { IOrderReadModel } from '@/services/Order/Order.type';
 import { formatCurrencyInCents } from '@/helpers/Methods';
 import { ListPaginatation } from '@/services/@types/generic';
+import { Button } from '@/components/ui/button';
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('pt-BR', {
@@ -32,17 +22,19 @@ type AdminOrdersProps = {
     isLoading: boolean;
     setPage: React.Dispatch<React.SetStateAction<number>>
     page: number;
+    setAction: (action: string, orderId: string) => void;
 }
 
-const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, page, setPage }) => {
+const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, page, setPage, setAction }) => {
     const navigate = useNavigate();
 
     const orders = orderListData?.data ?? [];
 
     const stats = {
         total: orders.length,
-        pending: orders.filter(o => ['awaitingPayment', 'pending', 'preparing'].includes(o.status)).length,
-        completed: orders.filter(o => o.status === 'delivered').length,
+        pending: orders.filter(o => ['awaitingpayment', 'paid', 'inpreparation'].includes(o.status.toLowerCase())).length,
+        completed: orders.filter(o => o.status.toLowerCase() === 'finished').length,
+        failure: orders.filter(o => ['paymentfailed', 'expired', 'cancelled'].includes(o.status.toLowerCase())).length
     };
 
     if (isLoading) {
@@ -120,7 +112,17 @@ const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, pag
                         </div>
                     </div>
 
-
+                    <div className="bg-sidebar rounded-lg shadow-sm p-6">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-medium text-gray-100">Cancelados, Expirados ou Falhas</p>
+                                <p className="text-2xl font-bold text-red-600">{stats.failure}</p>
+                            </div>
+                            <div className="p-3 bg-red-100 rounded-full">
+                                <Ban className="w-6 h-6 text-red-600" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="bg-sidebar rounded-lg shadow-sm overflow-hidden">
@@ -185,20 +187,17 @@ const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, pag
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center gap-2">
-                                                    <button
-                                                        onClick={() => navigate(`/pedidos/${order.id}`)}
-                                                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                                                        title="Ver detalhes"
-                                                    >
+                                                    <Button size='icon' className='cursor-pointer' onClick={() => navigate(`/pedidos/${order.id}`)}>
                                                         <Eye className="w-4 h-4" />
-                                                    </button>
+                                                    </Button>
 
-                                                    <button
-                                                        className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${'bg-orange-100 text-orange-700 hover:bg-orange-200'}`}
-                                                        title={"Exemplo"}
+                                                    <Button
+                                                        size='icon'
+                                                        onClick={() => setAction('updateStatus',order.id)}
+                                                        className='bg-purple-700 hover:bg-purple-800 text-white cursor-pointer'
                                                     >
-                                                        <AxeIcon />
-                                                    </button>
+                                                        <ChartPie className="w-4 h-4" />
+                                                    </Button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -208,6 +207,7 @@ const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, pag
                         </table>
                     </div>
                 </div>
+
                 {orders.length > 1 && (
                     <div className="mt-8 flex justify-center items-center gap-2">
                         <button
