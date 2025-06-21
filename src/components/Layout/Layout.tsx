@@ -25,7 +25,7 @@ export function Layout() {
       <div className="w-full">
         <AppSidebar />
         <Header />
-        <main className="pl-3 pr-3 pt-5">
+        <main className="pl-3 pr-3 pt-20">
           <Outlet />
         </main>
       </div>

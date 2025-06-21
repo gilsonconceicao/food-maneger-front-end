@@ -23,9 +23,10 @@ import {
   failureErrorMehtodsFirebase,
   FirebaseAuthErrorType
 } from "@/helpers/Methods";
-import { useSyncUserMutate, useVerifyUserIsMaster } from "@/hooks/User/UserHooks";
+import { useCreateUserMutate, useVerifyUserIsMaster } from "@/hooks/User/UserHooks";
 import { getAccessTokenLocalStorage, getUserDataInLocalStorage } from "@/constants/localStorage";
 import { saveUserInDataLocalStorge } from "@/helpers/Methods/Storage";
+import { FieldValues } from "react-hook-form";
 
 export type CreateUserFirebaseType = {
   email: string;
@@ -83,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAccessTokenLocalStorage);
 
   const { data: isUserMaster } = useVerifyUserIsMaster(currentUser?.uid);
-  const { mutateAsync: syncUserMutate } = useSyncUserMutate();
+  const { mutateAsync: createUserMutate } = useCreateUserMutate();
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
@@ -133,9 +134,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await createUserWithEmailAndPassword(auth, user.email, user.password);
       await updateProfile(response.user, {
-        displayName: user.displayName
+        displayName: user.displayName,
       });
-      await syncUserMutate(); 
+      await createUserMutate({
+        name: user.displayName,
+        email: user.email,
+        phoneNumber: user.phoneNumber.replace(/\D/g, "").trim(),
+        firebaseUserId: response.user.uid,
+      } as FieldValues);
       await signUserAsync(user.email, user.password, handleSuccess, true);
     } catch (error) {
       handleAuthError(error as FirebaseAuthErrorType);

@@ -4,6 +4,8 @@ import { Loader2 } from 'lucide-react';
 import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import FoodDetails from './FoodDetatails';
 import { useAuthContext } from '@/contexts/AuthContext';
+import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay';
+import { useCart } from '@/contexts/CartContext';
 
 interface FoodGridProps {
   foods: IFoodReadModel[];
@@ -23,7 +25,9 @@ const FoodGrid: React.FC<FoodGridProps> = ({
   hasMore
 }) => {
   const { isAuthenticated } = useAuthContext();
-  const [ selectedFood, setSelectedFood ] = useState<IFoodReadModel | null>(null);
+  const [selectedFood, setSelectedFood] = useState<IFoodReadModel | null>(null);
+
+  const { addToCart, isLoading: isLoadingCart, isCartOpen, } = useCart();
 
   const onSelectFood = (food: IFoodReadModel) => {
     if (!isAuthenticated) return;
@@ -58,8 +62,11 @@ const FoodGrid: React.FC<FoodGridProps> = ({
     );
   }
 
+
   return (
     <>
+      <LoadingOverlay open={isLoadingCart && !isCartOpen} />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-full overflow-hidden">
         {foods.map((food, index) => (
           <div
@@ -67,7 +74,7 @@ const FoodGrid: React.FC<FoodGridProps> = ({
             ref={index === foods.length - 1 ? lastFoodRef : null}
             className="min-w-0"
           >
-            <FoodCard food={food} onSelectFood={onSelectFood}/>
+            <FoodCard food={food} onSelectFood={onSelectFood} addToCart={addToCart} />
           </div>
         ))}
       </div>

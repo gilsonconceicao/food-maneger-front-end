@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
 import { IFoodReadModel } from '@/services/Foods/Foods.type';
 import { useCart } from '@/contexts/CartContext';
@@ -15,24 +15,11 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
   const modalRef = useRef<HTMLDivElement | null>(null);
   
   const [quantity, setQuantity] = React.useState(1);
-  const { addToCart } = useCart();
+  const { addToCart, isLoading } = useCart();
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [onClose]);
-
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     for (let i = 0; i < quantity; i++) {
-      addToCart(food);
+      await addToCart(food);
     }
     onClose();
   };
@@ -81,14 +68,16 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
             <div className="flex items-center gap-3 rounded-lg p-2">
               <Button
                 onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                className="p-1  rounded-full transition-colors"
+                disabled={isLoading}
+                className="p-1  rounded-full transition-colors cursor-pointer"
               >
                 <Minus className="w-5 h-5" />
               </Button>
               <span className="w-8 text-center font-medium">{quantity}</span>
               <Button
                 onClick={() => setQuantity(q => q + 1)}
-                className="p-1  rounded-full transition-colors"
+                disabled={isLoading}
+                className="p-1  rounded-full transition-colors cursor-pointer"
               >
                 <Plus className="w-5 h-5" />
               </Button>
@@ -96,10 +85,11 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
 
             <Button
               onClick={handleAddToCart}
+              disabled={isLoading}
             className={`flex-1 bg-orange-500 hover:bg-orange-600 text-white cursor-pointer`}
             >
               <ShoppingCart className="w-5 h-5" />
-              Adicionar ao carrinho
+              {isLoading ? "Adicionando..." : "Adicionar ao carrinho"}
             </Button>
           </div>
         </div>

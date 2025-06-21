@@ -10,10 +10,9 @@ interface CartSidebarProps {
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading: isLoadingCreateOrder }) => {
   const { items, updateQuantityNoOrder, removeFromCart, total, isEmptyCartList, isLoading } = useCart();
-  
+
   return (
     <>
-
       <div className="flex-1 overflow-y-auto p-3">
         {isLoading && (
           <div className="flex justify-center items-center h-32">
@@ -28,7 +27,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading
         )}
 
         {!isLoading && !isEmptyCartList && (
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-[650px] overflow-y-auto pr-2">
             {items.map(item => {
               const name = item.food.name;
               const price = item.food.price;
@@ -51,7 +50,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading
                       <div className="text-orange-500 font-medium">
                         {formatCurrencyInCents(price * quantity)}
                       </div>
-
                     </div>
                     <div className="flex items-center gap-2 mt-2">
                       <button
@@ -83,10 +81,11 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading
             })}
           </div>
         )}
+
       </div>
 
       {!isEmptyCartList && !isLoading &&
-        <div className="border-t p-4 space-y-4">
+        <div className="border-t p-4 space-y-4 absolute bottom-0 left-0 right-0">
           <div className="flex justify-between items-center text-lg font-semibold">
             <span>Total</span>
             <span>{formatCurrencyInCents(total)}</span>

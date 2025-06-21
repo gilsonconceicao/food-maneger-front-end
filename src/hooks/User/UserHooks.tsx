@@ -1,8 +1,9 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { handleOnError } from "@/helpers/Methods";
-import { getUserById, syncUser, updateUserById, verifyUserIsMasterAsync } from "@/services/User";
+import { createUserAsync, getUserById, updateUserById, verifyUserIsMasterAsync } from "@/services/User";
 import { CreateUserType, User } from "@/services/User/user.types";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { FieldValues } from "react-hook-form";
 
 export function useVerifyUserIsMaster(userId?: string) {
     return useQuery({
@@ -54,12 +55,12 @@ export function useUpdateUserByIdMutate(
     })
 }
 
-export function useSyncUserMutate(
+export function useCreateUserMutate(
     onSuccess?: (isDeleted: boolean) => void
 ) {
     return useMutation({
-        mutationFn: async () => {
-            return await syncUser() as unknown as boolean;
+        mutationFn: async (body: FieldValues) => {
+            return await createUserAsync(body) as unknown as boolean;
         },
         onSuccess,
         onError: handleOnError

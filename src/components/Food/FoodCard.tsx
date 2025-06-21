@@ -1,6 +1,5 @@
-import { useCart } from '@/contexts/CartContext';
 import { formatCurrencyInCents, renderUrlImageValidate } from '@/helpers/Methods';
-import { IFoodReadModel } from '@/services/Foods/Foods.type';
+import { IFood, IFoodReadModel } from '@/services/Foods/Foods.type';
 import React from 'react';
 import { Button } from '../ui/button';
 import { useAuthContext } from '@/contexts/AuthContext';
@@ -10,14 +9,14 @@ import AuthPrompt from '../AuthPrompt/AuthPrompt';
 interface FoodCardProps {
   food: IFoodReadModel;
   onSelectFood: (food: IFoodReadModel) => void;
+  addToCart: (food: IFood) => Promise<void>
 }
 
-const FoodCard: React.FC<FoodCardProps> = ({ food, onSelectFood }) => {
+const FoodCard: React.FC<FoodCardProps> = ({ food, onSelectFood, addToCart }) => {
   const navigate = useNavigate();
   const [showAuthPrompt, setShowAuthPrompt] = React.useState(false);
   const { name: title, price, url: image, description } = food;
   const { user, isAuthenticated } = useAuthContext();
-  const { addToCart } = useCart();
 
   const handleAddCart = () => {
     if (!isAuthenticated) {

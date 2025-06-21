@@ -1,3 +1,4 @@
+import { FieldValues } from "react-hook-form";
 import apiClient from "../config/axios"
 import { CreateUserType, User } from "./user.types";
 
@@ -17,4 +18,8 @@ export const updateUserById = async (userId: string, body: CreateUserType) => {
 
 export const syncUser = async () => {
     return await apiClient.post<boolean>(`${endpoint}/Sync`, {});
+}
+
+export const createUserAsync = async (body: FieldValues) => {
+    return await apiClient.post<boolean>(`${endpoint}`, body);
 }

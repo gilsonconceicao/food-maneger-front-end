@@ -16,7 +16,7 @@ export const Header = () => {
     const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
     const { isMobile } = useSidebar()
-    const { items } = useCart();
+    const { items, toggleCart, isCartOpen } = useCart();
     const { isAuthenticated, logoutUserAsync, user } = useAuthContext();
 
     const handleLogout = () => logoutUserAsync();
@@ -31,7 +31,7 @@ export const Header = () => {
     const onClose = () => setAction(undefined)
 
     return (
-        <div className="bg-sidebar flex justify-between items-center p-4 relative ">
+       <div className="bg-sidebar flex justify-between items-center p-4 md:relative fixed top-0 left-0 right-0 z-50">
             <div className="flex items-center gap-2 ">
                 <div>
                     {isMobile && <SidebarTrigger onClick={overrideToggleMenu} showIconLock={!isAuthenticated && showAuthPrompt} />}
@@ -63,7 +63,7 @@ export const Header = () => {
                     <div className='flex justify-between items-center gap-4'>
                         <button
                             className="relative bg-orange-500 p-2 rounded-full text-white hover:bg-orange-600 transition-colors cursor-pointer"
-                            onClick={() => setAction('cart')}
+                            onClick={toggleCart}
                         >
                             <ShoppingCart className="h-5 w-5" />
                             {itemCount > 0 && (
@@ -85,7 +85,7 @@ export const Header = () => {
                                 </Button>
 
                             ) : (
-                                <Button variant="outline"  onClick={() => setAction('logout')}>
+                                <Button variant="outline" onClick={() => setAction('logout')}>
                                     Sair
                                     <LogOutIcon />
                                 </Button>
@@ -109,12 +109,12 @@ export const Header = () => {
             />
 
             <CustomDrawer
-                open={action === 'cart'}
-                onOpenChange={onClose}
+                open={isCartOpen}
+                onOpenChange={toggleCart}
                 title="Carrinho de compras"
                 description="Confira os itens que você adicionou ao carrinho."
                 confirmText="Ir para o pagamento"
-                children={<CartSidebarContainer onCloseSidebar={onClose} />}
+                children={<CartSidebarContainer onCloseSidebar={toggleCart} />}
             />
 
             <AuthPrompt
