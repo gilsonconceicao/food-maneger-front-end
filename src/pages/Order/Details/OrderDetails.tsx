@@ -110,7 +110,7 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
                                 <Phone className="w-5 h-5 mt-0.5" />
                                 <div>
                                     <p className="text-sm font-medium ">Telefone</p>
-                                    <p className="text-sm text-gray-400">{formatPhoneNumber(user.phoneNumber)}</p>
+                                    <p className="text-sm text-gray-400">{formatPhoneNumber(user.phoneNumber ?? "")}</p>
                                 </div>
                             </div>
                         </div>
