@@ -100,7 +100,7 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
   return (
     <div
       key={order.id}
-      className="bg-sidebar rounded-lg overflow-hidden border-2 hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-sidebar rounded-lg overflow-hidden border-2 hover:shadow-md transition-shadow  "
       onClick={() => navigate(`/pedidos/${order.id}`)}
     >
       <div className="p-4 sm:p-6">

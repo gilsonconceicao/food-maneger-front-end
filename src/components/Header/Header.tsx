@@ -62,7 +62,7 @@ export const Header = () => {
                 ) : (
                     <div className='flex justify-between items-center gap-4'>
                         <button
-                            className="relative bg-orange-500 p-2 rounded-full text-white hover:bg-orange-600 transition-colors cursor-pointer"
+                            className="relative bg-orange-500 p-2 rounded-full text-white hover:bg-orange-600 transition-colors  "
                             onClick={toggleCart}
                         >
                             <ShoppingCart className="h-5 w-5" />

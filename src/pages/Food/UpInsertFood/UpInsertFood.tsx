@@ -62,13 +62,13 @@ export const UpInsertFood = ({ isModeCreate, onDeleteFood }: UpInsertFoodProps) 
             <div style={{ marginTop: '30px', gap: 20 }} className={isMobile ? "grid" : "flex justify-end items-center"}>
 
                 {!isModeCreate && (
-                    <Button variant='destructive' type="button" onClick={onDeleteFood} className="cursor-pointer">
+                    <Button variant='destructive' type="button" onClick={onDeleteFood} className=" ">
                         <Trash className="w-4 h-4" />
                         Excluir
                     </Button>
                 )}
 
-                <Button type="submit" variant='default' className="cursor-pointer">
+                <Button type="submit" variant='default' className=" ">
                     {isModeCreate ? <PlusIcon className="w-4 h-4" /> : <RefreshCw className="w-4 h-4" />}
                     {editOrAddTextDisplay}
                 </Button>

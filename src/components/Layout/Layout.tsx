@@ -13,7 +13,7 @@ export function Layout() {
     return (
       <div className="w-full">
         <Header />
-        <main className="pl-6 pr-6 pt-5">
+        <main className="pl-6 pr-6 pt-15">
           <Outlet />
         </main>
       </div>

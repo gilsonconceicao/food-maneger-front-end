@@ -53,7 +53,7 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                                 <button
                                     key={method.id}
                                     onClick={() => setSelectedMethod(method.id)}
-                                    className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-colors cursor-pointer translate-3d 
+                                    className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-colors   translate-3d 
                                         ${itemSelected ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-orange-300'}`}
                                 >
                                     <div className={`p-3 rounded-full ${itemSelected ? 'bg-orange-100 text-orange-500' : 'bg-gray-100 text-gray-500'}`}>
@@ -93,7 +93,7 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                     <button
                         onClick={handlePayment}
                         disabled={!selectedMethod || isLoading}
-                        className="mt-8 w-full bg-orange-500 text-white py-3 px-4 cursor-pointer rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="mt-8 w-full bg-orange-500 text-white py-3 px-4   rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                         Continuar para pagamento
                     </button>

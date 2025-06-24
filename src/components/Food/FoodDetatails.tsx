@@ -36,7 +36,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
         <div ref={modalRef} className="relative h-64 sm:h-80">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 bg-sidebar p-2 rounded-full hover:bg-gray-800 cursor-pointer transition-colors z-10"
+            className="absolute top-4 right-4 bg-sidebar p-2 rounded-full hover:bg-gray-800   transition-colors z-10"
           >
             <X className="w-6 h-6" />
           </button>
@@ -69,7 +69,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
               <Button
                 onClick={() => setQuantity(q => Math.max(1, q - 1))}
                 disabled={isLoading}
-                className="p-1  rounded-full transition-colors cursor-pointer"
+                className="p-1  rounded-full transition-colors  "
               >
                 <Minus className="w-5 h-5" />
               </Button>
@@ -77,7 +77,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
               <Button
                 onClick={() => setQuantity(q => q + 1)}
                 disabled={isLoading}
-                className="p-1  rounded-full transition-colors cursor-pointer"
+                className="p-1  rounded-full transition-colors  "
               >
                 <Plus className="w-5 h-5" />
               </Button>
@@ -86,7 +86,7 @@ const FoodDetails: React.FC<FoodDetailsProps> = ({ food, onClose, showFoodDetail
             <Button
               onClick={handleAddToCart}
               disabled={isLoading}
-            className={`flex-1 bg-orange-500 hover:bg-orange-600 text-white cursor-pointer`}
+            className={`flex-1 bg-orange-500 hover:bg-orange-600 text-white  `}
             >
               <ShoppingCart className="w-5 h-5" />
               {isLoading ? "Adicionando..." : "Adicionar ao carrinho"}

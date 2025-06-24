@@ -43,7 +43,7 @@ export const ContactForm = ({ isLoading, isSendMessage }: ContactFormProps) => {
             <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-orange-500 text-white mt-4 p-2 cursor-pointer rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full bg-orange-500 text-white mt-4 p-2   rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
                 {isLoading ? (
                     <>

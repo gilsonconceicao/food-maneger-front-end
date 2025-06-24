@@ -47,13 +47,13 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onSelectFood, addToCart }) =>
         </div>
         <Button
           onClick={handleAddCart}
-          className="mt-4 bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 py-2 px-4 cursor-pointer rounded-md flex items-center justify-center">
+          className="mt-4 bg-orange-500 text-white hover:bg-orange-600 transition-colors duration-300 py-2 px-4   rounded-md flex items-center justify-center">
           Adicionar
         </Button>
         {user?.isMaster && <Button
           onClick={() => navigate('/adicionar-comida/' + food.id)}
           variant='outline'
-          className="mt-4 py-2 px-4 rounded-md flex items-center justify-center cursor-pointer">
+          className="mt-4 py-2 px-4 rounded-md flex items-center justify-center  ">
           Editar
         </Button>}
       </div>

@@ -187,14 +187,14 @@ const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, pag
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center gap-2">
-                                                    <Button size='icon' className='cursor-pointer' onClick={() => navigate(`/pedidos/${order.id}`)}>
+                                                    <Button size='icon' className=' ' onClick={() => navigate(`/pedidos/${order.id}`)}>
                                                         <Eye className="w-4 h-4" />
                                                     </Button>
 
                                                     <Button
                                                         size='icon'
                                                         onClick={() => setAction('updateStatus',order.id)}
-                                                        className='bg-purple-700 hover:bg-purple-800 text-white cursor-pointer'
+                                                        className='bg-purple-700 hover:bg-purple-800 text-white  '
                                                     >
                                                         <ChartPie className="w-4 h-4" />
                                                     </Button>

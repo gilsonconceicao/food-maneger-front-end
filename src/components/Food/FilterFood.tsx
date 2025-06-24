@@ -16,7 +16,7 @@ const FilterFood: React.FC<FilterFoodProps> = ({
     <div className="overflow-x-auto pb-2 mb-6 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
       <div className="flex space-x-2 min-w-max">
         <button
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
+          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
             activeCategory === 'all'
               ? 'bg-orange-500 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -29,7 +29,7 @@ const FilterFood: React.FC<FilterFoodProps> = ({
         {categories.map((category) => (
           <button
             key={category}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
               activeCategory === category
                 ? 'bg-orange-500 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
