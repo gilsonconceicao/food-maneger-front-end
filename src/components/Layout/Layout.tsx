@@ -13,7 +13,7 @@ export function Layout() {
     return (
       <div className="w-full">
         <Header />
-        <main className="pl-6 pr-6 pt-15">
+        <main className="bg-background pl-6 pr-6 pt-15">
           <Outlet />
         </main>
       </div>
@@ -45,7 +45,6 @@ export function Layout() {
       <aside
         style={{
           width: sidebarWidth,
-          backgroundColor: "#0f172a",
           height: "100vh",
           overflowY: "auto",
           flexShrink: 0,

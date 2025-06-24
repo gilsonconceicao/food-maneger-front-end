@@ -9,25 +9,28 @@ import { CartProvider } from './CartContext'
 import moment from 'moment';
 //@ts-ignore
 import 'moment/dist/locale/pt-br';
+import { ThemeProvider } from '@/components/ui/theme-provider'
 moment.locale('pt-br');
 
 export const Providers = () => {
     const queryClient = new QueryClient();
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <BrowserRouter>
-                <AuthProvider>
-                    <CartProvider>
-                        <SidebarProvider>
-                            <AuthenticatedLayout>
-                                <ToastCustom />
-                                <AppRoutes />
-                            </AuthenticatedLayout>
-                        </SidebarProvider>
-                    </CartProvider>
-                </AuthProvider>
-            </BrowserRouter>
-        </QueryClientProvider>
+        <ThemeProvider defaultTheme="dark">
+            <QueryClientProvider client={queryClient}>
+                <BrowserRouter>
+                    <AuthProvider>
+                        <CartProvider>
+                            <SidebarProvider>
+                                <AuthenticatedLayout>
+                                    <ToastCustom />
+                                    <AppRoutes />
+                                </AuthenticatedLayout>
+                            </SidebarProvider>
+                        </CartProvider>
+                    </AuthProvider>
+                </BrowserRouter>
+            </QueryClientProvider>
+        </ThemeProvider>
     );
 };

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, CheckCircle, Eye, Loader2, Users, Calendar, ChevronLeft, ChevronRight, Ban, ChartPie } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Clock, CheckCircle, Eye, Loader2, Users, Calendar, ChevronLeft, ChevronRight, Ban, ChartPie } from 'lucide-react';
 import { formatRelativeTime, statusConfig } from '../OrderGeneric';
 import { IOrderReadModel } from '@/services/Order/Order.type';
 import { formatCurrencyInCents } from '@/helpers/Methods';
 import { ListPaginatation } from '@/services/@types/generic';
 import { Button } from '@/components/ui/button';
+import { GoBack } from '@/components/GoBack/GoBack';
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('pt-BR', {
@@ -49,10 +50,7 @@ const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, pag
         <div className="min-h-screen ">
             <div className=" shadow-sm">
                 <div className="max-w-8xl mx-auto px-4 py-4">
-                    <Link to="/" className="inline-flex items-center gap-2 ">
-                        <ArrowLeft className="w-5 h-5" />
-                        Voltar ao cardápio
-                    </Link>
+                    <GoBack path='/' text='Voltar ao cardápio' />
                 </div>
             </div>
 
@@ -193,7 +191,7 @@ const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, isLoading, pag
 
                                                     <Button
                                                         size='icon'
-                                                        onClick={() => setAction('updateStatus',order.id)}
+                                                        onClick={() => setAction('updateStatus', order.id)}
                                                         className='bg-purple-700 hover:bg-purple-800 text-white  '
                                                     >
                                                         <ChartPie className="w-4 h-4" />

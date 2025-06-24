@@ -3,6 +3,7 @@ import FilterFood from '@/components/Food/FilterFood';
 import FoodGrid from '@/components/Food/FoodGrid';
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
+import { useTheme } from '@/components/ui/theme-provider';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { useFoodListQuery } from '@/hooks/Foods/useFoodContext';
 import { IFoodReadModel } from '@/services/Foods/Foods.type';
@@ -14,10 +15,11 @@ const ITEMS_PER_PAGE = 20;
 
 export const Home: React.FC = () => {
   const observer = useRef<IntersectionObserver | null>(null);
-  const navigate = useNavigate(); 
-  const {isAuthenticated} = useAuthContext(); 
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthContext();
   const [page, setPage] = useState(0);
   const { isMobile } = useSidebar();
+  const {theme} = useTheme();
   const [allFoods, setAllFoods] = useState<IFoodReadModel[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -86,7 +88,9 @@ export const Home: React.FC = () => {
         <div className='flex justify-between items-center gap-1 flex-wrap mb-5'>
           <div >
             <h2 className="text-3xl font-bold mb-2">Nosso Cardápio</h2>
-            <p className="text-gray-300">Descubra nossos pratos deliciosos preparados com ingredientes frescos.</p>
+            <p className={theme === 'dark' ? "text-shadow-amber-50" : "text-gray-800"}>
+              Peça agora! Todos os itens são <span className='text-primary font-bold'>sob encomenda</span>, preparados com ingredientes frescos.
+            </p>
           </div>
           {!isMobile &&
             <div className='flex items-center gap-2'>
@@ -94,14 +98,14 @@ export const Home: React.FC = () => {
                 <RefreshCcw />
                 Atualizar
               </Button>
-             {!isAuthenticated && 
-             <Button 
-                onClick={() => navigate('/contato')} 
-                className='mb-3 bg-orange-700 text-white hover:bg-orange-800'
-              >
-                <PhoneIcon />
-                Entrar em contato
-              </Button>}
+              {!isAuthenticated &&
+                <Button
+                  onClick={() => navigate('/contato')}
+                  className='mb-3 bg-orange-700 text-white hover:bg-orange-800'
+                >
+                  <PhoneIcon />
+                  Entrar em contato
+                </Button>}
             </div>}
         </div>
 
