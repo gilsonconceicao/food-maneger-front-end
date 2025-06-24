@@ -457,10 +457,9 @@ function SidebarMenuItem({ className, isActive, ...props }: { isActive: boolean 
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
       style={{
-        background: isActive ? "oklch(0.279 0.041 260.031)" : "transparent",
         borderRadius: '8px'
       }}
-      className={cn("group/menu-item relative", className)}
+      className={cn("group/menu-item relative", `${className} ${isActive? 'bg-sidebar-accent' : 'bg-transparent'}`)}
       {...props}
     />
   )

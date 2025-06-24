@@ -25,7 +25,7 @@ export const Order = ({ orderListData, setPage, page }: OrderProps) => {
     <div className="space-y-4 max-w-4xl mx-auto p-4">
       <GoBack path="/" />
 
-      <div className="pb-4 border-b border-gray-800">
+      <div className="pb-4 border-b border-color-border">
         <h1 className="text-3xl font-bold">Meus Pedidos</h1>
         <p className="leading-7">
           Confira a sua lista de pedidos, podendo visualizar os que estão em andamento ou finalizados.
@@ -64,7 +64,7 @@ export const Order = ({ orderListData, setPage, page }: OrderProps) => {
           <button
             onClick={() => setPage(prev => prev - 1)}
             disabled={page === 0}
-            className="p-2 rounded-lg border bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 rounded-lg border border-color-border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -76,7 +76,7 @@ export const Order = ({ orderListData, setPage, page }: OrderProps) => {
           <button
             onClick={() => setPage(prev => prev + 1)}
             disabled={page === orderListData.totalPages - 1}
-            className="p-2 rounded-lg border bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 rounded-lg border border-color-border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -100,7 +100,7 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
   return (
     <div
       key={order.id}
-      className="bg-sidebar rounded-lg overflow-hidden border-2 hover:shadow-md transition-shadow  "
+      className="bg-orderCard rounded-lg overflow-hidden border-2 hover:shadow-md transition-shadow cursor-pointer "
       onClick={() => navigate(`/pedidos/${order.id}`)}
     >
       <div className="p-4 sm:p-6">
@@ -125,8 +125,8 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
           <p className="text-sm text-gray-500 mt-2">{order?.items?.length ?? 0} {order?.items?.length > 1 ? 'itens' : 'item'}</p>
         </div>
 
-        <div className="border-t border-gray-800 pt-4">
-          <ul className="divide-y divide-gray-800">
+        <div className="border-t border-color-border pt-4">
+          <ul className="divide-y border-color-border">
             {order.items.map((item) => {
               const food = item.food;
               const image = renderUrlImageValidate(food.url);
@@ -136,7 +136,7 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
                   <img
                     src={image}
                     alt={food.name}
-                    className="w-13 h-13 object-cover rounded-lg"
+                    className="w-13 h-13 object-cover rounded-lg "
                   />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate gap-2.5">

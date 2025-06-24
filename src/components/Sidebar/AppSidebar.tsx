@@ -44,7 +44,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <div className="flex items-center ml-2 border-b border-gray-800 mb-2">
+          <div className="flex items-center ml-2 border-b border-color-border mb-2">
             <BookOpen className='w-4 h-4 mb-1' />
             <SidebarGroupLabel>Menu {isMobile && "| Da Panela Para Mesa"}</SidebarGroupLabel>
           </div>

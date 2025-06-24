@@ -26,7 +26,6 @@ export const Header = () => {
         return;
     }
 
-
     const itemCount = items?.length;
     const onClose = () => setAction(undefined)
 

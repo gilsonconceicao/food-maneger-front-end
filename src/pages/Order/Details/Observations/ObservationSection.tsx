@@ -31,7 +31,7 @@ export const ObservationSection = ({ orderId, refetchOrder, enable, observations
             onSubmit={onSubmit}
             submitting={isPending || !enable}
         >
-            <div className="mb-8 bg-gray-800 rounded-lg p-6">
+            <div className="mb-8 bg-card-shadow rounded-lg p-6">
                 <div className="flex items-start gap-3 mb-4">
                     <MessageSquare className="w-5 h-5 text-orange-500 mt-0.5" />
                     <h2 className="text-lg font-semibold">Observações do Pedido</h2>

@@ -1,5 +1,4 @@
-import { Phone, Mail, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Phone, Mail } from 'lucide-react';
 import { FormContextProvider } from '@/contexts/FormContext';
 import { ContactForm } from './ContactForm';
 import { contactFormDefaultValues, contactFormValidationSchema } from './ContactFormSchema';
@@ -8,9 +7,10 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useCreateContactMutate } from '@/hooks/Contact/useContactHook';
 import { ContactCreateDTO } from '@/services/Contact/contact.types';
+import { GoBack } from '@/components/GoBack/GoBack';
 
 const ContactContainer = () => {
-    const [ isSendMessage, setIsSendMessage ] = useState<boolean>(false); 
+    const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
     const { user } = useAuthContext();
 
     const { mutateAsync, isPending } = useCreateContactMutate(() => {
@@ -20,13 +20,8 @@ const ContactContainer = () => {
 
     return (
         <div className="min-h-screen">
-            <div className=" shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 py-4">
-                    <Link to="/" className="inline-flex items-center gap-2 ">
-                        <ArrowLeft className="w-5 h-5" />
-                        Voltar ao cardápio
-                    </Link>
-                </div>
+            <div className="max-w-7xl mx-auto px-4 py-4">
+                <GoBack path='/' text='Voltar ao cardápio' />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 py-12">
@@ -44,8 +39,8 @@ const ContactContainer = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-medium ">Telefone</h3>
-                                    <p className="text-orange-200 mt-1">
-                                        <a href="tel:+551199999999" className="hover:text-orange-500">
+                                    <p className="text-primary mt-1">
+                                        <a href="tel:+551199999999">
                                             (11) 94486-7163
                                         </a>
                                     </p>
@@ -58,7 +53,7 @@ const ContactContainer = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-medium ">Email</h3>
-                                    <p className="text-orange-200 mt-1">
+                                    <p className="text-primary mt-1">
                                         <a href="mailto:crislaureano01@gmail.com" className="hover:text-orange-500">
                                             crislaureano01@gmail.com
                                         </a>
@@ -78,7 +73,7 @@ const ContactContainer = () => {
                                 validationSchema={contactFormValidationSchema}
                                 onSubmit={(values) => mutateAsync(values as ContactCreateDTO)}
                             >
-                                <ContactForm isLoading={isPending} isSendMessage={isSendMessage}/>
+                                <ContactForm isLoading={isPending} isSendMessage={isSendMessage} />
                             </FormContextProvider>
                         </div>
                     </div>

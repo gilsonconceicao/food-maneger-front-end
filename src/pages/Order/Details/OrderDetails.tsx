@@ -10,6 +10,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert"
 import OrderTimeline from "@/components/OrderTimeline/OrderTimeline"
 import { ObservationSection } from "./Observations/ObservationSection"
 import { useCart } from "@/contexts/CartContext"
+import { Button } from "@/components/ui/button"
 
 type OrderDataType = {
     order: IOrderReadModel;
@@ -46,7 +47,7 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
         <div className="space-y-4 max-w-4xl mx-auto p-4">
             <GoBack path="/pedidos" />
 
-            <div className="bg-sidebar rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-orderCard rounded-lg shadow-sm overflow-hidden">
                 <div className="p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
@@ -72,7 +73,7 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
                         </span>
                     )}
 
-                    <div className="mb-8 bg-gray-800 rounded-lg p-6">
+                    <div className="mb-8 bg-card-shadow rounded-lg p-6">
                         <h2 className="text-lg font-semibold mb-4">Informações do pedido</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="flex items-start gap-3">
@@ -117,26 +118,26 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                        <div className="flex items-start gap-3 p-4 bg-gray-800 rounded-lg">
+                        <div className="flex items-start gap-3 p-4 bg-card-shadow rounded-lg">
                             <CalendarClock className="w-5 h-5 flex-shrink-0 mt-0.5" />
                             <div>
-                                <p className="text-sm font-medium text-gray-50">Data do pedido</p>
+                                <p className="text-sm font-medium ">Data do pedido</p>
                                 <p className="text-sm text-gray-400">{createdAtFormted}</p>
                             </div>
                         </div>
-                        <div className="flex items-start gap-3 p-4 bg-gray-800 rounded-lg">
+                        <div className="flex items-start gap-3 p-4 bg-card-shadow rounded-lg">
                             <Receipt className="w-5 h-5 flex-shrink-0 mt-0.5" />
                             <div>
-                                <p className="text-sm font-medium text-gray-50">Última atualização</p>
+                                <p className="text-sm font-medium ">Última atualização</p>
                                 <p className="text-sm text-gray-400">{updatedAtFormated === '01/01/1, 00:00' ? createdAtFormted : updatedAtFormated}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="border-t border-gray-800 pt-6">
+                    <div className="border-t border-color-border pt-6">
                         <h2 className="text-lg font-semibold  mb-4">Itens do pedido</h2>
 
-                        <ul className="divide-y divide-gray-800">
+                        <ul className="divide-y border-color-border">
                             {order.items.map((item, index) => {
                                 const quantity = item.quantity ?? 0;
                                 return (
@@ -162,30 +163,36 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
                                                 <div className=" flex items-center gap-3">
                                                     {canEditQuantity && (
                                                         <>
-                                                            <div className="flex items-center gap-2 bg-gray-800 rounded-lg p-1">
-                                                                <button
+                                                            <div className="flex items-center gap-2 bg-card-shadow rounded-lg p-1">
+                                                                <Button
+                                                                    variant='outline'
+                                                                    size='icon'
                                                                     onClick={() => updateQuantity(item.foodId, order.id, quantity - 1, () => refetch())}
-                                                                    className="p-1 hover:bg-gray-600 rounded-full transition-colors disabled:opacity-50"
+                                                                    className="p-1 rounded-full transition-colors disabled:opacity-50"
                                                                     disabled={quantity <= 1 || isLoadingCart}
                                                                 >
                                                                     <Minus className="w-4 h-4" />
-                                                                </button>
+                                                                </Button>
                                                                 <span className="w-8 text-center font-medium">{quantity}</span>
-                                                                <button
+                                                                <Button
+                                                                    variant='outline'
+                                                                    size='icon'
                                                                     onClick={() => updateQuantity(item.foodId, order.id, quantity + 1, () => refetch())}
                                                                     disabled={isLoadingCart}
-                                                                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                                                                    className="p-1 rounded-full transition-colors"
                                                                 >
                                                                     <Plus className="w-4 h-4" />
-                                                                </button>
+                                                                </Button>
                                                             </div>
-                                                            <button
+                                                            <Button
+                                                                variant='outline'
+                                                                size='icon'
                                                                 onClick={() => { }}
-                                                                className="p-2 hover:bg-red-100 text-red-500 rounded-lg transition-colors"
+                                                                className="p-2 rounded-lg transition-colors"
                                                                 title="Remover item"
                                                             >
                                                                 <Trash2 className="w-4 h-4" />
-                                                            </button>
+                                                            </Button>
                                                         </>
                                                     )}
                                                 </div>
@@ -197,10 +204,10 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
                         </ul>
                     </div>
 
-                    <div className="border-t border-gray-800 mt-6 pt-6 mb-4">
+                    <div className="border-t border-color-border mt-6 pt-6 mb-4">
                         <div className="flex justify-between items-center text-lg font-bold ">
                             <span>Total</span>
-                            <span className=" text-orange-200 font-bold">{formatCurrencyInCents(order.totalValue ?? 0)}</span>
+                            <span className=" text-primary font-bold">{formatCurrencyInCents(order.totalValue ?? 0)}</span>
                         </div>
                     </div>
 

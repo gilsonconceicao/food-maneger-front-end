@@ -4,27 +4,26 @@ import { GoBack } from '@/components/GoBack/GoBack';
 import { TextFormField } from '@/components/FormFields/TextFormField';
 import { SelectFormField } from '@/components/FormFields/SelectFormField';
 import { states } from '@/constants/generic';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 type ProfileProps = {
   isLoading: boolean;
   redirectTo: string;
 }
 
-const Profile: React.FC<ProfileProps> = ({ isLoading, redirectTo }) => {
+const Profile: React.FC<ProfileProps> = ({ isLoading,  }) => {
   return (
     <div className="space-y-4 max-w-4xl mx-auto p-4">
-      <GoBack path={redirectTo ?? "/"} />
+      <GoBack />
 
       <div className="bg-sidebar space-y-1 rounded-lg shadow-sm overflow-hidden">
         <div className="space-y-2 rounded-lg shadow-sm p-6">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 bg-orange-100 rounded-full">
-              <User className="w-6 h-6 text-orange-500" />
-            </div>
+          <div className="flex justify-between items-center gap-4 mb-6">
             <div>
               <h1 className="text-2xl font-bold ">Meu Perfil</h1>
               <p className='text-gray-500'>Atualize suas informações pessoais</p>
             </div>
+            <ThemeToggle />
           </div>
 
           <h2 className='scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0'>Informações</h2>
