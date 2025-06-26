@@ -36,6 +36,7 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
     const color = isGeneratedExternalPayment ? "text-orange-600 bg-orange-200" : statusConfig[orderStatus].color;
 
     const canCancelAndAddReasion: boolean = ['AwaitingPayment', 'PaymentFailed', 'Expired'].includes(orderStatus);
+    const canDescription: boolean = ['AwaitingPayment', 'Paid', 'Expired'].includes(orderStatus);
     const canDelete: boolean = ['Cancelled', 'PaymentFailed'].includes(orderStatus);
     const canTimeline: boolean = !['Cancelled', 'PaymentFailed', 'Expired'].includes(orderStatus);
     const canEditQuantity: boolean = ['AwaitingPayment', 'Expired'].includes(orderStatus);
@@ -213,7 +214,7 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
 
 
                     <ObservationSection
-                        enable={canCancelAndAddReasion}
+                        enable={canDescription}
                         orderId={order.id}
                         refetchOrder={refetch}
                         observations={order.observations}
