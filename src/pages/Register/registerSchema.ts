@@ -9,7 +9,8 @@ export const registerValidationSchema = yup.object().shape({
         .required('Email: Precisa ser preenchido').email("Email: inválido"),
     password: yup.string()
         .typeError('Senha: Precisa ser preenchido')
-        .required('Senha: Precisa ser preenchido'),
+        .required('Senha: Precisa ser preenchido')
+        .min(6, "A senha deve conter pelo menos 6 digitos"),
     phoneNumber: yup.string().typeError('CPF: Precisa ser preenchido').required('CPF: Precisa ser preenchido').phoneNumberValidate()
 });
 
