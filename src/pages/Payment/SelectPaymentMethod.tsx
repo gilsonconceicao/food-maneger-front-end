@@ -5,6 +5,7 @@ import { GoBack } from '@/components/GoBack/GoBack';
 import { IOrderReadModel } from '@/services/Order/Order.type';
 import { formatCurrencyInCents } from '@/helpers/Methods';
 import { Button } from '@/components/ui/button';
+import { useTheme } from '@/components/ui/theme-provider';
 
 const paymentMethods: { id: PaymentMethod; title: string; icon: React.ReactNode; description: string }[] = [
     {
@@ -27,6 +28,7 @@ interface PaymentProps {
 }
 
 export const SelectPaymentMethod = (props: PaymentProps) => {
+    const { isDarkTheme } = useTheme();
     const { handlePayment, orderId, selectedMethod, setSelectedMethod, orderData, isLoading } = props;
 
     return (
@@ -55,7 +57,7 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                                         {method.icon}
                                     </div>
                                     <div className="flex-1 text-left">
-                                        <h3 className={`font-medium ${itemSelected ? 'text-orange-500' : 'text-white'}`}>{method.title}</h3>
+                                        <h3 className={`font-medium ${isDarkTheme && itemSelected ? "text-gray-950" : !isDarkTheme ? "text-gray-950" : "text-white"}`}>{method.title}</h3>
                                         <p className="text-sm text-gray-500">{method.description}</p>
                                     </div>
                                 </button>
@@ -64,20 +66,20 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                     </div>
 
                     {selectedMethod && (
-                        <div className="mt-6 p-4 bg-gray-800 rounded-lg">
+                        <div className="mt-6 p-4 bg-muted rounded-lg">
                             <h3 className="text-lg font-semibold mb-2">Como funciona o pagamento</h3>
                             {selectedMethod === "pix" ? (
-                                <p className="text-sm text-gray-300">
+                                <p className="text-sm">
                                     Ao escolher <strong>PIX</strong>, um <strong>QR Code</strong> será gerado.
                                     Escaneie com o app do seu banco para realizar o pagamento instantâneo de forma simples e segura.
                                 </p>
                             ) : (
-                                <p className="text-sm text-gray-300">
+                                <p className="text-sm">
                                     Ao escolher <strong>Cartão de Crédito</strong>, preencha os dados do seu cartão
                                     (número, validade, CVV e nome do titular) para concluir o pagamento.
                                 </p>
                             )}
-                            <p className="text-sm text-gray-300 mt-2">
+                            <p className="text-sm mt-2">
                                 Assim que o pagamento for confirmado, seu pedido será processado automaticamente.
                             </p>
                         </div>

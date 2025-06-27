@@ -144,7 +144,7 @@ const AdminOrders: React.FC<AdminOrdersProps> = ({ orderListData, refetch, isLoa
                                         Pedido
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                                        Nome
+                                        Criado por
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                                         Status
