@@ -120,7 +120,7 @@ const OrderItemRender = ({ order }: OrderItemRenderProps) => {
 
         <div style={{ marginTop: -10, marginBottom: 10 }} className="flex flex-wrap items-center justify-between">
           <p className="text-sm text-gray-500 mt-2">
-            Pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
+            Número do pedido #{order.orderNumber} • {moment(order.createdAt).calendar()}
           </p>
           <p className="text-sm text-gray-500 mt-2">{order?.items?.length ?? 0} {order?.items?.length > 1 ? 'itens' : 'item'}</p>
         </div>

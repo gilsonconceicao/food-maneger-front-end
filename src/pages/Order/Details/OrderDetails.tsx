@@ -53,7 +53,7 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
                             <h1 className="text-xl font-bold ">
-                                Pedido #{order.orderNumber}
+                                Número do pedido #{order.orderNumber}
                             </h1>
                             <span className={`mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 w-full rounded-sm text-sm font-medium border ${color}`}>
                                 {statusConfig[orderStatus].icon}
@@ -252,7 +252,7 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
                     <OrderTimeline status={orderStatus} />
                 </div>}
 
-                {(isMaster && canUpdateStatus) || canCancelAndAddReasion || canDelete &&
+                {(isMaster && canUpdateStatus) || (canCancelAndAddReasion || canDelete) &&
                     <div className="p-5 space-y-2">
                         <h2 className="text-lg font-semibold">Outras ações</h2>
 

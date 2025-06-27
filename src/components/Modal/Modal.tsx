@@ -2,14 +2,13 @@
 
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "../ui/button";
 
 type ModalProps = {
   open: boolean;
@@ -46,15 +45,16 @@ export function Modal({
           )}
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>
+          <Button variant='outline' onClick={onCancel}>
             {cancelText}
-          </AlertDialogCancel>
-          <AlertDialogAction
+          </Button>
+          <Button
+            variant='default'
             disabled={disableConfirm || loading}
             onClick={onConfirm}
           >
             {loading ? "Carregando..." : confirmText}
-          </AlertDialogAction>
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

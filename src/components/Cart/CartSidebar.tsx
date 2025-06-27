@@ -54,15 +54,15 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ generateOrderAsync, isLoading
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => updateQuantityNoOrder(item.foodId, quantity - 1)}
-                        className="p-1 hover:bg-gray-100 rounded"
-                        disabled={isLoading}
+                        className="p-1 hover:bg-muted rounded"
+                        disabled={isLoading || quantity === 1}
                       >
                         <Minus className="h-4 w-4" />
                       </button>
                       <span className="w-8 text-center">{quantity}</span>
                       <button
                         onClick={() => updateQuantityNoOrder(item.foodId, quantity + 1)}
-                        className="p-1 hover:bg-gray-100 rounded"
+                        className="p-1 hover:bg-muted rounded"
                         disabled={isLoading}
                       >
                         <Plus className="h-4 w-4" />
