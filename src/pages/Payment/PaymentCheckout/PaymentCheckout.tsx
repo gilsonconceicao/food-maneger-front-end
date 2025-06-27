@@ -8,6 +8,7 @@ import moment from 'moment';
 import { IOrderReadModel } from '@/services/Order/Order.type';
 import { Loading } from '@/components/Loading/Loading';
 import { SelectFormField } from '@/components/FormFields/SelectFormField';
+import { Button } from '@/components/ui/button';
 
 type PaymentCheckoutProps = {
   paymentMethod: PaymentMethod;
@@ -113,10 +114,11 @@ export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment, 
             Pagamento expira às {moment(paymentData.expirationDateTo).format("LT")}
           </p>
 
-          <div className="bg-gray-900 p-4 rounded-lg">
+          <div className="bg-muted p-4 rounded-lg">
             <div className="flex justify-between items-center">
               <span className="text-sm">Código PIX</span>
-              <button
+              <Button 
+                variant='outline'
                 onClick={handleCopyPix}
                 className="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600"
               >
@@ -131,14 +133,14 @@ export const PaymentCheckout = ({ paymentMethod, paymentData, isLoadingPayment, 
                     Copiar código
                   </>
                 )}
-              </button>
+              </Button>
             </div>
-            <p className="mt-2 text-sm font-mono bg-gray-700 p-2 rounded border border-gray-800 break-all">
+            <p className="mt-2 text-sm font-mono p-2 rounded break-all">
               {paymentData?.qrCode ?? ""}
             </p>
           </div>
 
-          <div className="bg-gray-700 border  rounded-lg p-4 text-sm font-bold">
+          <div className="border  rounded-lg p-4 text-sm font-bold">
             <p>
               1. Abra o app do seu banco ou carteira digital
               <br />

@@ -65,7 +65,7 @@ return (
             <h1 className="text-2xl font-bold">
               {paymentMethod === 'card' ? "Pagamento" : "Pagamento via Pix"}
             </h1>
-            <p className="leading-7 text-gray-300">Total a pagar: {formatCurrencyInCents(orderData?.totalValue ?? 0)}</p>
+            <p className="leading-7 ">Total a pagar: {formatCurrencyInCents(orderData?.totalValue ?? 0)}</p>
           </div>
 
           <PaymentCheckout
