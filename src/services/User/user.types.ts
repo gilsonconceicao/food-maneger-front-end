@@ -1,11 +1,11 @@
-import { ModelBase } from "@/services/@types/generic";
+import { BaseModel } from "@/services/@types/generic";
 
 export type User = {
     name: string;
     phoneNumber: string
     email: string
     address: Address
-} & ModelBase;
+} & BaseModel;
 
 export interface Address {
     id: string;

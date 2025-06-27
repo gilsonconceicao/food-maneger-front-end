@@ -11,13 +11,15 @@ type ThemeProviderProps = {
 }
 
 type ThemeProviderState = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
+  theme: Theme; 
+  setTheme: (theme: Theme) => void; 
+  isDarkTheme: boolean
 }
 
 const initialState: ThemeProviderState = {
   theme: "dark",
   setTheme: () => null,
+  isDarkTheme: false
 }
 
 const ThemeProviderContext = React.createContext<ThemeProviderState>(initialState)
@@ -51,7 +53,8 @@ export function ThemeProvider({
       localStorage.setItem(storageKey, theme)
       setTheme(theme)
     },
-  }
+    isDarkTheme: theme === 'dark'
+  } as ThemeProviderState; 
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>

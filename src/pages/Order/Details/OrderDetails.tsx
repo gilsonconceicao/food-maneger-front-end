@@ -234,14 +234,14 @@ export const OrderDetails = ({ order, setAction, isLoading, user, refetch }: Ord
 
                     {enablePaymentAction && (
                         <div className="mb-6">
-                            <button
+                            <Button
                                 disabled={userAddress === null}
                                 onClick={() => navigate(`/pedidos/${order.id}/pagamento`)}
                                 className={`w-full ${userAddress === null ? "bg-gray-400" : "bg-orange-500"} text-white py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center gap-2  `}
                             >
                                 <Wallet className="w-5 h-5" />
                                 {isGeneratedExternalPayment ? "Finalizar pagamento" : order.status === 'Expired' ? "Pagar novamente" : "Realizar pagamento"}
-                            </button>
+                            </Button>
                         </div>
                     )}
                 </div>

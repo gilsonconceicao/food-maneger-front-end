@@ -2,9 +2,12 @@ import { IFood, IFoodReadModel } from "../Foods/Foods.type";
 import { IOrder } from "../Order/Order.type";
 import { User } from "../User/user.types";
 
-export type ModelBase = {
+export interface BaseModel  {
     id: string;
     createdAt: string;
+    updatedAt: string;
+    createdByUserId: string
+    createdByUserName: string
     isDeleted: boolean
 }
 
@@ -14,7 +17,7 @@ export interface IOrderItem {
     food: IFood;
     user?: User;
     userId?: string;
-    price?: number ;
+    price?: number;
     quantity?: number;
     observations?: string;
     discount?: number;
@@ -26,10 +29,10 @@ export interface IOrderItemReadModel extends IOrderItem {
     foodId: string;
 }
 
-export type ListPaginatation <T> = {
-    page: number; 
-    size: number; 
-    totalItems: number; 
-    totalPages: number; 
+export type ListPaginatation<T> = {
+    page: number;
+    size: number;
+    totalItems: number;
+    totalPages: number;
     data: T[]
 }

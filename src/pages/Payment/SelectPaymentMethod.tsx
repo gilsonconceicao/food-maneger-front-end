@@ -1,17 +1,12 @@
 import React from 'react';
-import { QrCode } from 'lucide-react';
+import { QrCode, SendHorizonal } from 'lucide-react';
 import { IPay, PaymentMethod } from '@/services/Payment/Payment.type';
 import { GoBack } from '@/components/GoBack/GoBack';
 import { IOrderReadModel } from '@/services/Order/Order.type';
 import { formatCurrencyInCents } from '@/helpers/Methods';
+import { Button } from '@/components/ui/button';
 
 const paymentMethods: { id: PaymentMethod; title: string; icon: React.ReactNode; description: string }[] = [
-    // {
-    //     id: 'card',
-    //     title: 'Cartão de Débito/Crédito',
-    //     icon: <CreditCard className="w-6 h-6" />,
-    //     description: 'Pague em até 12x'
-    // },
     {
         id: 'pix',
         title: 'PIX',
@@ -53,7 +48,7 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                                 <button
                                     key={method.id}
                                     onClick={() => setSelectedMethod(method.id)}
-                                    className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-colors   translate-3d 
+                                    className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-colors  cursor-pointer translate-3d 
                                         ${itemSelected ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-orange-300'}`}
                                 >
                                     <div className={`p-3 rounded-full ${itemSelected ? 'bg-orange-100 text-orange-500' : 'bg-gray-100 text-gray-500'}`}>
@@ -88,15 +83,14 @@ export const SelectPaymentMethod = (props: PaymentProps) => {
                         </div>
                     )}
 
-
-
-                    <button
+                    <Button
                         onClick={handlePayment}
                         disabled={!selectedMethod || isLoading}
                         className="mt-8 w-full bg-orange-500 text-white py-3 px-4   rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
+                        <SendHorizonal/>
                         Continuar para pagamento
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

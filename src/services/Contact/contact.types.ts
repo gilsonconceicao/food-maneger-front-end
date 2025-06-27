@@ -1,11 +1,11 @@
-import { ModelBase } from "../@types/generic";
+import { BaseModel } from "../@types/generic";
 
 export type ContactModel = {
   name: string;
   email: string;
   message: string;
   phoneNumber: string;
-} & ModelBase;
+} & BaseModel;
 
 export type ContactCreateDTO = {
   name: string;

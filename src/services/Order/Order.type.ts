@@ -1,8 +1,8 @@
-import { IOrderItem, IOrderItemReadModel } from "../@types/generic";
+import { IOrderItem, IOrderItemReadModel, BaseModel } from "../@types/generic";
 import { OrderStatusEnum } from "../Enums/OrderStatusEnum";
 import { User } from "../User/user.types";
 
-export interface IOrder {
+export interface IOrder extends BaseModel {
   id: string;
   orderNumber: number;
   numberOfInstallments: number;
@@ -12,13 +12,11 @@ export interface IOrder {
   userId: string;
   paymentId: string;
   items: IOrderItem[];
-  createdAt: string;
-  updatedAt: string;
   failureReason: string
 }
 
 
-export interface IOrderReadModel extends Omit<IOrder, "status"> {
+export interface  IOrderReadModel extends Omit<IOrder, "status"> {
   statusDisplay: string;
   status: string;
   observations: string;

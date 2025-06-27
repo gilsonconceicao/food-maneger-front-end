@@ -11,7 +11,7 @@ export const AdminOrdersContainer = () => {
     const [action, setAction] = useState<{ action: string, orderId: string } | null>(null);
     const [page, setPage] = useState<number>(0);
 
-    const { data: orderListData, isLoading, error, refetch } = useAdminOrderListQuery({ page, size: 5 });
+    const { data: orderListData, isLoading, error, refetch, isFetching } = useAdminOrderListQuery({ page, size: 5 });
 
     const { mutateAsync: updateStatusMutateAsync, isPending: isLoadingUpdateStatus } = useUpdateOrderStatusMutate(() => {
         refetch();
@@ -35,7 +35,9 @@ export const AdminOrdersContainer = () => {
                 orderListData: orderListData!,
                 setPage,
                 page,
-                setAction: (action: string, orderId: string) => setAction({ action, orderId })
+                setAction: (action: string, orderId: string) => setAction({ action, orderId }), 
+                refetch, 
+                isFetching
             }} />
 
             <Modal
