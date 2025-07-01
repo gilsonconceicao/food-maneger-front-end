@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 export function useCartsListQuery() {
     const contextUser = useAuthContext();
     return useQuery({
-        queryKey: ['get-carts-list', contextUser],
+        queryKey: ['get-carts-list'],
         enabled: !!contextUser.token,
         refetchOnMount: 'always',
         refetchOnWindowFocus: false,

@@ -41,7 +41,7 @@ const ContactContainer = () => {
                                     <h3 className="font-medium ">Telefone</h3>
                                     <p className="text-primary mt-1">
                                         <a href="tel:+551199999999">
-                                            (11) 94486-7163
+                                            (XX) 9XXXX-XXXX
                                         </a>
                                     </p>
                                 </div>
@@ -54,8 +54,8 @@ const ContactContainer = () => {
                                 <div>
                                     <h3 className="font-medium ">Email</h3>
                                     <p className="text-primary mt-1">
-                                        <a href="mailto:crislaureano01@gmail.com" className="hover:text-orange-500">
-                                            crislaureano01@gmail.com
+                                        <a href="#" className="hover:text-orange-500">
+                                            email@gmail.com
                                         </a>
                                     </p>
                                 </div>

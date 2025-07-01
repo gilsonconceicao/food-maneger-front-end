@@ -6,9 +6,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 
 export function useVerifyUserIsMaster(userId?: string) {
+        const contextUser = useAuthContext();
+
     return useQuery({
         queryKey: ['verify-user-is-master', userId],
-        enabled: !!userId,
+        enabled: !!contextUser.token,
         refetchOnMount: 'always',
         refetchOnWindowFocus: false,
         queryFn: async () => {
