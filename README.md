@@ -72,4 +72,6 @@ The app runs at **http://localhost:5173**
 - TailwindCSS
 - Axios
 
+back-end project link: https://github.com/gilsonconceicao/food-manager-api
+
 <img width="2558" height="961" alt="image" src="https://github.com/user-attachments/assets/d230b1d9-9420-4051-ab4a-d3e7c416d65b" />
